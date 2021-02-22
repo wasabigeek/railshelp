@@ -1,7 +1,66 @@
 import Head from 'next/head'
+import { useState } from 'react'
 import styles from '../styles/Home.module.css'
 
+
+// references{polymorphic}
+// integer, string, text, binary{10} - limit
+// decimal{10,2} - precision, scale
+// digest, token
+const FieldInput = ({ value, onUpdate }) => {
+  const [fieldName, fieldType = "", indexType = ""] = value.split(':')
+
+  // changes - Object with any keys in: fieldName, fieldType, indexType
+  const updateField = (changes) => {
+    const newData = Object.assign({ fieldName, fieldType, indexType }, changes);
+    onUpdate(
+      [newData.fieldName, newData.fieldType, newData.indexType]
+        .filter((value) => !!value)
+        .join(':')
+    );
+  }
+
+  return (
+    <div style={{ margin: '10px' }}>
+      <input placeholder='field_name' defaultValue={fieldName} onChange={(e) => updateField({ fieldName: e.target.value })} />
+      <FieldTypeInput dataString={fieldType} onChange={(value) => updateField({ fieldType: value })} />
+      <select value={indexType} onChange={(e) => updateField({ indexType: e.target.value })}>
+        <option value={""}>-- optional --</option>
+        {
+          ["uniq", "index"].map((indexType) => <option key={indexType} value={indexType}>{indexType}</option>)
+        }
+      </select>
+    </div>
+  )
+}
+
+const FieldTypeInput = ({ dataString, onChange }) => {
+  return (
+    <div>
+      <select value={dataString} onChange={(e) => onChange(e.target.value)}>
+        <option disabled value={""}>-- required --</option>
+        {
+          ["integer", "primary_key", "decimal", "float", "boolean", "binary", "string", "text", "date", "time", "datetime", "references"]
+            .map((type) => <option key={type}>{type}</option>)
+        }
+      </select>
+    </div>
+  );
+}
+
+
 export default function Home() {
+  const [modelName, setModelName] = useState('');
+  const [fields, setFields] = useState(['test:string', 'test2']);
+
+  const setField = (index) => {
+    return (value) => {
+      const newFields = fields.slice();
+      newFields[index] = value;
+      setFields(newFields);
+    }
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -11,43 +70,22 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          Welcome to <a href="https://nextjs.org">GuideRails!</a>
         </h1>
 
+        <input placeholder='ExampleModel' onChange={(e) => setModelName(e.target.value)} />
+
+        {
+          fields.map((field, index) => <FieldInput
+            value={field}
+            key={index}
+            onUpdate={setField(index)}
+          />)
+        }
+
         <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
+          <code className={styles.code}>{`bin/rails g model ${modelName} ${fields.join(' ')}`}</code>
         </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
       </main>
 
       <footer className={styles.footer}>
