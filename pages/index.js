@@ -23,7 +23,7 @@ const FieldInput = ({ value, onUpdate }) => {
   return (
     <div style={{ margin: '10px' }}>
       <input placeholder='field_name' defaultValue={fieldName} onChange={(e) => updateField({ fieldName: e.target.value })} />
-      <FieldTypeInput dataString={fieldType} onChange={(value) => updateField({ fieldType: value })} />
+      <FieldTypeInput value={fieldType} onChange={(value) => updateField({ fieldType: value })} />
       <select value={indexType} onChange={(e) => updateField({ indexType: e.target.value })}>
         <option value={""}>-- optional --</option>
         {
@@ -34,10 +34,11 @@ const FieldInput = ({ value, onUpdate }) => {
   )
 }
 
-const FieldTypeInput = ({ dataString, onChange }) => {
+const FieldTypeInput = ({ value, onChange }) => {
+  // const [type, ]
   return (
     <div>
-      <select value={dataString} onChange={(e) => onChange(e.target.value)}>
+      <select value={value} onChange={(e) => onChange(e.target.value)}>
         <option disabled value={""}>-- required --</option>
         {
           ["integer", "primary_key", "decimal", "float", "boolean", "binary", "string", "text", "date", "time", "datetime", "references"]
