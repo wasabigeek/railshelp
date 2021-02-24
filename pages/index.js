@@ -4,10 +4,6 @@ import FieldTypeSplitter from '../helpers/FieldTypeSplitter'
 import styles from '../styles/Home.module.css'
 
 
-// references{polymorphic}
-// integer, string, text, binary{10} - limit
-// decimal{10,2} - precision, scale
-// digest, token
 const FieldInput = ({ value, onUpdate, onDelete }) => {
   const [fieldName, fieldType = "", indexType = ""] = value.split(':')
 
@@ -22,7 +18,7 @@ const FieldInput = ({ value, onUpdate, onDelete }) => {
   }
 
   return (
-    <div style={{ margin: '10px' }}>
+    <div style={{ marginBottom: '10px', padding: '10px', border: '1px solid' }}>
       <input placeholder='field_name' defaultValue={fieldName} onChange={(e) => updateField({ fieldName: e.target.value })} />
       <FieldTypeInput value={fieldType} onChange={(value) => updateField({ fieldType: value })} />
       <select value={indexType} onChange={(e) => updateField({ indexType: e.target.value })}>
@@ -73,13 +69,22 @@ const FieldTypeInput = ({ value, onChange }) => {
     onChange(`${newType || type}${newConfig ?? config}`);
   }
 
+  /** TODO:
+   * integer, string, text, binary{10} - limit
+   * decimal{10,2} - precision, scale
+   */
+
   return (
     <div>
       <select value={type} onChange={(e) => updateFieldType({ newType: e.target.value })}>
         <option disabled value={""}>-- required --</option>
         {
-          ["integer", "primary_key", "decimal", "float", "boolean", "binary", "string", "text", "date", "time", "datetime", "references"]
+          ["primary_key", "float", "boolean", "date", "time", "datetime", "references", "digest", "token"]
             .map((type) => <option key={type}>{type}</option>)
+        }
+        {
+          ["integer", "string", "text", "decimal"]
+            .map((type) => <option key={type} disabled>{type} (coming soon)</option>)
         }
       </select>
       <FieldTypeConfig type={type} config={config} onChange={(value) => updateFieldType({ newConfig: value })} />
@@ -89,8 +94,8 @@ const FieldTypeInput = ({ value, onChange }) => {
 
 
 export default function Home() {
-  const [modelName, setModelName] = useState('');
-  const [fields, setFields] = useState(['test:string', 'test2']);
+  const [modelName, setModelName] = useState('ExampleModel');
+  const [fields, setFields] = useState(['other_model:references{polymorphic}:uniq']);
 
   const setFieldFor = (index) => {
     return (value) => {
@@ -122,8 +127,10 @@ export default function Home() {
           Welcome to <a href="https://nextjs.org">GuideRails!</a>
         </h1>
 
-        <input placeholder='ExampleModel' onChange={(e) => setModelName(e.target.value)} />
+        <h2>Model Name:</h2>
+        <input placeholder='ModelName' value={modelName} onChange={(e) => setModelName(e.target.value)} />
 
+        <h2>Fields:</h2>
         {
           fields.map((field, index) => <FieldInput
             value={field}
@@ -137,19 +144,20 @@ export default function Home() {
           <button onClick={addField}>Add Field</button>
         </div>
 
+        <h2>CLI Command:</h2>
         <p className={styles.description}>
           <code className={styles.code}>{`bin/rails g model ${modelName} ${fields.join(' ')}`}</code>
         </p>
       </main>
 
       <footer className={styles.footer}>
+        a project by&nbsp;
         <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+          href="https://www.wasabigeek.com"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
+          wasabigeek
         </a>
       </footer>
     </div>
