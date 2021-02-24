@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { useState } from 'react'
+import FieldTypeSplitter from '../helpers/FieldTypeSplitter'
 import styles from '../styles/Home.module.css'
 
 
@@ -34,17 +35,43 @@ const FieldInput = ({ value, onUpdate }) => {
   )
 }
 
+const configComponentFactory = (type, onChange) => {
+  switch (type) {
+    case "references":
+      return (
+        <div>
+          <label>
+            <input
+              type="checkbox"
+              onChange={(e) => onChange({ newConfig: "polymorphic" })}
+            />
+            polymorphic?
+          </label>
+        </div>
+      );
+    default:
+      return null;
+  }
+}
+
 const FieldTypeInput = ({ value, onChange }) => {
-  // const [type, ]
+  const [type, config] = new FieldTypeSplitter({ text: value }).split();
+
+  const updateFieldType = ({ newType, newConfig }) => {
+    const configText = (newConfig || config) ? `{${newConfig ?? config}}` : '';
+    onChange(`${newType ?? type}${configText}`);
+  }
+
   return (
     <div>
-      <select value={value} onChange={(e) => onChange(e.target.value)}>
+      <select value={type} onChange={(e) => updateFieldType({ newType: e.target.value })}>
         <option disabled value={""}>-- required --</option>
         {
           ["integer", "primary_key", "decimal", "float", "boolean", "binary", "string", "text", "date", "time", "datetime", "references"]
             .map((type) => <option key={type}>{type}</option>)
         }
       </select>
+      {configComponentFactory(type, updateFieldType)}
     </div>
   );
 }
