@@ -100,6 +100,10 @@ export default function Home() {
     }
   }
 
+  const addField = () => {
+    setFields(fields.concat(['']));
+  }
+
   const removeField = (index) => {
     let newFields = fields.slice();
     newFields.splice(index, 1);
@@ -128,6 +132,10 @@ export default function Home() {
             onDelete={() => removeField(index)}
           />)
         }
+
+        <div>
+          <button onClick={addField}>Add Field</button>
+        </div>
 
         <p className={styles.description}>
           <code className={styles.code}>{`bin/rails g model ${modelName} ${fields.join(' ')}`}</code>

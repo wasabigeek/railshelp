@@ -1,6 +1,11 @@
 import FieldTypeSplitter from './FieldTypeSplitter';
 
 describe('split()', () => {
+  it('returns empty strings if input is empty string', () => {
+    const splitter = new FieldTypeSplitter({ text: '' });
+
+    expect(splitter.split()).toEqual(['', '']);
+  });
   it('returns type if there is no config', () => {
     const splitter = new FieldTypeSplitter({ text: 'references' });
 
