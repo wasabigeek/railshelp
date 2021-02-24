@@ -92,8 +92,7 @@ export default function Home() {
   const [modelName, setModelName] = useState('');
   const [fields, setFields] = useState(['test:string', 'test2']);
 
-  // TODO: rename to something more consistent
-  const setField = (index) => {
+  const setFieldFor = (index) => {
     return (value) => {
       const newFields = fields.slice();
       newFields[index] = value;
@@ -125,7 +124,7 @@ export default function Home() {
           fields.map((field, index) => <FieldInput
             value={field}
             key={index}
-            onUpdate={setField(index)}
+            onUpdate={setFieldFor(index)}
             onDelete={() => removeField(index)}
           />)
         }
