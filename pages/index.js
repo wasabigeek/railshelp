@@ -35,15 +35,17 @@ const FieldInput = ({ value, onUpdate }) => {
   )
 }
 
-const configComponentFactory = (type, onChange) => {
+const FieldTypeConfig = ({ type, config, onChange }) => {
   switch (type) {
+    // TODO: figure out how to clear values when swapping
     case "references":
       return (
         <div>
           <label>
             <input
               type="checkbox"
-              onChange={(e) => onChange({ newConfig: "polymorphic" })}
+              checked={config == "polymorphic" ? true : false}
+              onChange={(e) => onChange(e.target.checked ? "polymorphic" : "")}
             />
             polymorphic?
           </label>
@@ -54,12 +56,20 @@ const configComponentFactory = (type, onChange) => {
   }
 }
 
+/**
+ * Component for setting the FieldType.
+ *
+ * @param {Object} options
+ * @param {string} options.value - e.g. "references{polymorphic}"
+ * @param {function} options.onChange
+ * @returns
+ */
 const FieldTypeInput = ({ value, onChange }) => {
   const [type, config] = new FieldTypeSplitter({ text: value }).split();
 
   const updateFieldType = ({ newType, newConfig }) => {
-    const configText = (newConfig || config) ? `{${newConfig ?? config}}` : '';
-    onChange(`${newType ?? type}${configText}`);
+    const configText = (newConfig ?? config) ? `{${newConfig ?? config}}` : '';
+    onChange(`${newType || type}${configText}`);
   }
 
   return (
@@ -71,7 +81,7 @@ const FieldTypeInput = ({ value, onChange }) => {
             .map((type) => <option key={type}>{type}</option>)
         }
       </select>
-      {configComponentFactory(type, updateFieldType)}
+      <FieldTypeConfig type={type} config={config} onChange={(value) => updateFieldType({ newConfig: value })} />
     </div>
   );
 }
