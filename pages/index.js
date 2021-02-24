@@ -8,7 +8,7 @@ import styles from '../styles/Home.module.css'
 // integer, string, text, binary{10} - limit
 // decimal{10,2} - precision, scale
 // digest, token
-const FieldInput = ({ value, onUpdate }) => {
+const FieldInput = ({ value, onUpdate, onDelete }) => {
   const [fieldName, fieldType = "", indexType = ""] = value.split(':')
 
   // changes - Object with any keys in: fieldName, fieldType, indexType
@@ -31,6 +31,8 @@ const FieldInput = ({ value, onUpdate }) => {
           ["uniq", "index"].map((indexType) => <option key={indexType} value={indexType}>{indexType}</option>)
         }
       </select>
+      <br />
+      <button onClick={onDelete}>Delete</button>
     </div>
   )
 }
@@ -90,12 +92,19 @@ export default function Home() {
   const [modelName, setModelName] = useState('');
   const [fields, setFields] = useState(['test:string', 'test2']);
 
+  // TODO: rename to something more consistent
   const setField = (index) => {
     return (value) => {
       const newFields = fields.slice();
       newFields[index] = value;
       setFields(newFields);
     }
+  }
+
+  const removeField = (index) => {
+    let newFields = fields.slice();
+    newFields.splice(index, 1);
+    setFields(newFields);
   }
 
   return (
@@ -117,6 +126,7 @@ export default function Home() {
             value={field}
             key={index}
             onUpdate={setField(index)}
+            onDelete={() => removeField(index)}
           />)
         }
 
