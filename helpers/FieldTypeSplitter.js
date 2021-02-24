@@ -4,7 +4,8 @@ export default class FieldTypeSplitter {
   }
 
   split() {
-    const [type, ...configArray] = this.text.split(/{([a-z0-9|,]+)}/);
-    return [type].concat(configArray.slice(0, 1));
+    const [type, ...configArray] = this.text.split(/({[a-z0-9|,]+})/);
+    const config = configArray[0] ?? "";
+    return [type, config];
   }
 }

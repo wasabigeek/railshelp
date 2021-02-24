@@ -44,8 +44,8 @@ const FieldTypeConfig = ({ type, config, onChange }) => {
           <label>
             <input
               type="checkbox"
-              checked={config == "polymorphic" ? true : false}
-              onChange={(e) => onChange(e.target.checked ? "polymorphic" : "")}
+              checked={config == "{polymorphic}" ? true : false}
+              onChange={(e) => onChange(e.target.checked ? "{polymorphic}" : "")}
             />
             polymorphic?
           </label>
@@ -68,8 +68,7 @@ const FieldTypeInput = ({ value, onChange }) => {
   const [type, config] = new FieldTypeSplitter({ text: value }).split();
 
   const updateFieldType = ({ newType, newConfig }) => {
-    const configText = (newConfig ?? config) ? `{${newConfig ?? config}}` : '';
-    onChange(`${newType || type}${configText}`);
+    onChange(`${newType || type}${newConfig ?? config}`);
   }
 
   return (
