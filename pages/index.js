@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { useState } from 'react'
+import ReferencesConfig from '../components/ReferencesConfig'
 import FieldTypeSplitter from '../helpers/FieldTypeSplitter'
 import styles from '../styles/Home.module.css'
 
@@ -37,18 +38,7 @@ const FieldTypeConfig = ({ type, config, onChange }) => {
   switch (type) {
     // TODO: figure out how to clear values when swapping
     case "references":
-      return (
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              checked={config == "{polymorphic}" ? true : false}
-              onChange={(e) => onChange(e.target.checked ? "{polymorphic}" : "")}
-            />
-            polymorphic?
-          </label>
-        </div>
-      );
+      return <ReferencesConfig value={config} onChange={onChange}/>;
     default:
       return null;
   }
