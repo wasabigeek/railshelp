@@ -1,25 +1,8 @@
 import Head from 'next/head'
 import { useState } from 'react'
-import LimitConfig from '../components/LimitConfig'
-import ReferencesConfig from '../components/ReferencesConfig'
 import styles from '../styles/Home.module.css'
-import { FieldInput } from '../components/FieldInput'
+import FieldInput from '../components/FieldInput'
 
-
-export const FieldTypeConfig = ({ type, config, onChange }) => {
-  switch (type) {
-    // TODO: figure out how to clear values when swapping
-    case "references":
-      return <ReferencesConfig value={config} onChange={onChange} />;
-    case "integer":
-    case "string":
-    case "text":
-    case "binary":
-      return <LimitConfig value={config} onChange={onChange} />;
-    default:
-      return null;
-  }
-}
 
 export default function Home() {
   const [modelName, setModelName] = useState('ExampleModel');

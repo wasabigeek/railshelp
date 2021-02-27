@@ -1,5 +1,21 @@
+import LimitConfig from "./LimitConfig";
+import ReferencesConfig from "./ReferencesConfig";
 import FieldTypeSplitter from "../helpers/FieldTypeSplitter";
-import { FieldTypeConfig } from "../pages/index";
+
+const FieldTypeConfig = ({ type, config, onChange }) => {
+  switch (type) {
+    // TODO: figure out how to clear values when swapping
+    case "references":
+      return <ReferencesConfig value={config} onChange={onChange} />;
+    case "integer":
+    case "string":
+    case "text":
+    case "binary":
+      return <LimitConfig value={config} onChange={onChange} />;
+    default:
+      return null;
+  }
+};
 
 /**
  * Component for setting the FieldType.
