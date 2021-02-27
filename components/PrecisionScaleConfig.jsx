@@ -1,6 +1,12 @@
 function PrecisionScaleConfig({ value, onChange }) {
   const [precision, scale] = value.replace(/{|}/g, "").split(",");
 
+  // changes - Object with any keys in: precision, scale
+  const updatePrecisionAndScale = (changes) => {
+    const newData = Object.assign({ precision, scale }, changes);
+    onChange(`{${newData.precision},${newData.scale}}`);
+  };
+
   return (
     <div>
       <label>
@@ -8,7 +14,7 @@ function PrecisionScaleConfig({ value, onChange }) {
         <input
           value={precision}
           onChange={(e) =>
-            onChange(e.target.value ? `{${e.target.value}}` : "")
+            updatePrecisionAndScale({ precision: e.target.value })
           }
         />
       </label>
@@ -16,9 +22,7 @@ function PrecisionScaleConfig({ value, onChange }) {
         Scale:
         <input
           value={scale}
-          onChange={(e) =>
-            onChange(e.target.value ? `{${e.target.value}}` : "")
-          }
+          onChange={(e) => updatePrecisionAndScale({ scale: e.target.value })}
         />
       </label>
     </div>

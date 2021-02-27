@@ -24,11 +24,12 @@ it("renders input with values", async () => {
   expect(scaleInput).toHaveValue("2");
 });
 
-// it("calls onChange when precision and scale is changed", async () => {
-//   const mockOnChange = jest.fn();
-//   render(<PrecisionScaleConfig value="" onChange={mockOnChange} />);
+it("calls onChange when precision and scale is changed", async () => {
+  const mockOnChange = jest.fn();
+  render(<PrecisionScaleConfig value="{5,2}" onChange={mockOnChange} />);
 
-//   const input = screen.getByLabelText("Limit:");
-//   userEvent.type(input, "5");
-//   expect(mockOnChange).toHaveBeenCalledWith("{5,2}");
-// });
+  // TODO: not very rigorous, probably needs a smarter mock
+  const input = screen.getByLabelText("Scale:");
+  userEvent.type(input, "3");
+  expect(mockOnChange).toHaveBeenCalledWith("{5,23}");
+});
