@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { useState } from 'react'
+import LimitConfig from '../components/LimitConfig'
 import ReferencesConfig from '../components/ReferencesConfig'
 import FieldTypeSplitter from '../helpers/FieldTypeSplitter'
 import styles from '../styles/Home.module.css'
@@ -38,7 +39,12 @@ const FieldTypeConfig = ({ type, config, onChange }) => {
   switch (type) {
     // TODO: figure out how to clear values when swapping
     case "references":
-      return <ReferencesConfig value={config} onChange={onChange}/>;
+      return <ReferencesConfig value={config} onChange={onChange} />;
+    case "integer":
+    case "string":
+    case "text":
+    case "binary":
+      return <LimitConfig value={config} onChange={onChange} />;
     default:
       return null;
   }
@@ -60,7 +66,6 @@ const FieldTypeInput = ({ value, onChange }) => {
   }
 
   /** TODO:
-   * integer, string, text, binary{10} - limit
    * decimal{10,2} - precision, scale
    */
 
@@ -69,11 +74,11 @@ const FieldTypeInput = ({ value, onChange }) => {
       <select value={type} onChange={(e) => updateFieldType({ newType: e.target.value })}>
         <option disabled value={""}>-- required --</option>
         {
-          ["primary_key", "float", "boolean", "date", "time", "datetime", "references", "digest", "token"]
+          ["primary_key", "float", "boolean", "date", "time", "datetime", "references", "digest", "token", "integer", "string", "text", "binary"]
             .map((type) => <option key={type}>{type}</option>)
         }
         {
-          ["integer", "string", "text", "decimal"]
+          ["decimal"]
             .map((type) => <option key={type} disabled>{type} (coming soon)</option>)
         }
       </select>

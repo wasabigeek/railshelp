@@ -7,13 +7,9 @@
     {
       "name": "Start devserver",
       "request": "launch",
-      "runtimeArgs": [
-        "dev"
-      ],
+      "runtimeArgs": ["dev"],
       "runtimeExecutable": "yarn",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "type": "node"
     },
     {
@@ -24,7 +20,20 @@
       "port": 9229
     },
     {
-      "name": "Debug Jest Tests",
+      "name": "Run all Jest Tests",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": [
+        "--inspect-brk",
+        "${workspaceRoot}/node_modules/.bin/jest",
+        "--runInBand"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "port": 9229
+    },
+    {
+      "name": "Run Jest Tests in File",
       "type": "node",
       "request": "launch",
       "runtimeArgs": [
