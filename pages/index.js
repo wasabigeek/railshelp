@@ -117,22 +117,23 @@ export default function Home() {
           Welcome to <a href="https://nextjs.org">GuideRails!</a>
         </h1>
 
-        <h2>Model Name:</h2>
-        <input placeholder='ModelName' value={modelName} onChange={(e) => setModelName(e.target.value)} />
+        <h2><label htmlFor="model-name-input">Model Name:</label></h2>
+        <input id="model-name-input" placeholder='ModelName' value={modelName} onChange={(e) => setModelName(e.target.value)} />
 
-        <h2>Fields:</h2>
-        {
-          fields.map((field, index) => <FieldInput
-            value={field}
-            key={index}
-            onUpdate={setFieldFor(index)}
-            onDelete={() => removeField(index)}
-          />)
-        }
-
-        <div>
-          <button onClick={addField}>Add Field</button>
-        </div>
+        <section id="fields">
+          <h2>Fields:</h2>
+          {
+            fields.map((field, index) => <FieldInput
+              value={field}
+              key={index}
+              onUpdate={setFieldFor(index)}
+              onDelete={() => removeField(index)}
+            />)
+          }
+          <div>
+            <button onClick={addField}>Add Field</button>
+          </div>
+        </section>
 
         <h2>CLI Command:</h2>
         <p className={styles.description}>
