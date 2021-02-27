@@ -1,4 +1,4 @@
-import { FieldTypeInput } from "../pages/index";
+import { FieldTypeInput } from "./FieldTypeInput";
 
 export default function FieldInput({ value, onUpdate, onDelete }) {
   const [fieldName, fieldType = "", indexType = ""] = value.split(":");
