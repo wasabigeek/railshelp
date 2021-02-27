@@ -14,12 +14,20 @@ export default function FieldInput({ value, onUpdate, onDelete }) {
   };
 
   return (
-    <div style={{ marginBottom: "10px", padding: "10px", border: "1px solid" }}>
+    <div className="flex flex-col justify-between">
+      <label
+        htmlFor="model-name-input"
+        className="block text-sm font-medium text-gray-700"
+      >
+        Model Name
+      </label>
       <input
         placeholder="field_name"
         defaultValue={fieldName}
         onChange={(e) => updateField({ fieldName: e.target.value })}
+        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
       />
+
       <FieldTypeInput
         value={fieldType}
         onChange={(value) => updateField({ fieldType: value })}
@@ -36,7 +44,12 @@ export default function FieldInput({ value, onUpdate, onDelete }) {
         ))}
       </select>
       <br />
-      <button onClick={onDelete}>Delete</button>
+      <button
+        onClick={onDelete}
+        className="bg-white border border-gray-300 rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-light-blue-500"
+      >
+        Delete
+      </button>
     </div>
   );
 }
