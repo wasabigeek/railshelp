@@ -4,36 +4,8 @@ import LimitConfig from '../components/LimitConfig'
 import ReferencesConfig from '../components/ReferencesConfig'
 import FieldTypeSplitter from '../helpers/FieldTypeSplitter'
 import styles from '../styles/Home.module.css'
+import { FieldInput } from '../components/FieldInput'
 
-
-const FieldInput = ({ value, onUpdate, onDelete }) => {
-  const [fieldName, fieldType = "", indexType = ""] = value.split(':')
-
-  // changes - Object with any keys in: fieldName, fieldType, indexType
-  const updateField = (changes) => {
-    const newData = Object.assign({ fieldName, fieldType, indexType }, changes);
-    onUpdate(
-      [newData.fieldName, newData.fieldType, newData.indexType]
-        .filter((value) => !!value)
-        .join(':')
-    );
-  }
-
-  return (
-    <div style={{ marginBottom: '10px', padding: '10px', border: '1px solid' }}>
-      <input placeholder='field_name' defaultValue={fieldName} onChange={(e) => updateField({ fieldName: e.target.value })} />
-      <FieldTypeInput value={fieldType} onChange={(value) => updateField({ fieldType: value })} />
-      <select value={indexType} onChange={(e) => updateField({ indexType: e.target.value })}>
-        <option value={""}>-- optional --</option>
-        {
-          ["uniq", "index"].map((indexType) => <option key={indexType} value={indexType}>{indexType}</option>)
-        }
-      </select>
-      <br />
-      <button onClick={onDelete}>Delete</button>
-    </div>
-  )
-}
 
 const FieldTypeConfig = ({ type, config, onChange }) => {
   switch (type) {
@@ -58,7 +30,7 @@ const FieldTypeConfig = ({ type, config, onChange }) => {
  * @param {function} options.onChange
  * @returns
  */
-const FieldTypeInput = ({ value, onChange }) => {
+export const FieldTypeInput = ({ value, onChange }) => {
   const [type, config] = new FieldTypeSplitter({ text: value }).split();
 
   const updateFieldType = ({ newType, newConfig }) => {
