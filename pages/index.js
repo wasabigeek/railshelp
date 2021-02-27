@@ -69,15 +69,14 @@ export default function Home() {
               </section>
 
 
-              <section className="mt-8">
+              <section id="fields" className="mt-8">
                 <h3 className="text-xl leading-6 font-medium text-gray-900">Fields</h3>
                 <ul className="mt-2 divide-y divide-gray-200">
                   {
                     fields.map((field, index) => (
-                      <li className="py-4">
+                      <li className="py-4" key={index}>
                         <FieldInput
                           value={field}
-                          key={index}
                           onUpdate={setFieldFor(index)}
                           onDelete={() => removeField(index)}
                         />

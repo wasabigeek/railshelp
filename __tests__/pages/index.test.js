@@ -8,13 +8,13 @@ import Home from '../../pages'
 
 it('renders', async () => {
   render(<Home />)
-  expect(screen.getByText(/^Welcome to/)).toBeTruthy()
+  expect(screen.getByText("GuideRails")).toBeTruthy()
   expect(screen.getByText('bin/rails g model ExampleModel other_model:references{polymorphic}:uniq')).toBeTruthy()
 })
 
 it('sets the model', async () => {
   render(<Home />)
-  const modelInput = screen.getByLabelText('Model Name:');
+  const modelInput = screen.getByLabelText('Model Name');
   userEvent.clear(modelInput)
   userEvent.type(modelInput, 'car')
   expect(screen.getByText(/^bin\/rails g model car/)).toBeTruthy()
