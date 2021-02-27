@@ -29,20 +29,25 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Create Next App</title>
+        <title>Rails Generators GUI | GuideRails</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">GuideRails!</a>
+          Welcome to GuideRails!
         </h1>
+        <aside>The missing GUI for Rails Generators</aside>
 
-        <h2><label htmlFor="model-name-input">Model Name:</label></h2>
-        <input id="model-name-input" placeholder='ModelName' value={modelName} onChange={(e) => setModelName(e.target.value)} />
+        <h2>Model Generator</h2>
+
+        <section>
+          <h3><label htmlFor="model-name-input">Model Name:</label></h3>
+          <input id="model-name-input" placeholder='ModelName' value={modelName} onChange={(e) => setModelName(e.target.value)} />
+        </section>
 
         <section id="fields">
-          <h2>Fields:</h2>
+          <h3>Fields:</h3>
           {
             fields.map((field, index) => <FieldInput
               value={field}
@@ -56,10 +61,12 @@ export default function Home() {
           </div>
         </section>
 
-        <h2>CLI Command:</h2>
-        <p className={styles.description}>
-          <code className={styles.code}>{`bin/rails g model ${modelName} ${fields.join(' ')}`}</code>
-        </p>
+        <section>
+          <h3>CLI Command:</h3>
+          <div className={styles.description}>
+            <code className={styles.code}>{`bin/rails g model ${modelName} ${fields.join(' ')}`}</code>
+          </div>
+        </section>
       </main>
 
       <footer className={styles.footer}>
@@ -72,6 +79,6 @@ export default function Home() {
           wasabigeek
         </a>
       </footer>
-    </div>
+    </div >
   )
 }
