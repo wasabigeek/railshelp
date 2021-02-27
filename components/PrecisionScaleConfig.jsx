@@ -13,6 +13,7 @@ function PrecisionScaleConfig({ value, onChange }) {
         Precision:
         <input
           value={precision}
+          className="text-input"
           onChange={(e) =>
             updatePrecisionAndScale({ precision: e.target.value })
           }
@@ -22,6 +23,7 @@ function PrecisionScaleConfig({ value, onChange }) {
         Scale:
         <input
           value={scale}
+          className="text-input"
           onChange={(e) => updatePrecisionAndScale({ scale: e.target.value })}
         />
       </label>

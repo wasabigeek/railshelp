@@ -1,21 +1,8 @@
 @tailwind base;
 @tailwind components;
 
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-* {
-  box-sizing: border-box;
+input.text-input {
+  @apply mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm;
 }
 
 @tailwind utilities;

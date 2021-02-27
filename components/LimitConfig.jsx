@@ -5,6 +5,7 @@ const LimitConfig = ({ value, onChange }) => {
         Limit:
         <input
           value={value.replace(/{|}/g, "")}
+          className="text-input"
           onChange={(e) =>
             onChange(e.target.value ? `{${e.target.value}}` : "")
           }

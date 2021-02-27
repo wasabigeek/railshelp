@@ -25,15 +25,21 @@ export default function FieldInput({ value, onUpdate, onDelete }) {
         placeholder="field_name"
         defaultValue={fieldName}
         onChange={(e) => updateField({ fieldName: e.target.value })}
-        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+        className="text-input focus:outline-none focus:ring-gray-900 focus:border-gray-900"
       />
+      <div className="mt-8">
+        <FieldTypeInput
+          value={fieldType}
+          onChange={(value) => updateField({ fieldType: value })}
+        />
+      </div>
 
-      <FieldTypeInput
-        value={fieldType}
-        onChange={(value) => updateField({ fieldType: value })}
-      />
+      <label className="block text-sm font-medium text-gray-700 mt-8">
+        Index Type
+      </label>
       <select
         value={indexType}
+        className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
         onChange={(e) => updateField({ indexType: e.target.value })}
       >
         <option value={""}>-- optional --</option>
@@ -46,7 +52,7 @@ export default function FieldInput({ value, onUpdate, onDelete }) {
       <br />
       <button
         onClick={onDelete}
-        className="bg-white border border-gray-300 rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-light-blue-500"
+        className="bg-white border border-red-300 rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-red-700 hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-light-blue-500"
       >
         Delete
       </button>
