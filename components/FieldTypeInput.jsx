@@ -1,6 +1,7 @@
 import LimitConfig from "./LimitConfig";
 import ReferencesConfig from "./ReferencesConfig";
 import FieldTypeSplitter from "../helpers/FieldTypeSplitter";
+import PrecisionScaleConfig from "./PrecisionScaleConfig";
 
 const FieldTypeConfig = ({ type, config, onChange }) => {
   switch (type) {
@@ -12,6 +13,8 @@ const FieldTypeConfig = ({ type, config, onChange }) => {
     case "text":
     case "binary":
       return <LimitConfig value={config} onChange={onChange} />;
+    case "decimal":
+      return <PrecisionScaleConfig value={config} onChange={onChange} />;
     default:
       return null;
   }
@@ -33,9 +36,6 @@ export default function FieldTypeInput({ value, onChange }) {
     onChange(`${newType || type}${newConfig ?? config}`);
   };
 
-  /** TODO:
-   * decimal{10,2} - precision, scale
-   */
   return (
     <div>
       <select
@@ -61,13 +61,9 @@ export default function FieldTypeInput({ value, onChange }) {
           "string",
           "text",
           "binary",
+          "decimal",
         ].map((type) => (
           <option key={type}>{type}</option>
-        ))}
-        {["decimal"].map((type) => (
-          <option key={type} disabled>
-            {type} (coming soon)
-          </option>
         ))}
       </select>
       <FieldTypeConfig
