@@ -28,3 +28,12 @@ it("calls onChange when limit is changed", async () => {
   userEvent.type(input, "5");
   expect(mockOnChange).toHaveBeenCalledWith("{5}");
 });
+
+it("sets limit correctly when cleared", async () => {
+  const mockOnChange = jest.fn();
+  render(<LimitConfig value="{5}" onChange={mockOnChange} />);
+
+  const input = screen.getByLabelText("Limit:");
+  userEvent.clear(input);
+  expect(mockOnChange).toHaveBeenCalledWith("");
+});

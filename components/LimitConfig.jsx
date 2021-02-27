@@ -4,12 +4,14 @@ const LimitConfig = ({ value, onChange }) => {
       <label>
         Limit:
         <input
-          value={value.replace(/{|}/g, '')}
-          onChange={(e) => onChange(`{${e.target.value}}`)}
+          value={value.replace(/{|}/g, "")}
+          onChange={(e) =>
+            onChange(e.target.value ? `{${e.target.value}}` : "")
+          }
         />
       </label>
     </div>
   );
-}
+};
 
 export default LimitConfig;
