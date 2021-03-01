@@ -38,9 +38,7 @@ export default function FieldTypeInput({ value, onChange }) {
 
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700">
-        Field Type
-      </label>
+      <label className="block font-medium text-gray-700">Field Type</label>
 
       <select
         value={type}

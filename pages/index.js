@@ -8,8 +8,8 @@ import Pill from '../components/Pill';
 const ModelEditor = ({ value, onChange }) => (
   <div>
     <h2 className="text-xl leading-6 font-medium text-gray-900">Edit Model</h2>
-    <div className="mt-6">
-      <label htmlFor="model-name-input" className="block text-sm font-medium text-gray-700">Name</label>
+    <div className="mt-4">
+      <label htmlFor="model-name-input" className="block font-medium text-gray-700">Name</label>
       <input
         id="model-name-input"
         className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"

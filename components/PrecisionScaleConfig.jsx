@@ -8,25 +8,36 @@ function PrecisionScaleConfig({ value, onChange }) {
   };
 
   return (
-    <div>
-      <label>
-        Precision:
+    <div className="flex w-full justify-between space-x-2 mt-2">
+      <div className="flex-1">
+        <label
+          className="text-sm font-normal text-gray-700"
+          for="precision_input"
+        >
+          Precision
+        </label>
         <input
+          id="precision_input"
+          type="number"
           value={precision}
           className="text-input"
           onChange={(e) =>
             updatePrecisionAndScale({ precision: e.target.value })
           }
         />
-      </label>
-      <label>
-        Scale:
+      </div>
+      <div className="flex-1">
+        <label className="text-sm font-normal text-gray-700" for="scale_input">
+          Scale
+        </label>
         <input
+          id="scale_input"
+          type="number"
           value={scale}
           className="text-input"
           onChange={(e) => updatePrecisionAndScale({ scale: e.target.value })}
         />
-      </label>
+      </div>
     </div>
   );
 }
