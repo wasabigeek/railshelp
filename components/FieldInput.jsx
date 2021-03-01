@@ -19,11 +19,11 @@ export default function FieldInput({ value, onUpdate, onDelete }) {
         htmlFor="model-name-input"
         className="block text-sm font-medium text-gray-700"
       >
-        Model Name
+        Name
       </label>
       <input
         placeholder="field_name"
-        defaultValue={fieldName}
+        value={fieldName}
         onChange={(e) => updateField({ fieldName: e.target.value })}
         className="text-input focus:outline-none focus:ring-gray-900 focus:border-gray-900"
       />
