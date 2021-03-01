@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { getAllByRole, render, screen } from '@testing-library/react'
+import { getAllByRole, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Home from '../../pages'
 
@@ -14,13 +14,18 @@ it('renders', async () => {
   expect(screen.getByText("other_model:references{polymorphic}:uniq")).toBeTruthy()
 })
 
-// it('sets the model', async () => {
-//   render(<Home />)
-//   const modelInput = screen.getByLabelText('Model Name');
-//   userEvent.clear(modelInput)
-//   userEvent.type(modelInput, 'car')
-//   expect(screen.getByText(/^bin\/rails g model car/)).toBeTruthy()
-// })
+it('sets the model', async () => {
+  render(<Home />)
+  const modelButton = screen.getByText('ExampleModel');
+  userEvent.click(modelButton);
+
+  await waitFor(() => screen.getByLabelText('Name'));
+  const modelInput = screen.getByLabelText('Name');
+  userEvent.clear(modelInput)
+  userEvent.type(modelInput, 'car')
+  // What's a better matcher for this?
+  expect(screen.getByText("car")).toBeTruthy();
+})
 
 // it('sets a field', async () => {
 //   render(<Home />)
