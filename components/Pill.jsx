@@ -7,12 +7,16 @@ export default function Pill({
   editable = true, // TODO: refactor to rightIcon
   leftIcon,
 }) {
+  /** purgecss: border-dashed */
+  /** purgecss: border-green-400 bg-green-100 text-green-800 hover:bg-green-200 text-green-500 */
+  /** purgecss: border-yellow-400 bg-yellow-100 text-yellow-800 hover:bg-yellow-200 text-yellow-500 */
+  /** purgecss: border-gray-400 bg-gray-100 text-gray-800 hover:bg-gray-200 text-gray-500 */
   return (
     <span
       className={`
-        relative py-1 pl-3 pr-2 border border-${borderStyle} border-${baseColor}-400 rounded-md bg-${baseColor}-100 text-${baseColor}-800 cursor-pointer break-all
-        hover:bg-${baseColor}-200
-      `}
+    relative py-1 pl-3 pr-2 border border-${borderStyle} border-${baseColor}-400 rounded-md bg-${baseColor}-100 text-${baseColor}-800 cursor-pointer break-all
+    hover:bg-${baseColor}-200
+    `}
       onClick={onClick}
     >
       <span
