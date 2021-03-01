@@ -27,19 +27,20 @@ it('sets the model', async () => {
   expect(screen.getByText("car")).toBeTruthy();
 })
 
-// it('sets a field', async () => {
-//   render(<Home />)
-//   const container = document.querySelector('#fields');
+it('sets a field', async () => {
+  render(<Home />)
+  const addAttributeButton = screen.getByText('+ Attribute');
+  userEvent.click(addAttributeButton);
 
-//   const fieldNameInput = getAllByRole(container, 'textbox')[0];
-//   userEvent.clear(fieldNameInput)
-//   userEvent.type(fieldNameInput, 'example_field')
+  await waitFor(() => screen.getByText('Edit Attribute 1'));
+  const attributeNameInput = screen.getByLabelText('Name');
+  userEvent.type(attributeNameInput, 'engine')
 
-//   const fieldTypeInput = getAllByRole(container, 'combobox')[0];
-//   userEvent.selectOptions(fieldTypeInput, 'date')
+  const fieldTypeInput = screen.getAllByRole('combobox')[0];
+  userEvent.selectOptions(fieldTypeInput, 'references')
 
-//   const indexTypeInput = getAllByRole(container, 'combobox')[1];
-//   userEvent.selectOptions(indexTypeInput, 'index')
+  const indexTypeInput = screen.getAllByRole('combobox')[1];
+  userEvent.selectOptions(indexTypeInput, 'index')
 
-//   expect(screen.getByText(/^bin\/rails [\w\s]+ example_field:date:index/)).toBeTruthy()
-// })
+  expect(screen.getByText("engine:references:index")).toBeTruthy()
+})

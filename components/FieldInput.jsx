@@ -17,12 +17,13 @@ export default function FieldInput({ value, onUpdate, onDelete }) {
     <div className="flex flex-col justify-between mt-4 space-y-6 divide-y divide-gray-100">
       <div>
         <label
-          htmlFor="model-name-input"
+          htmlFor="attribute_name_input"
           className="block font-medium text-gray-700"
         >
           Name
         </label>
         <input
+          id="attribute_name_input"
           placeholder="field_name"
           value={fieldName}
           onChange={(e) => updateField({ fieldName: e.target.value })}

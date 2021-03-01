@@ -38,9 +38,11 @@ export default function FieldTypeInput({ value, onChange }) {
 
   return (
     <div>
-      <label className="block font-medium text-gray-700">Field Type</label>
-
+      <label className="block font-medium text-gray-700" htmlFor="field_type">
+        Field Type
+      </label>
       <select
+        id="field_type"
         value={type}
         className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
         onChange={(e) =>

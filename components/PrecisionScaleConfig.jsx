@@ -12,7 +12,7 @@ function PrecisionScaleConfig({ value, onChange }) {
       <div className="flex-1">
         <label
           className="text-sm font-normal text-gray-700"
-          for="precision_input"
+          htmlFor="precision_input"
         >
           Precision
         </label>

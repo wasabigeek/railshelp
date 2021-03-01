@@ -1,7 +1,10 @@
 const LimitConfig = ({ value, onChange }) => {
   return (
     <div className="mt-2">
-      <label for="limit_input" className="text-sm font-normal text-gray-700">
+      <label
+        htmlFor="limit_input"
+        className="text-sm font-normal text-gray-700"
+      >
         Limit
       </label>
       <input
