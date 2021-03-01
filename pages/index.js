@@ -10,6 +10,7 @@ const ModelEditor = ({ value, onChange }) => (
     <h2 className="text-xl leading-6 font-medium text-gray-900">Edit Model</h2>
     <div className="mt-4">
       <label htmlFor="model-name-input" className="block font-medium text-gray-700">Name</label>
+      <aside className="text-sm text-gray-500">CamelCased or under_scored</aside>
       <input
         id="model-name-input"
         className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"

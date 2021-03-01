@@ -41,6 +41,10 @@ export default function FieldTypeInput({ value, onChange }) {
       <label className="block font-medium text-gray-700" htmlFor="field_type">
         Field Type
       </label>
+      <aside className="text-sm text-gray-500">
+        Mostly the SQL column type, with some exceptions.
+        {/* Select an option to find out more! */}
+      </aside>
       <select
         id="field_type"
         value={type}
