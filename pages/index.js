@@ -22,18 +22,39 @@ const ModelEditor = ({ value, onChange }) => (
   </div>
 )
 
+const ParentEditor = ({ value, onChange }) => (
+  <div>
+    <h2 className="text-xl leading-6 font-medium text-gray-900">Edit Parent Model</h2>
+    <p>
+      The is the optional superclass of the created model, used for Single Table Inheritance models.
+    </p>
+    <div className="mt-4">
+      <label htmlFor="model-name-input" className="block font-medium text-gray-700">Name</label>
+      <aside className="text-sm text-gray-500">CamelCased or under_scored</aside>
+      <input
+        id="model-name-input"
+        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+        placeholder='ModelName'
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      />
+    </div>
+  </div>
+)
+
 
 export default function Home() {
   const [modelName, setModelName] = useState('ExampleModel');
-  const [parentName, setParentName] = useState('Wow');
   const [showModelEditor, setShowModelEditor] = useState(false);
   const [fieldUnderEdit, setFieldUnderEdit] = useState(null);
+  const [parentName, setParentName] = useState('');
+  const [showParentEditor, setShowParentEditor] = useState(false);
   const [showCopying, setShowCopying] = useState(false);
 
   const [fields, setFields] = useState(['other_model:references{polymorphic}:uniq']);
 
   const copyCliCommand = () => {
-    const cliCommand = `bin/rails g model ${modelName} ${fields.join(' ')}`;
+    const cliCommand = `bin/rails g model ${modelName} ${fields.join(' ')} ${parentName && `--parent ${parentName}`}`;
     setShowCopying(true);
     navigator.clipboard.writeText(cliCommand);
     setTimeout(() => setShowCopying(false), 2000);
@@ -41,17 +62,25 @@ export default function Home() {
 
   const toggleModelEditor = () => {
     setFieldUnderEdit(null)
+    setShowParentEditor(false);
     setShowModelEditor(!showModelEditor)
   }
 
   const toggleFieldEditor = (fieldIndex) => {
     setShowModelEditor(false);
+    setShowParentEditor(false);
     // a bit hacky
     if (fieldUnderEdit == null || fieldIndex != fieldUnderEdit) {
       setFieldUnderEdit(fieldIndex);
     } else {
       setFieldUnderEdit(null);
     }
+  }
+
+  const toggleParentEditor = () => {
+    setShowModelEditor(false);
+    setFieldUnderEdit(null);
+    setShowParentEditor(!showParentEditor);
   }
 
   const setFieldFor = (index) => {
@@ -131,7 +160,7 @@ export default function Home() {
                   text={`--parent ${parentName}`}
                   baseColor={parentName ? "green" : "gray"}
                   borderStyle={parentName ? "solid" : "dashed"}
-                  onClick={console.log}
+                  onClick={toggleParentEditor}
                 />
                 <Pill
                   text={showCopying ? "Copied!" : "Copy"}
@@ -148,7 +177,7 @@ export default function Home() {
             </section>
           </div>
 
-          {(showModelEditor || fieldUnderEdit != null) &&
+          {(showModelEditor || fieldUnderEdit != null || showParentEditor) &&
             <div className="max-w-7xl mx-auto pb-10 lg:pb-12 lg:px-8">
               <div className="bg-white py-6 px-4 sm:p-6 shadow sm:rounded-md sm:overflow-hidden">
                 {showModelEditor &&
@@ -165,6 +194,12 @@ export default function Home() {
                       onUpdate={setFieldFor(fieldUnderEdit)}
                       onDelete={() => removeField(fieldUnderEdit)}
                     />
+                  </section>
+                }
+                {
+                  showParentEditor &&
+                  <section id="fields" aria-labelledby="attribute_editor">
+                    <ParentEditor value={parentName} onChange={setParentName} />
                   </section>
                 }
               </div>
