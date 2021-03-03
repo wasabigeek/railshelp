@@ -25,6 +25,7 @@ const ModelEditor = ({ value, onChange }) => (
 
 export default function Home() {
   const [modelName, setModelName] = useState('ExampleModel');
+  const [parentName, setParentName] = useState('Wow');
   const [showModelEditor, setShowModelEditor] = useState(false);
   const [fieldUnderEdit, setFieldUnderEdit] = useState(null);
   const [showCopying, setShowCopying] = useState(false);
@@ -125,6 +126,12 @@ export default function Home() {
                   borderStyle="dashed"
                   onClick={addField}
                   editable={false}
+                />
+                <Pill
+                  text={`--parent ${parentName}`}
+                  baseColor={parentName ? "green" : "gray"}
+                  borderStyle={parentName ? "solid" : "dashed"}
+                  onClick={console.log}
                 />
                 <Pill
                   text={showCopying ? "Copied!" : "Copy"}
