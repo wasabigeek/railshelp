@@ -109,6 +109,34 @@ export default function Home() {
     removeArg(index);
   }
 
+  const renderEditor = (selectedArg) => {
+    switch (args[selectedArg].type) {
+      case argTypes.MODEL:
+        return (
+          <section aria-labelledby="model_name_editor">
+            <ModelEditor value={args[selectedArg].value} onChange={(value) => updateArg(selectedArg, { type: argTypes.MODEL, value })} />
+          </section>
+        )
+      case argTypes.ATTRIBUTE:
+        return (
+          <section id="fields" aria-labelledby="attribute_editor">
+            <h2 className="text-xl leading-6 font-medium text-gray-900">Edit Attribute {selectedArg - 1}</h2>
+            <FieldInput
+              value={args[selectedArg].value}
+              onUpdate={(value) => setFieldFor(selectedArg)({ type: argTypes.ATTRIBUTE, value })}
+              onDelete={() => removeField(selectedArg)}
+            />
+          </section>
+        )
+      case argTypes.PARENT:
+        return (
+          <section id="fields" aria-labelledby="attribute_editor">
+            <ParentEditor value={args[selectedArg].value} onChange={(value) => updateArg(selectedArg, { type: argTypes.PARENT, value })} />
+          </section>
+        )
+    }
+  }
+
   return (
     <div>
       <Head>
@@ -146,7 +174,7 @@ export default function Home() {
                             key={index}
                             heading="model"
                             text={arg.value}
-                            onClick={toggleModelEditor}
+                            onClick={() => setSelectedArg(index)}
                             baseColor="yellow"
                           />
                         )
@@ -156,7 +184,7 @@ export default function Home() {
                             key={index}
                             heading={`attribute ${index - 1}`}
                             text={arg.value}
-                            onClick={() => toggleFieldEditor(index)}
+                            onClick={() => setSelectedArg(index)}
                             baseColor="blue"
                           />
                         )
@@ -178,7 +206,7 @@ export default function Home() {
                             text={`--parent ${arg.value}`}
                             baseColor={arg.value ? "green" : "gray"}
                             borderStyle={arg.value ? "solid" : "dashed"}
-                            onClick={toggleParentEditor}
+                            onClick={() => setSelectedArg(index)}
                           />
                         )
                     }
@@ -199,34 +227,13 @@ export default function Home() {
             </section>
           </div>
 
-          {(showModelEditor || selectedArg != null || showParentEditor) &&
+          {selectedArg != null && (
             <div className="max-w-7xl mx-auto pb-10 lg:pb-12 lg:px-8">
               <div className="bg-white py-6 px-4 sm:p-6 shadow sm:rounded-md sm:overflow-hidden">
-                {showModelEditor &&
-                  <section aria-labelledby="model_name_editor">
-                    <ModelEditor value={args[0].value} onChange={(value) => updateArg(0, { type: argTypes.MODEL, value })} />
-                  </section>
-                }
-                {
-                  selectedArg != null &&
-                  <section id="fields" aria-labelledby="attribute_editor">
-                    <h2 className="text-xl leading-6 font-medium text-gray-900">Edit Attribute {selectedArg - 1}</h2>
-                    <FieldInput
-                      value={args[selectedArg].value}
-                      onUpdate={(value) => setFieldFor(selectedArg)({ type: argTypes.ATTRIBUTE, value })}
-                      onDelete={() => removeField(selectedArg)}
-                    />
-                  </section>
-                }
-                {
-                  showParentEditor &&
-                  <section id="fields" aria-labelledby="attribute_editor">
-                    <ParentEditor value={args[args.length - 1].value} onChange={(value) => updateArg(args.length - 1, { type: argTypes.PARENT, value })} />
-                  </section>
-                }
+                {renderEditor(selectedArg)}
               </div>
             </div>
-          }
+          )}
         </div>
       </main>
 
