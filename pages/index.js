@@ -51,16 +51,15 @@ export default function Home() {
     ADD_ATTRIBUTE: "add_attribute",
     PARENT: "parent",
   }
-  const [args, { push: addArg, updateAt: updateArg, removeAt: removeArg, insertAt: insertArg }] = useList([
+  const [args, { updateAt: updateArg, removeAt: removeArg, insertAt: insertArg }] = useList([
     { type: argTypes.MODEL, value: "ExampleModel" },
     { type: argTypes.ATTRIBUTE, value: "other_model:references{polymorphic}:uniq" },
     { type: argTypes.ADD_ATTRIBUTE, value: null }, // hack for + Attribute button
-    // { type: argTypes.PARENT, value: "" }
+    { type: argTypes.PARENT, value: "" },
   ])
 
   const [showModelEditor, setShowModelEditor] = useState(false);
   const [fieldUnderEdit, setFieldUnderEdit] = useState(null);
-  const [parentName, setParentName] = useState({ type: argTypes.PARENT, value: "" });
   const [showParentEditor, setShowParentEditor] = useState(false);
   const [showCopying, setShowCopying] = useState(false);
 
@@ -68,7 +67,6 @@ export default function Home() {
     const cliCommand = [
       "bin/rails g model",
       ...args.map(a => a.value),
-      parentName.value && `--parent ${parentName.value}`
     ].filter(text => !!text).join(" ");
     setShowCopying(true);
     navigator.clipboard.writeText(cliCommand);
@@ -173,15 +171,18 @@ export default function Home() {
                             editable={false}
                           />
                         )
+                      case argTypes.PARENT:
+                        return (
+                          <Pill
+                            text={`--parent ${arg.value}`}
+                            baseColor={arg.value ? "green" : "gray"}
+                            borderStyle={arg.value ? "solid" : "dashed"}
+                            onClick={toggleParentEditor}
+                          />
+                        )
                     }
                   })
                 }
-                <Pill
-                  text={`--parent ${parentName.value}`}
-                  baseColor={parentName.value ? "green" : "gray"}
-                  borderStyle={parentName.value ? "solid" : "dashed"}
-                  onClick={toggleParentEditor}
-                />
                 <Pill
                   text={showCopying ? "Copied!" : "Copy"}
                   baseColor="gray"
@@ -219,7 +220,7 @@ export default function Home() {
                 {
                   showParentEditor &&
                   <section id="fields" aria-labelledby="attribute_editor">
-                    <ParentEditor value={parentName.value} onChange={(value) => setParentName({ type: argTypes.PARENT, value })} />
+                    <ParentEditor value={args[args.length - 1].value} onChange={(value) => updateArg(args.length - 1, { type: argTypes.PARENT, value })} />
                   </section>
                 }
               </div>
