@@ -56,3 +56,25 @@ it('sets the parent', async () => {
 
   expect(screen.getByText("--parent Woohoo")).toBeTruthy()
 })
+
+it('swaps between editors', async () => {
+  render(<Home />)
+
+  const modelButton = screen.getByText('ExampleModel');
+  userEvent.click(modelButton);
+  expect(screen.queryByText("Edit Model")).toBeTruthy();
+  expect(screen.queryByText(/Edit Attribute/)).toBeNull();
+  expect(screen.queryByText("Edit Parent Model")).toBeNull();
+
+  const attributeButton = screen.getByText('+ Attribute');
+  userEvent.click(attributeButton);
+  expect(screen.queryByText("Edit Model")).toBeNull();
+  expect(screen.queryByText("Edit Attribute 1")).toBeTruthy();
+  expect(screen.queryByText("Edit Parent Model")).toBeNull();
+
+  const parentButton = screen.getByText('--parent');
+  userEvent.click(parentButton);
+  expect(screen.queryByText("Edit Model")).toBeNull();
+  expect(screen.queryByText(/Edit Attribute/)).toBeNull();
+  expect(screen.queryByText("Edit Parent Model")).toBeTruthy();
+})
