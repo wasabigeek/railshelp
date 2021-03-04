@@ -48,11 +48,13 @@ export default function Home() {
   const argTypes = {
     MODEL: "model",
     ATTRIBUTE: "attribute",
+    ADD_ATTRIBUTE: "add_attribute",
     PARENT: "parent",
   }
-  const [args, { push: addArg, updateAt: updateArg, removeAt: removeArg }] = useList([
+  const [args, { push: addArg, updateAt: updateArg, removeAt: removeArg, insertAt: insertArg }] = useList([
     { type: argTypes.MODEL, value: "ExampleModel" },
     { type: argTypes.ATTRIBUTE, value: "other_model:references{polymorphic}:uniq" },
+    { type: argTypes.ADD_ATTRIBUTE, value: null }, // hack for + Attribute button
     // { type: argTypes.PARENT, value: "" }
   ])
 
@@ -100,10 +102,9 @@ export default function Home() {
     return (value) => updateArg(index, value);
   }
 
-  const addField = () => {
-    // note that fields.length is the length before adding the field
-    toggleFieldEditor(args.length);
-    addArg({ type: argTypes.ATTRIBUTE, value: "" });
+  const addField = (index) => {
+    toggleFieldEditor(index);
+    insertArg(index, { type: argTypes.ATTRIBUTE, value: "" });
   }
 
   const removeField = (index) => {
@@ -162,18 +163,19 @@ export default function Home() {
                             baseColor="blue"
                           />
                         )
-                      default:
-                        break;
+                      case argTypes.ADD_ATTRIBUTE:
+                        return (
+                          <Pill
+                            text="+ Attribute"
+                            baseColor="gray"
+                            borderStyle="dashed"
+                            onClick={() => addField(index)}
+                            editable={false}
+                          />
+                        )
                     }
                   })
                 }
-                <Pill
-                  text="+ Attribute"
-                  baseColor="gray"
-                  borderStyle="dashed"
-                  onClick={addField}
-                  editable={false}
-                />
                 <Pill
                   text={`--parent ${parentName.value}`}
                   baseColor={parentName.value ? "green" : "gray"}
