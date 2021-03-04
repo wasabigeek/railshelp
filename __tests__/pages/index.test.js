@@ -63,8 +63,11 @@ it('sets the parent', async () => {
 
 it('toggles args', async () => {
   render(<Home />);
-  const modelButton = screen.getByText('ExampleModel');
+  let modelButton = screen.getByText('ExampleModel');
   userEvent.click(modelButton);
+  expect(screen.queryByText("Edit Model")).toBeTruthy();
+
+  modelButton = screen.getByText('ExampleModel');
   userEvent.click(modelButton);
   expect(screen.queryByText("Edit Model")).toBeNull();
 });

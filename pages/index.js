@@ -43,6 +43,61 @@ const ParentEditor = ({ value, onChange }) => (
   </div>
 )
 
+const ArgButton = ({ arg, index, selectedArg, setSelectedArg, insertArg }) => {
+  const toggleSelectedArg = (index) => {
+    if (selectedArg == index) {
+      setSelectedArg(null);
+    } else {
+      setSelectedArg(index);
+    }
+  }
+
+  const insertAndToggleArg = (index) => {
+    setSelectedArg(index);
+    insertArg(index, { type: argTypes.ATTRIBUTE, value: "" });
+  }
+
+  switch (arg.type) {
+    case argTypes.MODEL:
+      return (
+        <Pill
+          heading="model"
+          text={arg.value}
+          onClick={() => toggleSelectedArg(index)}
+          baseColor="yellow"
+        />
+      )
+    case argTypes.ATTRIBUTE:
+      return (
+        <Pill
+          heading={`attribute ${index - 1}`}
+          text={arg.value}
+          onClick={() => toggleSelectedArg(index)}
+          baseColor="blue"
+        />
+      )
+    case argTypes.ADD_ATTRIBUTE:
+      return (
+        <Pill
+          text="+ Attribute"
+          baseColor="gray"
+          borderStyle="dashed"
+          onClick={() => insertAndToggleArg(index)}
+          editable={false}
+        />
+      )
+    case argTypes.PARENT:
+      return (
+        <Pill
+          text={`--parent ${arg.value}`}
+          baseColor={arg.value ? "green" : "gray"}
+          borderStyle={arg.value ? "solid" : "dashed"}
+          onClick={() => toggleSelectedArg(index)}
+        />
+      )
+  }
+}
+
 const argTypes = {
   MODEL: "model",
   ATTRIBUTE: "attribute",
@@ -68,19 +123,6 @@ export default function Home() {
     setShowCopying(true);
     navigator.clipboard.writeText(cliCommand);
     setTimeout(() => setShowCopying(false), 2000);
-  }
-
-  const toggleSelectedArg = (index) => {
-    if (selectedArg == index) {
-      setSelectedArg(null)
-    } else {
-      setSelectedArg(index);
-    }
-  }
-
-  const insertAndToggleArg = (index) => {
-    setSelectedArg(index);
-    insertArg(index, { type: argTypes.ATTRIBUTE, value: "" });
   }
 
   const deleteArg = (index) => {
@@ -144,53 +186,17 @@ export default function Home() {
               <code className="flex flex-wrap items-center space-x-2 space-y-5 pb-4 pt-0">
                 {/** mt-5 is a hack to mimic items-baseline, not sure why leftIcon messes that up */}
                 <span className="ml-2 mt-5">bin/rails g model</span>
-                {
-                  args.map((arg, index) => {
-                    switch (arg.type) {
-                      case argTypes.MODEL:
-                        return (
-                          <Pill
-                            key={index}
-                            heading="model"
-                            text={arg.value}
-                            onClick={() => toggleSelectedArg(index)}
-                            baseColor="yellow"
-                          />
-                        )
-                      case argTypes.ATTRIBUTE:
-                        return (
-                          <Pill
-                            key={index}
-                            heading={`attribute ${index - 1}`}
-                            text={arg.value}
-                            onClick={() => toggleSelectedArg(index)}
-                            baseColor="blue"
-                          />
-                        )
-                      case argTypes.ADD_ATTRIBUTE:
-                        return (
-                          <Pill
-                            key={index}
-                            text="+ Attribute"
-                            baseColor="gray"
-                            borderStyle="dashed"
-                            onClick={() => insertAndToggleArg(index)}
-                            editable={false}
-                          />
-                        )
-                      case argTypes.PARENT:
-                        return (
-                          <Pill
-                            key={index}
-                            text={`--parent ${arg.value}`}
-                            baseColor={arg.value ? "green" : "gray"}
-                            borderStyle={arg.value ? "solid" : "dashed"}
-                            onClick={() => toggleSelectedArg(index)}
-                          />
-                        )
-                    }
-                  })
-                }
+                {args.map((arg, index) => (
+                  <ArgButton
+                    key={index}
+                    arg={arg}
+                    selectedArg={selectedArg}
+                    // TODO: possibly refactor to onSelect / onClear
+                    index={index}
+                    setSelectedArg={setSelectedArg}
+                    insertArg={insertArg}
+                  />
+                ))}
                 <Pill
                   text={showCopying ? "Copied!" : "Copy"}
                   baseColor="gray"
