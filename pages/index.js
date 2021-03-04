@@ -165,8 +165,8 @@ export default function Home() {
                 />
                 <Pill
                   text={`--parent ${parentName.value}`}
-                  baseColor={parentName ? "green" : "gray"}
-                  borderStyle={parentName ? "solid" : "dashed"}
+                  baseColor={parentName.value ? "green" : "gray"}
+                  borderStyle={parentName.value ? "solid" : "dashed"}
                   onClick={toggleParentEditor}
                 />
                 <Pill
