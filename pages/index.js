@@ -43,14 +43,14 @@ const ParentEditor = ({ value, onChange }) => (
   </div>
 )
 
+const argTypes = {
+  MODEL: "model",
+  ATTRIBUTE: "attribute",
+  ADD_ATTRIBUTE: "add_attribute",
+  PARENT: "parent",
+}
 
 export default function Home() {
-  const argTypes = {
-    MODEL: "model",
-    ATTRIBUTE: "attribute",
-    ADD_ATTRIBUTE: "add_attribute",
-    PARENT: "parent",
-  }
   const [args, { updateAt: updateArg, removeAt: removeArg, insertAt: insertArg }] = useList([
     { type: argTypes.MODEL, value: "ExampleModel" },
     { type: argTypes.ATTRIBUTE, value: "other_model:references{polymorphic}:uniq" },
@@ -70,16 +70,12 @@ export default function Home() {
     setTimeout(() => setShowCopying(false), 2000);
   }
 
-  const setFieldFor = (index) => {
-    return (value) => updateArg(index, value);
-  }
-
   const addField = (index) => {
     setSelectedArg(index);
     insertArg(index, { type: argTypes.ATTRIBUTE, value: "" });
   }
 
-  const removeField = (index) => {
+  const deleteArg = (index) => {
     setSelectedArg(null);
     removeArg(index);
   }
@@ -98,8 +94,8 @@ export default function Home() {
             <h2 className="text-xl leading-6 font-medium text-gray-900">Edit Attribute {selectedArg - 1}</h2>
             <FieldInput
               value={args[selectedArg].value}
-              onUpdate={(value) => setFieldFor(selectedArg)({ type: argTypes.ATTRIBUTE, value })}
-              onDelete={() => removeField(selectedArg)}
+              onUpdate={(value) => updateArg(selectedArg, { type: argTypes.ATTRIBUTE, value })}
+              onDelete={() => deleteArg(selectedArg)}
             />
           </section>
         )
