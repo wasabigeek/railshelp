@@ -1,6 +1,7 @@
 import Head from "next/head"
 import { useState } from "react"
-import styles from "../styles/Home.module.css"
+import { useList } from "react-use";
+
 import FieldInput from "../components/FieldInput"
 import Pill from "../components/Pill";
 
@@ -49,7 +50,12 @@ export default function Home() {
     ATTRIBUTE: "attribute",
     PARENT: "parent",
   }
-  const [modelName, setModelName] = useState({ type: argTypes.MODEL, value: "ExampleModel" });
+  const [args, { push: addArg, updateAt: updateArg, removeAt: removeArg }] = useList([
+    { type: argTypes.MODEL, value: "ExampleModel" },
+    // { type: argTypes.ATTRIBUTE, value: "other_model:references{polymorphic}:uniq" },
+    // { type: argTypes.PARENT, value: "" }
+  ])
+
   const [showModelEditor, setShowModelEditor] = useState(false);
   const [fieldUnderEdit, setFieldUnderEdit] = useState(null);
   const [parentName, setParentName] = useState({ type: argTypes.PARENT, value: "" });
@@ -63,7 +69,7 @@ export default function Home() {
   const copyCliCommand = () => {
     const cliCommand = [
       "bin/rails g model",
-      modelName.value,
+      ...args.map(a => a.value),
       ...fields.map(f => f.value),
       parentName.value && `--parent ${parentName.value}`
     ].filter(text => !!text).join(" ");
@@ -144,12 +150,15 @@ export default function Home() {
               <code className="flex flex-wrap items-center space-x-2 space-y-5 pb-4 pt-0">
                 {/** mt-5 is a hack, see leftIcon also */}
                 <span className="ml-2 mt-5">bin/rails g model</span>
-                <Pill
-                  heading="model"
-                  text={modelName.value}
-                  onClick={toggleModelEditor}
-                  baseColor="yellow"
-                />
+                {
+                  args.map((arg, index) => <Pill
+                    key={index}
+                    heading="model"
+                    text={arg.value}
+                    onClick={toggleModelEditor}
+                    baseColor="yellow"
+                  />)
+                }
                 {
                   fields.map((field, index) => (
                     <Pill
@@ -194,7 +203,7 @@ export default function Home() {
               <div className="bg-white py-6 px-4 sm:p-6 shadow sm:rounded-md sm:overflow-hidden">
                 {showModelEditor &&
                   <section aria-labelledby="model_name_editor">
-                    <ModelEditor value={modelName.value} onChange={(value) => setModelName({ type: argTypes.MODEL, value })} />
+                    <ModelEditor value={args[0].value} onChange={(value) => updateArg(0, { type: argTypes.MODEL, value })} />
                   </section>
                 }
                 {
