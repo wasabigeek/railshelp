@@ -44,3 +44,15 @@ it('sets a field', async () => {
 
   expect(screen.getByText("engine:references:index")).toBeTruthy()
 })
+
+it('sets the parent', async () => {
+  render(<Home />)
+  const button = screen.getByText('--parent');
+  userEvent.click(button);
+
+  await waitFor(() => screen.getByText('Edit Parent Model'));
+  const nameInput = screen.getByLabelText('Name');
+  userEvent.type(nameInput, 'Woohoo')
+
+  expect(screen.getByText("--parent Woohoo")).toBeTruthy()
+})
