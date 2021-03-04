@@ -57,9 +57,8 @@ export default function Home() {
     { type: argTypes.ADD_ATTRIBUTE, value: null }, // hack for + Attribute button
     { type: argTypes.PARENT, value: "" },
   ])
-
+  const [selectedArg, setSelectedArg] = useState(null);
   const [showModelEditor, setShowModelEditor] = useState(false);
-  const [fieldUnderEdit, setFieldUnderEdit] = useState(null);
   const [showParentEditor, setShowParentEditor] = useState(false);
   const [showCopying, setShowCopying] = useState(false);
 
@@ -74,7 +73,7 @@ export default function Home() {
   }
 
   const toggleModelEditor = () => {
-    setFieldUnderEdit(null)
+    setSelectedArg(null)
     setShowParentEditor(false);
     setShowModelEditor(!showModelEditor)
   }
@@ -83,16 +82,16 @@ export default function Home() {
     setShowModelEditor(false);
     setShowParentEditor(false);
     // a bit hacky
-    if (fieldUnderEdit == null || fieldIndex != fieldUnderEdit) {
-      setFieldUnderEdit(fieldIndex);
+    if (selectedArg == null || fieldIndex != selectedArg) {
+      setSelectedArg(fieldIndex);
     } else {
-      setFieldUnderEdit(null);
+      setSelectedArg(null);
     }
   }
 
   const toggleParentEditor = () => {
     setShowModelEditor(false);
-    setFieldUnderEdit(null);
+    setSelectedArg(null);
     setShowParentEditor(!showParentEditor);
   }
 
@@ -106,7 +105,7 @@ export default function Home() {
   }
 
   const removeField = (index) => {
-    setFieldUnderEdit(null);
+    setSelectedArg(null);
     removeArg(index);
   }
 
@@ -198,7 +197,7 @@ export default function Home() {
             </section>
           </div>
 
-          {(showModelEditor || fieldUnderEdit != null || showParentEditor) &&
+          {(showModelEditor || selectedArg != null || showParentEditor) &&
             <div className="max-w-7xl mx-auto pb-10 lg:pb-12 lg:px-8">
               <div className="bg-white py-6 px-4 sm:p-6 shadow sm:rounded-md sm:overflow-hidden">
                 {showModelEditor &&
@@ -207,13 +206,13 @@ export default function Home() {
                   </section>
                 }
                 {
-                  fieldUnderEdit != null &&
+                  selectedArg != null &&
                   <section id="fields" aria-labelledby="attribute_editor">
-                    <h2 className="text-xl leading-6 font-medium text-gray-900">Edit Attribute {fieldUnderEdit - 1}</h2>
+                    <h2 className="text-xl leading-6 font-medium text-gray-900">Edit Attribute {selectedArg - 1}</h2>
                     <FieldInput
-                      value={args[fieldUnderEdit].value}
-                      onUpdate={(value) => setFieldFor(fieldUnderEdit)({ type: argTypes.ATTRIBUTE, value })}
-                      onDelete={() => removeField(fieldUnderEdit)}
+                      value={args[selectedArg].value}
+                      onUpdate={(value) => setFieldFor(selectedArg)({ type: argTypes.ATTRIBUTE, value })}
+                      onDelete={() => removeField(selectedArg)}
                     />
                   </section>
                 }
