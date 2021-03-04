@@ -1,8 +1,9 @@
-import Head from 'next/head'
-import { useState } from 'react'
-import styles from '../styles/Home.module.css'
-import FieldInput from '../components/FieldInput'
-import Pill from '../components/Pill';
+import Head from "next/head"
+import { useState } from "react"
+import { useList } from "react-use";
+
+import FieldInput from "../components/FieldInput"
+import Pill from "../components/Pill";
 
 
 const ModelEditor = ({ value, onChange }) => (
@@ -14,7 +15,7 @@ const ModelEditor = ({ value, onChange }) => (
       <input
         id="model-name-input"
         className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
-        placeholder='ModelName'
+        placeholder="ModelName"
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
@@ -34,7 +35,7 @@ const ParentEditor = ({ value, onChange }) => (
       <input
         id="model-name-input"
         className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
-        placeholder='ModelName'
+        placeholder="ModelName"
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
@@ -42,66 +43,119 @@ const ParentEditor = ({ value, onChange }) => (
   </div>
 )
 
+const ArgButton = ({ arg, index, selectedArg, setSelectedArg, insertArg }) => {
+  const toggleSelectedArg = (index) => {
+    if (selectedArg == index) {
+      setSelectedArg(null);
+    } else {
+      setSelectedArg(index);
+    }
+  }
+
+  const insertAndToggleArg = (index) => {
+    setSelectedArg(index);
+    insertArg(index, { type: argTypes.ATTRIBUTE, value: "" });
+  }
+
+  switch (arg.type) {
+    case argTypes.MODEL:
+      return (
+        <Pill
+          heading="model"
+          text={arg.value}
+          onClick={() => toggleSelectedArg(index)}
+          baseColor="yellow"
+        />
+      )
+    case argTypes.ATTRIBUTE:
+      return (
+        <Pill
+          heading={`attribute ${index - 1}`}
+          text={arg.value}
+          onClick={() => toggleSelectedArg(index)}
+          baseColor="blue"
+        />
+      )
+    case argTypes.ADD_ATTRIBUTE:
+      return (
+        <Pill
+          text="+ Attribute"
+          baseColor="gray"
+          borderStyle="dashed"
+          onClick={() => insertAndToggleArg(index)}
+          editable={false}
+        />
+      )
+    case argTypes.PARENT:
+      return (
+        <Pill
+          text={`--parent ${arg.value}`}
+          baseColor={arg.value ? "green" : "gray"}
+          borderStyle={arg.value ? "solid" : "dashed"}
+          onClick={() => toggleSelectedArg(index)}
+        />
+      )
+  }
+}
+
+const argTypes = {
+  MODEL: "model",
+  ATTRIBUTE: "attribute",
+  ADD_ATTRIBUTE: "add_attribute",
+  PARENT: "parent",
+}
 
 export default function Home() {
-  const [modelName, setModelName] = useState('ExampleModel');
-  const [showModelEditor, setShowModelEditor] = useState(false);
-  const [fieldUnderEdit, setFieldUnderEdit] = useState(null);
-  const [parentName, setParentName] = useState('');
-  const [showParentEditor, setShowParentEditor] = useState(false);
+  const [args, { updateAt: updateArg, removeAt: removeArg, insertAt: insertArg }] = useList([
+    { type: argTypes.MODEL, value: "ExampleModel" },
+    { type: argTypes.ATTRIBUTE, value: "other_model:references{polymorphic}:uniq" },
+    { type: argTypes.ADD_ATTRIBUTE, value: null }, // hack for + Attribute button
+    { type: argTypes.PARENT, value: "" },
+  ])
+  const [selectedArg, setSelectedArg] = useState(null);
   const [showCopying, setShowCopying] = useState(false);
 
-  const [fields, setFields] = useState(['other_model:references{polymorphic}:uniq']);
-
   const copyCliCommand = () => {
-    const cliCommand = `bin/rails g model ${modelName} ${fields.join(' ')} ${parentName && `--parent ${parentName}`}`;
+    const cliCommand = [
+      "bin/rails g model",
+      ...args.map(a => a.value),
+    ].filter(text => !!text).join(" ");
     setShowCopying(true);
     navigator.clipboard.writeText(cliCommand);
     setTimeout(() => setShowCopying(false), 2000);
   }
 
-  const toggleModelEditor = () => {
-    setFieldUnderEdit(null)
-    setShowParentEditor(false);
-    setShowModelEditor(!showModelEditor)
+  const deleteArg = (index) => {
+    setSelectedArg(null);
+    removeArg(index);
   }
 
-  const toggleFieldEditor = (fieldIndex) => {
-    setShowModelEditor(false);
-    setShowParentEditor(false);
-    // a bit hacky
-    if (fieldUnderEdit == null || fieldIndex != fieldUnderEdit) {
-      setFieldUnderEdit(fieldIndex);
-    } else {
-      setFieldUnderEdit(null);
+  const renderEditor = (selectedArg) => {
+    switch (args[selectedArg].type) {
+      case argTypes.MODEL:
+        return (
+          <section aria-labelledby="model_name_editor">
+            <ModelEditor value={args[selectedArg].value} onChange={(value) => updateArg(selectedArg, { type: argTypes.MODEL, value })} />
+          </section>
+        )
+      case argTypes.ATTRIBUTE:
+        return (
+          <section id="fields" aria-labelledby="attribute_editor">
+            <h2 className="text-xl leading-6 font-medium text-gray-900">Edit Attribute {selectedArg - 1}</h2>
+            <FieldInput
+              value={args[selectedArg].value}
+              onUpdate={(value) => updateArg(selectedArg, { type: argTypes.ATTRIBUTE, value })}
+              onDelete={() => deleteArg(selectedArg)}
+            />
+          </section>
+        )
+      case argTypes.PARENT:
+        return (
+          <section id="fields" aria-labelledby="attribute_editor">
+            <ParentEditor value={args[selectedArg].value} onChange={(value) => updateArg(selectedArg, { type: argTypes.PARENT, value })} />
+          </section>
+        )
     }
-  }
-
-  const toggleParentEditor = () => {
-    setShowModelEditor(false);
-    setFieldUnderEdit(null);
-    setShowParentEditor(!showParentEditor);
-  }
-
-  const setFieldFor = (index) => {
-    return (value) => {
-      const newFields = fields.slice();
-      newFields[index] = value;
-      setFields(newFields);
-    }
-  }
-
-  const addField = () => {
-    // note that fields.length is the length before adding the field
-    toggleFieldEditor(fields.length);
-    setFields(fields.concat(['']));
-  }
-
-  const removeField = (index) => {
-    let newFields = fields.slice();
-    newFields.splice(index, 1);
-    setFieldUnderEdit(null);
-    setFields(newFields);
   }
 
   return (
@@ -130,38 +184,19 @@ export default function Home() {
           <div className="max-w-7xl mx-auto lg:px-8">
             <section className="p-4 bg-gray-100 mt-4 flex justify-center">
               <code className="flex flex-wrap items-center space-x-2 space-y-5 pb-4 pt-0">
-                {/** mt-5 is a hack, see leftIcon also */}
+                {/** mt-5 is a hack to mimic items-baseline, not sure why leftIcon messes that up */}
                 <span className="ml-2 mt-5">bin/rails g model</span>
-                <Pill
-                  heading="model"
-                  text={modelName}
-                  onClick={toggleModelEditor}
-                  baseColor="yellow"
-                />
-                {
-                  fields.map((field, index) => (
-                    <Pill
-                      key={index}
-                      heading={`attribute ${index}`}
-                      text={field}
-                      onClick={() => toggleFieldEditor(index)}
-                      baseColor="blue"
-                    />
-                  ))
-                }
-                <Pill
-                  text="+ Attribute"
-                  baseColor="gray"
-                  borderStyle="dashed"
-                  onClick={addField}
-                  editable={false}
-                />
-                <Pill
-                  text={`--parent ${parentName}`}
-                  baseColor={parentName ? "green" : "gray"}
-                  borderStyle={parentName ? "solid" : "dashed"}
-                  onClick={toggleParentEditor}
-                />
+                {args.map((arg, index) => (
+                  <ArgButton
+                    key={index}
+                    arg={arg}
+                    selectedArg={selectedArg}
+                    // TODO: possibly refactor to onSelect / onClear
+                    index={index}
+                    setSelectedArg={setSelectedArg}
+                    insertArg={insertArg}
+                  />
+                ))}
                 <Pill
                   text={showCopying ? "Copied!" : "Copy"}
                   baseColor="gray"
@@ -177,34 +212,13 @@ export default function Home() {
             </section>
           </div>
 
-          {(showModelEditor || fieldUnderEdit != null || showParentEditor) &&
+          {selectedArg != null && (
             <div className="max-w-7xl mx-auto pb-10 lg:pb-12 lg:px-8">
               <div className="bg-white py-6 px-4 sm:p-6 shadow sm:rounded-md sm:overflow-hidden">
-                {showModelEditor &&
-                  <section aria-labelledby="model_name_editor">
-                    <ModelEditor value={modelName} onChange={setModelName} />
-                  </section>
-                }
-                {
-                  fieldUnderEdit != null &&
-                  <section id="fields" aria-labelledby="attribute_editor">
-                    <h2 className="text-xl leading-6 font-medium text-gray-900">Edit Attribute {fieldUnderEdit}</h2>
-                    <FieldInput
-                      value={fields[fieldUnderEdit]}
-                      onUpdate={setFieldFor(fieldUnderEdit)}
-                      onDelete={() => removeField(fieldUnderEdit)}
-                    />
-                  </section>
-                }
-                {
-                  showParentEditor &&
-                  <section id="fields" aria-labelledby="attribute_editor">
-                    <ParentEditor value={parentName} onChange={setParentName} />
-                  </section>
-                }
+                {renderEditor(selectedArg)}
               </div>
             </div>
-          }
+          )}
         </div>
       </main>
 
