@@ -1,8 +1,8 @@
-import Head from 'next/head'
-import { useState } from 'react'
-import styles from '../styles/Home.module.css'
-import FieldInput from '../components/FieldInput'
-import Pill from '../components/Pill';
+import Head from "next/head"
+import { useState } from "react"
+import styles from "../styles/Home.module.css"
+import FieldInput from "../components/FieldInput"
+import Pill from "../components/Pill";
 
 
 const ModelEditor = ({ value, onChange }) => (
@@ -14,7 +14,7 @@ const ModelEditor = ({ value, onChange }) => (
       <input
         id="model-name-input"
         className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
-        placeholder='ModelName'
+        placeholder="ModelName"
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
@@ -34,7 +34,7 @@ const ParentEditor = ({ value, onChange }) => (
       <input
         id="model-name-input"
         className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
-        placeholder='ModelName'
+        placeholder="ModelName"
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
@@ -45,19 +45,22 @@ const ParentEditor = ({ value, onChange }) => (
 
 export default function Home() {
   const argTypes = {
-    MODEL: 'model'
+    MODEL: "model",
+    ATTRIBUTE: "attribute",
   }
-  const [modelName, setModelName] = useState({ type: argTypes.MODEL, value: 'ExampleModel' });
+  const [modelName, setModelName] = useState({ type: argTypes.MODEL, value: "ExampleModel" });
   const [showModelEditor, setShowModelEditor] = useState(false);
   const [fieldUnderEdit, setFieldUnderEdit] = useState(null);
-  const [parentName, setParentName] = useState('');
+  const [parentName, setParentName] = useState("");
   const [showParentEditor, setShowParentEditor] = useState(false);
   const [showCopying, setShowCopying] = useState(false);
 
-  const [fields, setFields] = useState(['other_model:references{polymorphic}:uniq']);
+  const [fields, setFields] = useState([
+    { type: argTypes.ATTRIBUTE, value: "other_model:references{polymorphic}:uniq" }
+  ]);
 
   const copyCliCommand = () => {
-    const cliCommand = `bin/rails g model ${modelName.value} ${fields.join(' ')} ${parentName && `--parent ${parentName}`}`;
+    const cliCommand = `bin/rails g model ${modelName.value} ${fields.map(f => f.value).join(" ")} ${parentName && `--parent ${parentName}`}`;
     setShowCopying(true);
     navigator.clipboard.writeText(cliCommand);
     setTimeout(() => setShowCopying(false), 2000);
@@ -97,7 +100,7 @@ export default function Home() {
   const addField = () => {
     // note that fields.length is the length before adding the field
     toggleFieldEditor(fields.length);
-    setFields(fields.concat(['']));
+    setFields(fields.concat([{ type: argTypes.ATTRIBUTE, value: "" }]));
   }
 
   const removeField = (index) => {
@@ -146,7 +149,7 @@ export default function Home() {
                     <Pill
                       key={index}
                       heading={`attribute ${index}`}
-                      text={field}
+                      text={field.value}
                       onClick={() => toggleFieldEditor(index)}
                       baseColor="blue"
                     />
@@ -193,8 +196,8 @@ export default function Home() {
                   <section id="fields" aria-labelledby="attribute_editor">
                     <h2 className="text-xl leading-6 font-medium text-gray-900">Edit Attribute {fieldUnderEdit}</h2>
                     <FieldInput
-                      value={fields[fieldUnderEdit]}
-                      onUpdate={setFieldFor(fieldUnderEdit)}
+                      value={fields[fieldUnderEdit].value}
+                      onUpdate={(value) => setFieldFor(fieldUnderEdit)({ type: argTypes.ATTRIBUTE, value })}
                       onDelete={() => removeField(fieldUnderEdit)}
                     />
                   </section>
