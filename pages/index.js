@@ -44,7 +44,10 @@ const ParentEditor = ({ value, onChange }) => (
 
 
 export default function Home() {
-  const [modelName, setModelName] = useState('ExampleModel');
+  const argTypes = {
+    MODEL: 'model'
+  }
+  const [modelName, setModelName] = useState({ type: argTypes.MODEL, value: 'ExampleModel' });
   const [showModelEditor, setShowModelEditor] = useState(false);
   const [fieldUnderEdit, setFieldUnderEdit] = useState(null);
   const [parentName, setParentName] = useState('');
@@ -54,7 +57,7 @@ export default function Home() {
   const [fields, setFields] = useState(['other_model:references{polymorphic}:uniq']);
 
   const copyCliCommand = () => {
-    const cliCommand = `bin/rails g model ${modelName} ${fields.join(' ')} ${parentName && `--parent ${parentName}`}`;
+    const cliCommand = `bin/rails g model ${modelName.value} ${fields.join(' ')} ${parentName && `--parent ${parentName}`}`;
     setShowCopying(true);
     navigator.clipboard.writeText(cliCommand);
     setTimeout(() => setShowCopying(false), 2000);
@@ -134,7 +137,7 @@ export default function Home() {
                 <span className="ml-2 mt-5">bin/rails g model</span>
                 <Pill
                   heading="model"
-                  text={modelName}
+                  text={modelName.value}
                   onClick={toggleModelEditor}
                   baseColor="yellow"
                 />
@@ -182,7 +185,7 @@ export default function Home() {
               <div className="bg-white py-6 px-4 sm:p-6 shadow sm:rounded-md sm:overflow-hidden">
                 {showModelEditor &&
                   <section aria-labelledby="model_name_editor">
-                    <ModelEditor value={modelName} onChange={setModelName} />
+                    <ModelEditor value={modelName.value} onChange={(value) => setModelName({ type: argTypes.MODEL, value })} />
                   </section>
                 }
                 {
