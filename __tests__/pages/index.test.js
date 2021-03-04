@@ -61,6 +61,14 @@ it('sets the parent', async () => {
   expect(screen.getByText("--parent Woohoo")).toBeTruthy()
 })
 
+it('toggles args', async () => {
+  render(<Home />);
+  const modelButton = screen.getByText('ExampleModel');
+  userEvent.click(modelButton);
+  userEvent.click(modelButton);
+  expect(screen.queryByText("Edit Model")).toBeNull();
+});
+
 it('swaps between editors', async () => {
   render(<Home />);
 

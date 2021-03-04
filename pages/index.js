@@ -70,7 +70,15 @@ export default function Home() {
     setTimeout(() => setShowCopying(false), 2000);
   }
 
-  const addField = (index) => {
+  const toggleSelectedArg = (index) => {
+    if (selectedArg == index) {
+      setSelectedArg(null)
+    } else {
+      setSelectedArg(index);
+    }
+  }
+
+  const insertAndToggleArg = (index) => {
     setSelectedArg(index);
     insertArg(index, { type: argTypes.ATTRIBUTE, value: "" });
   }
@@ -145,7 +153,7 @@ export default function Home() {
                             key={index}
                             heading="model"
                             text={arg.value}
-                            onClick={() => setSelectedArg(index)}
+                            onClick={() => toggleSelectedArg(index)}
                             baseColor="yellow"
                           />
                         )
@@ -155,7 +163,7 @@ export default function Home() {
                             key={index}
                             heading={`attribute ${index - 1}`}
                             text={arg.value}
-                            onClick={() => setSelectedArg(index)}
+                            onClick={() => toggleSelectedArg(index)}
                             baseColor="blue"
                           />
                         )
@@ -166,7 +174,7 @@ export default function Home() {
                             text="+ Attribute"
                             baseColor="gray"
                             borderStyle="dashed"
-                            onClick={() => addField(index)}
+                            onClick={() => insertAndToggleArg(index)}
                             editable={false}
                           />
                         )
@@ -177,7 +185,7 @@ export default function Home() {
                             text={`--parent ${arg.value}`}
                             baseColor={arg.value ? "green" : "gray"}
                             borderStyle={arg.value ? "solid" : "dashed"}
-                            onClick={() => setSelectedArg(index)}
+                            onClick={() => toggleSelectedArg(index)}
                           />
                         )
                     }
