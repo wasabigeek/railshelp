@@ -72,11 +72,6 @@ export default function Home() {
     setTimeout(() => setShowCopying(false), 2000);
   }
 
-  const toggleModelEditor = () => {
-    setSelectedArg(null)
-    setShowParentEditor(false);
-    setShowModelEditor(!showModelEditor)
-  }
 
   const toggleFieldEditor = (fieldIndex) => {
     setShowModelEditor(false);
@@ -87,12 +82,6 @@ export default function Home() {
     } else {
       setSelectedArg(null);
     }
-  }
-
-  const toggleParentEditor = () => {
-    setShowModelEditor(false);
-    setSelectedArg(null);
-    setShowParentEditor(!showParentEditor);
   }
 
   const setFieldFor = (index) => {
