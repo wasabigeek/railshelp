@@ -47,11 +47,12 @@ export default function Home() {
   const argTypes = {
     MODEL: "model",
     ATTRIBUTE: "attribute",
+    PARENT: "parent",
   }
   const [modelName, setModelName] = useState({ type: argTypes.MODEL, value: "ExampleModel" });
   const [showModelEditor, setShowModelEditor] = useState(false);
   const [fieldUnderEdit, setFieldUnderEdit] = useState(null);
-  const [parentName, setParentName] = useState("");
+  const [parentName, setParentName] = useState({ type: argTypes.PARENT, value: "" });
   const [showParentEditor, setShowParentEditor] = useState(false);
   const [showCopying, setShowCopying] = useState(false);
 
@@ -163,7 +164,7 @@ export default function Home() {
                   editable={false}
                 />
                 <Pill
-                  text={`--parent ${parentName}`}
+                  text={`--parent ${parentName.value}`}
                   baseColor={parentName ? "green" : "gray"}
                   borderStyle={parentName ? "solid" : "dashed"}
                   onClick={toggleParentEditor}
@@ -205,7 +206,7 @@ export default function Home() {
                 {
                   showParentEditor &&
                   <section id="fields" aria-labelledby="attribute_editor">
-                    <ParentEditor value={parentName} onChange={setParentName} />
+                    <ParentEditor value={parentName.value} onChange={(value) => setParentName({ type: argTypes.PARENT, value })} />
                   </section>
                 }
               </div>
