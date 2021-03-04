@@ -135,7 +135,7 @@ export default function Home() {
           <div className="max-w-7xl mx-auto lg:px-8">
             <section className="p-4 bg-gray-100 mt-4 flex justify-center">
               <code className="flex flex-wrap items-center space-x-2 space-y-5 pb-4 pt-0">
-                {/** mt-5 is a hack, see leftIcon also */}
+                {/** mt-5 is a hack to mimic items-baseline, not sure why leftIcon messes that up */}
                 <span className="ml-2 mt-5">bin/rails g model</span>
                 {
                   args.map((arg, index) => {
@@ -163,6 +163,7 @@ export default function Home() {
                       case argTypes.ADD_ATTRIBUTE:
                         return (
                           <Pill
+                            key={index}
                             text="+ Attribute"
                             baseColor="gray"
                             borderStyle="dashed"
@@ -173,6 +174,7 @@ export default function Home() {
                       case argTypes.PARENT:
                         return (
                           <Pill
+                            key={index}
                             text={`--parent ${arg.value}`}
                             baseColor={arg.value ? "green" : "gray"}
                             borderStyle={arg.value ? "solid" : "dashed"}
