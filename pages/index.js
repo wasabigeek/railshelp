@@ -52,7 +52,7 @@ export default function Home() {
   }
   const [args, { push: addArg, updateAt: updateArg, removeAt: removeArg }] = useList([
     { type: argTypes.MODEL, value: "ExampleModel" },
-    // { type: argTypes.ATTRIBUTE, value: "other_model:references{polymorphic}:uniq" },
+    { type: argTypes.ATTRIBUTE, value: "other_model:references{polymorphic}:uniq" },
     // { type: argTypes.PARENT, value: "" }
   ])
 
@@ -62,15 +62,10 @@ export default function Home() {
   const [showParentEditor, setShowParentEditor] = useState(false);
   const [showCopying, setShowCopying] = useState(false);
 
-  const [fields, setFields] = useState([
-    { type: argTypes.ATTRIBUTE, value: "other_model:references{polymorphic}:uniq" }
-  ]);
-
   const copyCliCommand = () => {
     const cliCommand = [
       "bin/rails g model",
       ...args.map(a => a.value),
-      ...fields.map(f => f.value),
       parentName.value && `--parent ${parentName.value}`
     ].filter(text => !!text).join(" ");
     setShowCopying(true);
@@ -102,24 +97,18 @@ export default function Home() {
   }
 
   const setFieldFor = (index) => {
-    return (value) => {
-      const newFields = fields.slice();
-      newFields[index] = value;
-      setFields(newFields);
-    }
+    return (value) => updateArg(index, value);
   }
 
   const addField = () => {
     // note that fields.length is the length before adding the field
-    toggleFieldEditor(fields.length);
-    setFields(fields.concat([{ type: argTypes.ATTRIBUTE, value: "" }]));
+    toggleFieldEditor(args.length);
+    addArg({ type: argTypes.ATTRIBUTE, value: "" });
   }
 
   const removeField = (index) => {
-    let newFields = fields.slice();
-    newFields.splice(index, 1);
     setFieldUnderEdit(null);
-    setFields(newFields);
+    removeArg(index);
   }
 
   return (
@@ -151,24 +140,32 @@ export default function Home() {
                 {/** mt-5 is a hack, see leftIcon also */}
                 <span className="ml-2 mt-5">bin/rails g model</span>
                 {
-                  args.map((arg, index) => <Pill
-                    key={index}
-                    heading="model"
-                    text={arg.value}
-                    onClick={toggleModelEditor}
-                    baseColor="yellow"
-                  />)
-                }
-                {
-                  fields.map((field, index) => (
-                    <Pill
-                      key={index}
-                      heading={`attribute ${index}`}
-                      text={field.value}
-                      onClick={() => toggleFieldEditor(index)}
-                      baseColor="blue"
-                    />
-                  ))
+                  args.map((arg, index) => {
+                    switch (arg.type) {
+                      case argTypes.MODEL:
+                        return (
+                          <Pill
+                            key={index}
+                            heading="model"
+                            text={arg.value}
+                            onClick={toggleModelEditor}
+                            baseColor="yellow"
+                          />
+                        )
+                      case argTypes.ATTRIBUTE:
+                        return (
+                          <Pill
+                            key={index}
+                            heading={`attribute ${index - 1}`}
+                            text={arg.value}
+                            onClick={() => toggleFieldEditor(index)}
+                            baseColor="blue"
+                          />
+                        )
+                      default:
+                        break;
+                    }
+                  })
                 }
                 <Pill
                   text="+ Attribute"
@@ -209,9 +206,9 @@ export default function Home() {
                 {
                   fieldUnderEdit != null &&
                   <section id="fields" aria-labelledby="attribute_editor">
-                    <h2 className="text-xl leading-6 font-medium text-gray-900">Edit Attribute {fieldUnderEdit}</h2>
+                    <h2 className="text-xl leading-6 font-medium text-gray-900">Edit Attribute {fieldUnderEdit - 1}</h2>
                     <FieldInput
-                      value={fields[fieldUnderEdit].value}
+                      value={args[fieldUnderEdit].value}
                       onUpdate={(value) => setFieldFor(fieldUnderEdit)({ type: argTypes.ATTRIBUTE, value })}
                       onDelete={() => removeField(fieldUnderEdit)}
                     />
