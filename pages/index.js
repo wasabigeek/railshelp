@@ -58,8 +58,6 @@ export default function Home() {
     { type: argTypes.PARENT, value: "" },
   ])
   const [selectedArg, setSelectedArg] = useState(null);
-  const [showModelEditor, setShowModelEditor] = useState(false);
-  const [showParentEditor, setShowParentEditor] = useState(false);
   const [showCopying, setShowCopying] = useState(false);
 
   const copyCliCommand = () => {
@@ -72,24 +70,12 @@ export default function Home() {
     setTimeout(() => setShowCopying(false), 2000);
   }
 
-
-  const toggleFieldEditor = (fieldIndex) => {
-    setShowModelEditor(false);
-    setShowParentEditor(false);
-    // a bit hacky
-    if (selectedArg == null || fieldIndex != selectedArg) {
-      setSelectedArg(fieldIndex);
-    } else {
-      setSelectedArg(null);
-    }
-  }
-
   const setFieldFor = (index) => {
     return (value) => updateArg(index, value);
   }
 
   const addField = (index) => {
-    toggleFieldEditor(index);
+    setSelectedArg(index);
     insertArg(index, { type: argTypes.ATTRIBUTE, value: "" });
   }
 
