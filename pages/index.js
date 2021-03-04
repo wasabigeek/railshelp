@@ -61,7 +61,12 @@ export default function Home() {
   ]);
 
   const copyCliCommand = () => {
-    const cliCommand = `bin/rails g model ${modelName.value} ${fields.map(f => f.value).join(" ")} ${parentName && `--parent ${parentName}`}`;
+    const cliCommand = [
+      "bin/rails g model",
+      modelName.value,
+      ...fields.map(f => f.value),
+      parentName.value && `--parent ${parentName.value}`
+    ].filter(text => !!text).join(" ");
     setShowCopying(true);
     navigator.clipboard.writeText(cliCommand);
     setTimeout(() => setShowCopying(false), 2000);

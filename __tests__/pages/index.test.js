@@ -6,11 +6,9 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Home from '../../pages'
 
-beforeEach(() => {
-  render(<Home />);
-})
-
 it('renders', async () => {
+  render(<Home />);
+
   expect(screen.getByText("GuideRails")).toBeTruthy()
   expect(screen.getByText(/^bin\/rails g/)).toBeTruthy()
   expect(screen.getByText("ExampleModel")).toBeTruthy()
@@ -18,6 +16,8 @@ it('renders', async () => {
 })
 
 it('sets the model', async () => {
+  render(<Home />);
+
   const modelButton = screen.getByText('ExampleModel');
   userEvent.click(modelButton);
 
@@ -30,6 +30,8 @@ it('sets the model', async () => {
 })
 
 it('sets a field', async () => {
+  render(<Home />);
+
   const addAttributeButton = screen.getByText('+ Attribute');
   userEvent.click(addAttributeButton);
 
@@ -47,6 +49,8 @@ it('sets a field', async () => {
 })
 
 it('sets the parent', async () => {
+  render(<Home />);
+
   const button = screen.getByText('--parent');
   userEvent.click(button);
 
@@ -58,6 +62,8 @@ it('sets the parent', async () => {
 })
 
 it('swaps between editors', async () => {
+  render(<Home />);
+
   const modelButton = screen.getByText('ExampleModel');
   userEvent.click(modelButton);
   expect(screen.queryByText("Edit Model")).toBeTruthy();
@@ -76,3 +82,18 @@ it('swaps between editors', async () => {
   expect(screen.queryByText(/Edit Attribute/)).toBeNull();
   expect(screen.queryByText("Edit Parent Model")).toBeTruthy();
 })
+
+it('copies command', async () => {
+  Object.assign(navigator, {
+    clipboard: {
+      writeText: () => { },
+    },
+  });
+  jest.spyOn(navigator.clipboard, "writeText");
+
+  render(<Home />); // refactor to take initialArgs for a more deterministic test
+
+  const copyButton = screen.getByText("Copy");
+  userEvent.click(copyButton);
+  expect(navigator.clipboard.writeText).toHaveBeenCalledWith("bin/rails g model ExampleModel other_model:references{polymorphic}:uniq")
+});
