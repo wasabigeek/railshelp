@@ -227,13 +227,15 @@ export default function Home() {
       </main>
 
 
-      <footer className="w-full flex justify-center items-center h-24 text-gray-500">
-        Have a suggestion or found a bug? Open an issue on&nbsp;
+      <footer className="w-full flex flex-col sm:flex-row justify-center items-center md:h-24 text-gray-500 pt-4 px-2">
+        <span className="hidden sm:inline sm:mr-2">
+          Have a suggestion or found a bug? Open an issue on&nbsp;
+        </span>
         <a
           href="https://github.com/wasabigeek/guiderails/issues"
           target="_blank"
           rel="noopener noreferrer"
-          className="ml-2 py-2 px-3 rounded-lg text-gray-800 border hover:bg-gray-50 flex justify-center items-center"
+          className="py-2 px-3 rounded-lg text-gray-800 border hover:bg-gray-50 flex justify-center items-center"
         >
           <svg
             className="h-5 w-5 hover:bg-gray-50 fill-current text-gray-800"
