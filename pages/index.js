@@ -64,6 +64,7 @@ const ArgButton = ({ arg, index, selectedArg, setSelectedArg, insertArg }) => {
           heading="model"
           text={arg.value}
           onClick={() => toggleSelectedArg(index)}
+          selected={selectedArg === index}
           baseColor="yellow"
         />
       )
@@ -73,9 +74,11 @@ const ArgButton = ({ arg, index, selectedArg, setSelectedArg, insertArg }) => {
           heading={`attribute ${index - 1}`}
           text={arg.value}
           onClick={() => toggleSelectedArg(index)}
+          selected={selectedArg === index}
           baseColor="blue"
         />
       )
+    // this one is less like the others >_<
     case argTypes.ADD_ATTRIBUTE:
       return (
         <Pill
@@ -92,6 +95,7 @@ const ArgButton = ({ arg, index, selectedArg, setSelectedArg, insertArg }) => {
           text={`--parent ${arg.value}`}
           baseColor={arg.value ? "green" : "gray"}
           borderStyle={arg.value ? "solid" : "dashed"}
+          selected={selectedArg === index}
           onClick={() => toggleSelectedArg(index)}
         />
       )
