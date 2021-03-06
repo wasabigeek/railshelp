@@ -29,10 +29,11 @@ it("updates the field type when changed & is valid", async () => {
   render(<FieldInput value="" onUpdate={mockHandleUpdate} />);
 
   const fieldTypeSelect = screen.getAllByRole("combobox")[0];
-  const fieldTypeName = screen.getByPlaceholderText("field_name")
+  const fieldName = screen.getByLabelText("Name");
+
+  userEvent.type(fieldName, "created_at");
+  expect(fieldName).toHaveValue("created_at");
   
-  userEvent
-    .type(fieldTypeName, "created_at")
-    .then(done => done.selectOptions(fieldTypeSelect, "date"))
-    .then(_ => expect(mockHandleUpdate).lastCalledWith("created_at:date", true));
+  userEvent.selectOptions(fieldTypeSelect, "date");
+  expect(mockHandleUpdate).lastCalledWith("created_at:date", true);
 });
