@@ -75,7 +75,7 @@ const ArgButton = ({ arg, index, selectedArg, setSelectedArg, insertArg }) => {
           text={arg.value}
           onClick={() => toggleSelectedArg(index)}
           selected={selectedArg === index}
-          baseColor="blue"
+          baseColor={arg.valid && !!arg.valid ? "blue" : "red"}
         />
       )
     // this one is less like the others >_<
@@ -112,7 +112,7 @@ const argTypes = {
 export default function Home() {
   const [args, { updateAt: updateArg, removeAt: removeArg, insertAt: insertArg }] = useList([
     { type: argTypes.MODEL, value: "ExampleModel" },
-    { type: argTypes.ATTRIBUTE, value: "other_model:references{polymorphic}:uniq" },
+    { type: argTypes.ATTRIBUTE, value: "other_model:references{polymorphic}:uniq", valid: true},
     { type: argTypes.ADD_ATTRIBUTE, value: null }, // hack for + Attribute button
     { type: argTypes.PARENT, value: "" },
   ])
@@ -148,7 +148,7 @@ export default function Home() {
             <h2 className="text-xl leading-6 font-medium text-gray-900">Edit Attribute {selectedArg - 1}</h2>
             <FieldInput
               value={args[selectedArg].value}
-              onUpdate={(value) => updateArg(selectedArg, { type: argTypes.ATTRIBUTE, value })}
+              onUpdate={(value, valid) => updateArg(selectedArg, { type: argTypes.ATTRIBUTE, value, valid })}
               onDelete={() => deleteArg(selectedArg)}
             />
           </section>

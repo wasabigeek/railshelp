@@ -6,10 +6,12 @@ export default function FieldInput({ value, onUpdate, onDelete }) {
   // changes - Object with any keys in: fieldName, fieldType, indexType
   const updateField = (changes) => {
     const newData = Object.assign({ fieldName, fieldType, indexType }, changes);
+    const requiredValues = [newData.fieldName, newData.fieldType];
+    const optionalValue = newData.indexType
+    const values = !!optionalValue ? [...requiredValues, optionalValue] : requiredValues
     onUpdate(
-      [newData.fieldName, newData.fieldType, newData.indexType]
-        .filter((value) => !!value)
-        .join(":")
+        values.join(":"),
+        requiredValues.reduce((res, val) => res && !!val, true)
     );
   };
 
