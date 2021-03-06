@@ -7,8 +7,8 @@ export default function FieldInput({ value, onUpdate, onDelete }) {
   const updateField = (changes) => {
     const newData = Object.assign({ fieldName, fieldType, indexType }, changes);
     const requiredValues = [newData.fieldName, newData.fieldType];
-    const optionalValue = newData.indexType
-    const values = !!optionalValue ? [...requiredValues, optionalValue] : requiredValues
+    const optionalValue = newData.indexType;
+    const values = !!optionalValue ? [...requiredValues, optionalValue] : requiredValues;
     onUpdate(
         values.join(":"),
         requiredValues.reduce((res, val) => res && !!val, true)
