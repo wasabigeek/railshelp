@@ -21,5 +21,16 @@ it("updates the field type when changed", async () => {
 
   const fieldTypeSelect = screen.getAllByRole("combobox")[0];
   userEvent.selectOptions(fieldTypeSelect, "date");
-  expect(mockHandleUpdate).toHaveBeenCalledWith("date");
+  expect(mockHandleUpdate).toHaveBeenCalledWith(":date");
+});
+
+it("updates the field name when changed", async () => {
+  const mockHandleUpdate = jest.fn();
+  render(<FieldInput value="" onUpdate={mockHandleUpdate} />);
+
+  const fieldTypeSelect = screen.getAllByRole("combobox")[0];
+  const fieldName = screen.getByLabelText("Name");
+
+  userEvent.type(fieldName, "c");
+  expect(mockHandleUpdate).toHaveBeenCalledWith("c:");
 });
