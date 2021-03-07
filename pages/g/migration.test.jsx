@@ -10,8 +10,7 @@ it.only('renders', async () => {
   render(<MigrationPage />);
 
   expect(screen.getByText(/^bin\/rails g migration/)).toBeTruthy()
-  // expect(screen.getByText("ExampleModel")).toBeTruthy()
-  // expect(screen.getByText("other_model:references{polymorphic}:uniq")).toBeTruthy()
+  expect(screen.getByText("ExampleMigrationName")).toBeTruthy()
 })
 
 it('sets the model', async () => {

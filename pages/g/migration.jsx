@@ -58,6 +58,16 @@ const ArgButton = ({ arg, index, selectedArg, setSelectedArg, insertArg }) => {
   }
 
   switch (arg.type) {
+    case argTypes.MIGRATION:
+      return (
+        <Pill
+          heading="migration"
+          text={arg.value}
+          onClick={() => toggleSelectedArg(index)}
+          selected={selectedArg === index}
+          baseColor="yellow"
+        />
+      )
     case argTypes.MODEL:
       return (
         <Pill
@@ -104,6 +114,7 @@ const ArgButton = ({ arg, index, selectedArg, setSelectedArg, insertArg }) => {
 
 const argTypes = {
   MODEL: "model",
+  MIGRATION: "migration",
   ATTRIBUTE: "attribute",
   ADD_ATTRIBUTE: "add_attribute",
   PARENT: "parent",
@@ -111,7 +122,7 @@ const argTypes = {
 
 export default function MigrationPage() {
   const [args, { updateAt: updateArg, removeAt: removeArg, insertAt: insertArg }] = useList([
-    { type: argTypes.MODEL, value: "ExampleModel" },
+    { type: argTypes.MIGRATION, value: "ExampleMigrationName" },
     { type: argTypes.ATTRIBUTE, value: "other_model:references{polymorphic}:uniq" },
     { type: argTypes.ADD_ATTRIBUTE, value: null }, // hack for + Attribute button
     { type: argTypes.PARENT, value: "" },
