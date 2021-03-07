@@ -166,20 +166,20 @@ export default function Home() {
     <div>
       <Head>
         {/* <!-- Primary Meta Tags --> */}
-        <title>Rails Generators GUI | GuideRails</title>
-        <meta name="title" content="Rails Generators GUI | GuideRails" />
+        <title>Rails Generators GUI | rails.help</title>
+        <meta name="title" content="Rails Generators GUI | rails.help" />
         <meta name="description" content="Can't remember the args for Rails generators? Us too, so we made a GUI. Go forth and generate!" />
 
         {/* <!-- Open Graph / Facebook --> */}
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://rails.help/" />
-        <meta property="og:title" content="Rails Generators GUI | GuideRails" />
+        <meta property="og:title" content="Rails Generators GUI | rails.help" />
         <meta property="og:description" content="Can't remember the args for Rails generators? Us too, so we made a GUI. Go forth and generate!" />
 
         {/* <!-- Twitter --> */}
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content="https://rails.help/" />
-        <meta property="twitter:title" content="Rails Generators GUI | GuideRails" />
+        <meta property="twitter:title" content="Rails Generators GUI | rails.help" />
         <meta property="twitter:description" content="Can't remember the args for Rails generators? Us too, so we made a GUI. Go forth and generate!" />
 
         <link rel="icon" href="/favicon.ico" />
