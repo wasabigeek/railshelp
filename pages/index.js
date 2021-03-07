@@ -165,7 +165,25 @@ export default function Home() {
   return (
     <div>
       <Head>
+        {/* <!-- Primary Meta Tags --> */}
         <title>Rails Generators GUI | GuideRails</title>
+        <meta name="title" content="Rails Generators GUI | GuideRails" />
+        <meta name="description" content="Can't remember the args for Rails generators? Us too, so we made a GUI. Go forth and generate!" />
+
+        {/* <!-- Open Graph / Facebook --> */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://rails.help/" />
+        <meta property="og:title" content="Rails Generators GUI | GuideRails" />
+        <meta property="og:description" content="Can't remember the args for Rails generators? Us too, so we made a GUI. Go forth and generate!" />
+        <meta property="og:image" content="https://rails.help/rh.svg" />
+
+        {/* <!-- Twitter --> */}
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://rails.help/" />
+        <meta property="twitter:title" content="Rails Generators GUI | GuideRails" />
+        <meta property="twitter:description" content="Can't remember the args for Rails generators? Us too, so we made a GUI. Go forth and generate!" />
+        <meta property="twitter:image" content="https://rails.help/rh.svg" />
+
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -174,7 +192,7 @@ export default function Home() {
           <div className="relative pt-16 sm:pt-24 lg:pt-32">
             <div className="mx-auto max-w-md px-4 text-center sm:px-6 sm:max-w-3xl lg:px-8 lg:max-w-7xl">
               <div>
-                <h1 className="text-base font-semibold tracking-wider text-cyan-600 uppercase">GuideRails</h1>
+                <h1 className="text-base font-semibold tracking-wider text-cyan-600 uppercase">rails.help</h1>
                 <p className="mt-2 text-3xl font-extrabold text-gray-900 tracking-tight sm:text-4xl">
                   The missing GUI for Rails Generators.
                 </p>
@@ -232,7 +250,7 @@ export default function Home() {
           Have a suggestion or found a bug? Open an issue on&nbsp;
         </span>
         <a
-          href="https://github.com/wasabigeek/guiderails/issues"
+          href="https://github.com/wasabigeek/railshelp/issues"
           target="_blank"
           rel="noopener noreferrer"
           className="py-2 px-3 rounded-lg text-gray-800 border hover:bg-gray-50 flex justify-center items-center"

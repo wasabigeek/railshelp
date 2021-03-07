@@ -9,7 +9,7 @@ import Home from '../../pages'
 it('renders', async () => {
   render(<Home />);
 
-  expect(screen.getByText("GuideRails")).toBeTruthy()
+  expect(screen.getByText("rails.help")).toBeTruthy()
   expect(screen.getByText(/^bin\/rails g/)).toBeTruthy()
   expect(screen.getByText("ExampleModel")).toBeTruthy()
   expect(screen.getByText("other_model:references{polymorphic}:uniq")).toBeTruthy()
