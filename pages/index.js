@@ -176,8 +176,8 @@ export default function Home() {
         <meta property="og:title" content="Rails Generators GUI | GuideRails" />
         <meta property="og:description" content="Can't remember the args for Rails generators? Us too, so we made a GUI. Go forth and generate!" />
         <meta property="og:image" content="https://rails.help/rh.png" />
-        <meta property="og:image:height" content="132" />
-        <meta property="og:image:width" content="100" />
+        <meta property="og:image:height" content="144" />
+        <meta property="og:image:width" content="144" />
 
         {/* <!-- Twitter --> */}
         <meta property="twitter:card" content="summary_large_image" />
