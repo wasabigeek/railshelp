@@ -9,10 +9,7 @@ export default function FieldInput({ value, onUpdate, onDelete }) {
     const requiredValues = [newData.fieldName, newData.fieldType];
     const optionalValue = newData.indexType;
     const values = !!optionalValue ? [...requiredValues, optionalValue] : requiredValues;
-    onUpdate(
-        values.join(":"),
-        requiredValues.reduce((res, val) => res && !!val, true)
-    );
+    onUpdate(values.join(":"));
   };
 
   return (

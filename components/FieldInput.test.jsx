@@ -21,7 +21,7 @@ it("updates the field type when changed & is not valid", async () => {
 
   const fieldTypeSelect = screen.getAllByRole("combobox")[0];
   userEvent.selectOptions(fieldTypeSelect, "date");
-  expect(mockHandleUpdate).toHaveBeenCalledWith(":date", false);
+  expect(mockHandleUpdate).toHaveBeenCalledWith(":date");
 });
 
 it("updates the field type when changed & is valid", async () => {
@@ -32,8 +32,6 @@ it("updates the field type when changed & is valid", async () => {
   const fieldName = screen.getByLabelText("Name");
 
   userEvent.type(fieldName, "created_at");
-  expect(fieldName).toHaveValue("created_at");
-  
   userEvent.selectOptions(fieldTypeSelect, "date");
-  expect(mockHandleUpdate).lastCalledWith("created_at:date", true);
+  expect(mockHandleUpdate).lastCalledWith("created_at:date");
 });
