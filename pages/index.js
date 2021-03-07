@@ -175,16 +175,12 @@ export default function Home() {
         <meta property="og:url" content="https://rails.help/" />
         <meta property="og:title" content="Rails Generators GUI | GuideRails" />
         <meta property="og:description" content="Can't remember the args for Rails generators? Us too, so we made a GUI. Go forth and generate!" />
-        <meta property="og:image" content="https://rails.help/rh.png" />
-        <meta property="og:image:height" content="144" />
-        <meta property="og:image:width" content="144" />
 
         {/* <!-- Twitter --> */}
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content="https://rails.help/" />
         <meta property="twitter:title" content="Rails Generators GUI | GuideRails" />
         <meta property="twitter:description" content="Can't remember the args for Rails generators? Us too, so we made a GUI. Go forth and generate!" />
-        <meta property="twitter:image" content="https://rails.help/rh.png" />
 
         <link rel="icon" href="/favicon.ico" />
       </Head>
