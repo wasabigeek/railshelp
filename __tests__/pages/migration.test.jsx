@@ -4,7 +4,7 @@
 
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import MigrationPage from './migration'
+import MigrationPage from '../../pages/g/migration'
 
 it.only('renders', async () => {
   render(<MigrationPage />);

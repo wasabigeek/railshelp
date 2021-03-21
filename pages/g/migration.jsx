@@ -4,24 +4,8 @@ import { useList } from "react-use";
 
 import FieldInput from "../../components/FieldInput"
 import Pill from "../../components/Pill";
+import MigrationEditor from "../../components/MigrationEditor";
 
-
-const ModelEditor = ({ value, onChange }) => (
-  <div>
-    <h2 className="text-xl leading-6 font-medium text-gray-900">Edit Model</h2>
-    <div className="mt-4">
-      <label htmlFor="model-name-input" className="block font-medium text-gray-700">Name</label>
-      <aside className="text-sm text-gray-500">CamelCased or under_scored</aside>
-      <input
-        id="model-name-input"
-        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
-        placeholder="ModelName"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-      />
-    </div>
-  </div>
-)
 
 const ParentEditor = ({ value, onChange }) => (
   <div>
@@ -62,16 +46,6 @@ const ArgButton = ({ arg, index, selectedArg, setSelectedArg, insertArg }) => {
       return (
         <Pill
           heading="migration"
-          text={arg.value}
-          onClick={() => toggleSelectedArg(index)}
-          selected={selectedArg === index}
-          baseColor="yellow"
-        />
-      )
-    case argTypes.MODEL:
-      return (
-        <Pill
-          heading="model"
           text={arg.value}
           onClick={() => toggleSelectedArg(index)}
           selected={selectedArg === index}
@@ -147,10 +121,10 @@ export default function MigrationPage() {
 
   const renderEditor = (selectedArg) => {
     switch (args[selectedArg].type) {
-      case argTypes.MODEL:
+      case argTypes.MIGRATION:
         return (
           <section aria-labelledby="model_name_editor">
-            <ModelEditor value={args[selectedArg].value} onChange={(value) => updateArg(selectedArg, { type: argTypes.MODEL, value })} />
+            <MigrationEditor value={args[selectedArg].value} onChange={(value) => updateArg(selectedArg, { type: argTypes.MODEL, value })} />
           </section>
         )
       case argTypes.ATTRIBUTE:
