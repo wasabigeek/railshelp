@@ -1,19 +1,17 @@
 import { useState } from "react";
+import { useMap } from "react-use";
 
 const MigrationEditor = ({ value, onChange }) => {
   const [format, setFormat] = useState("");
-  const [columnsName, setColumnsName] = useState("");
-  const [tableName, setTableName] = useState("");
+  const [nameParts, { set: setNameParts }] = useMap({
+    columnsName: "",
+    tableName: "",
+  });
 
-  const handleChange = ({
-    columnsName: newColumnsName,
-    tableName: newTableName,
-  }) => {
-    newColumnsName && setColumnsName(newColumnsName);
-    newTableName && setTableName(newTableName);
-    onChange(
-      `Add${newColumnsName || columnsName}To${newTableName || tableName}`
-    );
+  const handleChange = (changedNameParts) => {
+    const newNameParts = Object.assign(nameParts, changedNameParts);
+    setNameParts(newNameParts);
+    onChange(`Add${newNameParts.columnsName}To${newNameParts.tableName}`);
   };
 
   return (
@@ -64,7 +62,7 @@ const MigrationEditor = ({ value, onChange }) => {
               data-testid="add-columns-name"
               className="mt-1 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
               placeholder="Columns"
-              value={columnsName}
+              value={nameParts.columnsName}
               onChange={(e) => handleChange({ columnsName: e.target.value })}
             />
             To
@@ -73,7 +71,7 @@ const MigrationEditor = ({ value, onChange }) => {
               data-testid="add-to-table-name"
               className="mt-1 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
               placeholder="Table"
-              value={tableName}
+              value={nameParts.tableName}
               onChange={(e) => handleChange({ tableName: e.target.value })}
             />
           </div>
