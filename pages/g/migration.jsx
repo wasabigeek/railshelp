@@ -5,6 +5,7 @@ import { useList } from "react-use";
 import FieldInput from "../../components/FieldInput";
 import Pill from "../../components/Pill";
 import MigrationEditor from "../../components/MigrationEditor";
+import CopyButton from "../../components/CopyButton";
 
 const ParentEditor = ({ value, onChange }) => (
   <div>
@@ -117,16 +118,10 @@ export default function MigrationPage() {
     { type: argTypes.PARENT, value: "" },
   ]);
   const [selectedArg, setSelectedArg] = useState(null);
-  const [showCopying, setShowCopying] = useState(false);
 
-  const copyCliCommand = () => {
-    const cliCommand = ["bin/rails g migration", ...args.map((a) => a.value)]
-      .filter((text) => !!text)
-      .join(" ");
-    setShowCopying(true);
-    navigator.clipboard.writeText(cliCommand);
-    setTimeout(() => setShowCopying(false), 2000);
-  };
+  const cliCommand = ["bin/rails g migration", ...args.map((a) => a.value)]
+    .filter((text) => !!text)
+    .join(" ");
 
   const deleteArg = (index) => {
     setSelectedArg(null);
@@ -243,28 +238,7 @@ export default function MigrationPage() {
                     insertArg={insertArg}
                   />
                 ))}
-                <Pill
-                  text={showCopying ? "Copied!" : "Copy"}
-                  baseColor="gray"
-                  onClick={copyCliCommand}
-                  editable={false}
-                  leftIcon={
-                    <svg
-                      className={`mr-2 h-5 w-5 text-gray-500 inline`}
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
-                      />
-                    </svg>
-                  }
-                />
+                <CopyButton text={cliCommand} />
               </code>
             </section>
           </div>
