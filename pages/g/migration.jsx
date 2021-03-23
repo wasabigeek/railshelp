@@ -83,25 +83,13 @@ const ArgButton = ({ arg, index, selectedArg, setSelectedArg, insertArg }) => {
           editable={false}
         />
       );
-    case argTypes.PARENT:
-      return (
-        <Pill
-          text={`--parent ${arg.value}`}
-          baseColor={arg.value ? "green" : "gray"}
-          borderStyle={arg.value ? "solid" : "dashed"}
-          selected={selectedArg === index}
-          onClick={() => toggleSelectedArg(index)}
-        />
-      );
   }
 };
 
 const argTypes = {
-  MODEL: "model",
   MIGRATION: "migration",
   ATTRIBUTE: "attribute",
   ADD_ATTRIBUTE: "add_attribute",
-  PARENT: "parent",
 };
 
 export default function MigrationPage() {
@@ -115,7 +103,6 @@ export default function MigrationPage() {
       value: "other_model:references{polymorphic}:uniq",
     },
     { type: argTypes.ADD_ATTRIBUTE, value: null }, // hack for + Attribute button
-    { type: argTypes.PARENT, value: "" },
   ]);
   const [selectedArg, setSelectedArg] = useState(null);
 
@@ -153,17 +140,6 @@ export default function MigrationPage() {
                 updateArg(selectedArg, { type: argTypes.ATTRIBUTE, value })
               }
               onDelete={() => deleteArg(selectedArg)}
-            />
-          </section>
-        );
-      case argTypes.PARENT:
-        return (
-          <section id="fields" aria-labelledby="attribute_editor">
-            <ParentEditor
-              value={args[selectedArg].value}
-              onChange={(value) =>
-                updateArg(selectedArg, { type: argTypes.PARENT, value })
-              }
             />
           </section>
         );
