@@ -17,13 +17,31 @@ it("shows the format dropdown only", async () => {
 });
 
 describe("when AddColumnsToTable is selected", () => {
+  const selectAddColumnsToTable = () => {};
+
   it("shows inputs for column and table names", async () => {
     render(<MigrationEditor />);
 
     const formatDropdown = screen.getByLabelText("Format");
-    userEvent.selectOptions(formatDropdown, "AddColumnsToTable")
+    userEvent.selectOptions(formatDropdown, "AddColumnsToTable");
 
     expect(screen.getByTestId("add-columns-name")).toBeTruthy();
     expect(screen.getByTestId("add-to-table-name")).toBeTruthy();
-  })
+  });
+
+  it("updates parent component when inputs are updated", async () => {
+    const mockHandleChange = jest.fn();
+
+    render(<MigrationEditor onChange={mockHandleChange} />);
+    const formatDropdown = screen.getByLabelText("Format");
+    userEvent.selectOptions(formatDropdown, "AddColumnsToTable");
+
+    const columnsInput = screen.getByTestId("add-columns-name");
+    userEvent.type(columnsInput, "C");
+    expect(mockHandleChange).toHaveBeenCalledWith("AddCTo");
+
+    const tableInput = screen.getByTestId("add-to-table-name");
+    userEvent.type(tableInput, "T");
+    expect(mockHandleChange).toHaveBeenCalledWith("AddToT");
+  });
 });
