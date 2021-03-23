@@ -31,17 +31,20 @@ describe("when AddColumnsToTable is selected", () => {
   });
 
   it("updates parent component when inputs are updated", async () => {
-    const mockHandleChange = jest.fn();
+    let value = "";
+    const handleChange = (newValue) => {
+      value = newValue;
+    };
 
-    render(<MigrationEditor onChange={mockHandleChange} />);
+    render(<MigrationEditor onChange={handleChange} />);
     selectAddColumnsToTable();
 
     const columnsInput = screen.getByTestId("add-columns-name");
-    userEvent.type(columnsInput, "C");
-    expect(mockHandleChange).toHaveBeenCalledWith("AddCTo");
+    userEvent.type(columnsInput, "NewColumn");
+    expect(value).toEqual("AddNewColumnTo");
 
     const tableInput = screen.getByTestId("add-to-table-name");
-    userEvent.type(tableInput, "T");
-    expect(mockHandleChange).toHaveBeenCalledWith("AddToT");
+    userEvent.type(tableInput, "ExistingTable");
+    expect(value).toEqual("AddNewColumnToExistingTable");
   });
 });
