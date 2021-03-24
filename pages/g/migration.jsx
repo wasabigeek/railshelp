@@ -52,16 +52,6 @@ const ArgButton = ({ arg, index, selectedArg, setSelectedArg, insertArg }) => {
   };
 
   switch (arg.type) {
-    case argTypes.MIGRATION:
-      return (
-        <Pill
-          heading="migration"
-          text={arg.value}
-          onClick={() => toggleSelectedArg(index)}
-          selected={selectedArg === index}
-          baseColor="yellow"
-        />
-      );
     case argTypes.ATTRIBUTE:
       return (
         <Pill
@@ -92,12 +82,14 @@ const argTypes = {
   ADD_ATTRIBUTE: "add_attribute",
 };
 
+const initialMigrationName = "AddColumnToTable";
 export default function MigrationPage() {
+  const [name, setName] = useState(initialMigrationName);
+
   const [
     args,
     { updateAt: updateArg, removeAt: removeArg, insertAt: insertArg },
   ] = useList([
-    { type: argTypes.MIGRATION, value: "ExampleMigrationName" },
     {
       type: argTypes.ATTRIBUTE,
       value: "other_model:references{polymorphic}:uniq",
@@ -203,6 +195,13 @@ export default function MigrationPage() {
               <code className="flex flex-wrap items-center space-x-2 space-y-5 pb-4 pt-0">
                 {/** mt-5 is a hack to mimic items-baseline, not sure why leftIcon messes that up */}
                 <span className="ml-2 mt-5">bin/rails g migration</span>
+                <Pill
+                  heading="migration"
+                  text={name}
+                  onClick={console.log}
+                  selected={null}
+                  baseColor="yellow"
+                />
                 {args.map((arg, index) => (
                   <ArgButton
                     key={index}
