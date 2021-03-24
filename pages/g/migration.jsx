@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useState } from "react";
-import { useList } from "react-use";
+import { useList, useMap } from "react-use";
 
 import FieldInput from "../../components/FieldInput";
 import Pill from "../../components/Pill";
@@ -56,7 +56,11 @@ const argTypes = {
 
 const initialMigrationName = "AddColumnToTable";
 export default function MigrationPage() {
-  const [name, setName] = useState(initialMigrationName);
+  const [dataKey, setDataKey] = useState("name");
+  const [migrationData, { setMigrationData }] = useMap({
+    name: initialMigrationName,
+    arguments: [],
+  });
 
   const [
     args,
@@ -79,20 +83,18 @@ export default function MigrationPage() {
     removeArg(index);
   };
 
-  const renderEditor = (selectedArg) => {
-    switch (args[selectedArg].type) {
-      case argTypes.MIGRATION:
+  const renderEditor = (key, index) => {
+    switch (key) {
+      case "name":
         return (
           <section aria-labelledby="model_name_editor">
             <MigrationEditor
-              value={args[selectedArg].value}
-              onChange={(value) =>
-                updateArg(selectedArg, { type: argTypes.MIGRATION, value })
-              }
+              value={migrationData[key]}
+              onChange={console.log}
             />
           </section>
         );
-      case argTypes.ATTRIBUTE:
+      case "arguments":
         return (
           <section id="fields" aria-labelledby="attribute_editor">
             <h2 className="text-xl leading-6 font-medium text-gray-900">
@@ -156,7 +158,7 @@ export default function MigrationPage() {
                 <span className="ml-2 mt-5">bin/rails g migration</span>
                 <Pill
                   heading="migration"
-                  text={name}
+                  text={migrationData.name}
                   onClick={console.log}
                   selected={null}
                   baseColor="yellow"
@@ -177,10 +179,10 @@ export default function MigrationPage() {
             </section>
           </div>
 
-          {selectedArg != null && (
+          {dataKey != null && (
             <div className="max-w-7xl mx-auto pb-10 lg:pb-12 lg:px-8">
               <div className="bg-white py-6 px-4 sm:p-6 shadow sm:rounded-md sm:overflow-hidden">
-                {renderEditor(selectedArg)}
+                {renderEditor(dataKey)}
               </div>
             </div>
           )}
