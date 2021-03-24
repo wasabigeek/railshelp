@@ -2,9 +2,6 @@ import { MIGRATION_FORMATS } from './constants';
 import parseMigrationFormat from './parseMigrationFormat';
 
 describe('parseMigrationFormat()', () => {
-  it('returns Custom Migration if input is empty string', () => {
-    expect(parseMigrationFormat('')).toEqual(MIGRATION_FORMATS.CUSTOM);
-  });
   it('parses AddColumnsToTable format correctly', () => {
     expect(parseMigrationFormat('AddXYZToABC')).toEqual(MIGRATION_FORMATS.ADD_COLUMNS);
     expect(parseMigrationFormat('Add123ToABC')).toEqual(MIGRATION_FORMATS.ADD_COLUMNS);
@@ -24,5 +21,11 @@ describe('parseMigrationFormat()', () => {
     expect(parseMigrationFormat('CreateXYZJoinTable')).toEqual(MIGRATION_FORMATS.JOIN_TABLE);
     expect(parseMigrationFormat('Create123JoinTable')).toEqual(MIGRATION_FORMATS.JOIN_TABLE);
     expect(parseMigrationFormat('JoinABCTable')).not.toEqual(MIGRATION_FORMATS.JOIN_TABLE);
+  });
+  it('returns Custom Migration for other formats', () => {
+    expect(parseMigrationFormat('HelloThere')).toEqual(MIGRATION_FORMATS.CUSTOM);
+  });
+  it('returns Custom Migration if input is empty string', () => {
+    expect(parseMigrationFormat('')).toEqual(MIGRATION_FORMATS.CUSTOM);
   });
 });
