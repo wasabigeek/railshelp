@@ -18,4 +18,10 @@ describe('parseMigrationFormat()', () => {
     expect(parseMigrationFormat('RemoveXYZFrom')).not.toEqual('RemoveColumnsFromTable');
     expect(parseMigrationFormat('RemoveFromABC')).not.toEqual('RemoveColumnsFromTable');
   });
+  it('parses CreateModelJoinTable format correctly', () => {
+    expect(parseMigrationFormat('JoinTable')).toEqual('CreateModelJoinTable');
+    expect(parseMigrationFormat('CreateXYZJoinTable')).toEqual('CreateModelJoinTable');
+    expect(parseMigrationFormat('Create123JoinTable')).toEqual('CreateModelJoinTable');
+    expect(parseMigrationFormat('JoinABCTable')).not.toEqual('CreateModelJoinTable');
+  });
 });

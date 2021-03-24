@@ -3,6 +3,8 @@ const parseMigrationFormat = (text) => {
     return 'AddColumnsToTable';
   } else if (/^Remove\w+From\w/.test(text)) {
     return 'RemoveColumnsFromTable';
+  } else if (/JoinTable$/.test(text)) {
+    return 'CreateModelJoinTable'
   }
   return 'Custom Migration';
 }
