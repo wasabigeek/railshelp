@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { useMap } from "react-use";
+import parseMigrationFormat from "../helpers/parseMigrationFormat";
 
-const MigrationEditor = ({ value, onChange }) => {
-  const [format, setFormat] = useState("");
+const MigrationEditor = ({ initialValue, onChange }) => {
+  const initialFormat = parseMigrationFormat(initialValue);
+
+  const [format, setFormat] = useState(initialFormat);
   const [nameParts, { set: setNameParts }] = useMap({
     columnsName: "",
     tableName: "",

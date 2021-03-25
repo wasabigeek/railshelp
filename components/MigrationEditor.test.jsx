@@ -4,22 +4,33 @@
 
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { MIGRATION_FORMATS } from "../helpers/constants";
 import MigrationEditor from "./MigrationEditor";
 
 it("shows the format dropdown only", async () => {
   render(<MigrationEditor />);
 
   const formatDropdown = screen.getByLabelText("Format");
-  expect(formatDropdown.value).toBe("");
+  expect(formatDropdown.value).toBe(MIGRATION_FORMATS.CUSTOM);
 
   const inputs = screen.getAllByRole("combobox");
   expect(inputs.length).toEqual(1);
 });
 
+describe("when initialValue is specified", () => {
+  it("prefills the correct format and data", () => {
+    render(<MigrationEditor initialValue={"AddABCToXYZ"} />);
+
+    // shows AddColumnsToTable editor
+    expect(screen.getByTestId("add-columns-name")).toBeTruthy();
+    expect(screen.getByTestId("add-to-table-name")).toBeTruthy();
+  });
+});
+
 describe("when AddColumnsToTable is selected", () => {
   const selectAddColumnsToTable = () => {
     const formatDropdown = screen.getByLabelText("Format");
-    userEvent.selectOptions(formatDropdown, "AddColumnsToTable");
+    userEvent.selectOptions(formatDropdown, MIGRATION_FORMATS.ADD_COLUMNS);
   };
 
   it("shows inputs for column and table names", async () => {
