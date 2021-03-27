@@ -78,6 +78,14 @@ export default function MigrationPage() {
     .filter((text) => !!text)
     .join(" ");
 
+  const toggleKey = (key) => {
+    if (selectedKey) {
+      setSelectedKey(null);
+    } else {
+      setSelectedKey(key);
+    }
+  };
+
   const deleteArg = (index) => {
     setSelectedArg(null);
     removeArg(index);
@@ -159,7 +167,7 @@ export default function MigrationPage() {
                 <Pill
                   heading="migration"
                   text={migrationData.name}
-                  onClick={() => setSelectedKey("name")}
+                  onClick={() => toggleKey("name")}
                   selected={selectedKey == "name"}
                   baseColor="yellow"
                 />
