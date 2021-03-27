@@ -22,7 +22,7 @@ it("shows the format dropdown only", async () => {
 
 describe("when initialValue is specified", () => {
   it("prefills the correct format and data", () => {
-    render(<MigrationEditor initialValue={"AddABCToXYZ"} />);
+    render(<MigrationEditor initialName={"AddABCToXYZ"} />);
 
     // shows AddColumnsToTable editor
     expect(screen.getByTestId("add-columns-name")).toHaveValue("ABC");

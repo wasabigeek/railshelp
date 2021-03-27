@@ -89,7 +89,7 @@ export default function MigrationPage() {
         return (
           <section aria-labelledby="model_name_editor">
             <MigrationEditor
-              initialValue={migrationData[key]}
+              initialName={migrationData[key]}
               onChange={(value) => setMigrationData(key, value)}
             />
           </section>

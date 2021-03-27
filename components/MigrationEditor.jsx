@@ -63,8 +63,8 @@ const AddColumnsForm = ({ nameParts, onChange }) => {
   );
 };
 
-const MigrationEditor = ({ initialValue = "", onChange }) => {
-  const [initialFormat, initialNameParts] = parseMigrationFormat(initialValue);
+const MigrationEditor = ({ initialName = "", onChange }) => {
+  const [initialFormat, initialNameParts] = parseMigrationFormat(initialName);
   const [format, setFormat] = useState(initialFormat);
 
   return (
