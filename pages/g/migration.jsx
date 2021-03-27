@@ -8,6 +8,8 @@ import MigrationEditor from "../../components/MigrationEditor";
 import CopyButton from "../../components/CopyButton";
 import Footer from "../../layout/Footer";
 import Header from "../../layout/Header";
+import parseMigrationFormat from "../../helpers/parseMigrationFormat";
+import { MIGRATION_FORMATS } from "../../helpers/constants";
 
 const AttributeArguments = ({
   attributes,
@@ -46,6 +48,8 @@ export default function MigrationPage() {
     name: initialMigrationName,
     arguments: ["other_model:references"],
   });
+
+  const [format] = parseMigrationFormat(migrationData.name);
 
   const cliCommand = ["bin/rails g migration", ...migrationData.arguments]
     .filter((text) => !!text)
@@ -171,14 +175,19 @@ export default function MigrationPage() {
                   selected={selectedKey == "name"}
                   baseColor="yellow"
                 />
-                <AttributeArguments
-                  attributes={migrationData.arguments}
-                  onAppend={addArg}
-                  onSelect={toggleArg}
-                  selectedAttributeIndex={
-                    selectedKey == "arguments" ? selectedIndex : null
-                  }
-                />
+                {[
+                  MIGRATION_FORMATS.ADD_COLUMNS,
+                  MIGRATION_FORMATS.REMOVE_COLUMNS,
+                ].includes(format) && (
+                  <AttributeArguments
+                    attributes={migrationData.arguments}
+                    onAppend={addArg}
+                    onSelect={toggleArg}
+                    selectedAttributeIndex={
+                      selectedKey == "arguments" ? selectedIndex : null
+                    }
+                  />
+                )}
                 <CopyButton text={cliCommand} />
               </code>
             </section>
