@@ -3,6 +3,40 @@ import { useMap } from "react-use";
 import { MIGRATION_FORMATS } from "../helpers/constants";
 import parseMigrationFormat from "../helpers/parseMigrationFormat";
 
+const AddColumnsForm = ({ nameParts, onChange }) => {
+  return (
+    <div>
+      <label
+        htmlFor="model-name-input"
+        className="block font-medium text-gray-700"
+      >
+        Name
+      </label>
+      <aside className="text-sm text-gray-500">
+        CamelCased or under_scored
+      </aside>
+      Add
+      <input
+        id="model-name-input"
+        data-testid="add-columns-name"
+        className="mt-1 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+        placeholder="Columns"
+        value={nameParts.columnsName}
+        onChange={(e) => onChange({ columnsName: e.target.value })}
+      />
+      To
+      <input
+        id="model-name-input"
+        data-testid="add-to-table-name"
+        className="mt-1 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+        placeholder="Table"
+        value={nameParts.tableName}
+        onChange={(e) => onChange({ tableName: e.target.value })}
+      />
+    </div>
+  );
+};
+
 const MigrationEditor = ({ initialValue = "", onChange }) => {
   const [initialFormat, initialNameParts] = parseMigrationFormat(initialValue);
 
@@ -47,35 +81,7 @@ const MigrationEditor = ({ initialValue = "", onChange }) => {
         </select>
 
         {format && (
-          <div>
-            <label
-              htmlFor="model-name-input"
-              className="block font-medium text-gray-700"
-            >
-              Name
-            </label>
-            <aside className="text-sm text-gray-500">
-              CamelCased or under_scored
-            </aside>
-            Add
-            <input
-              id="model-name-input"
-              data-testid="add-columns-name"
-              className="mt-1 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
-              placeholder="Columns"
-              value={nameParts.columnsName}
-              onChange={(e) => handleChange({ columnsName: e.target.value })}
-            />
-            To
-            <input
-              id="model-name-input"
-              data-testid="add-to-table-name"
-              className="mt-1 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
-              placeholder="Table"
-              value={nameParts.tableName}
-              onChange={(e) => handleChange({ tableName: e.target.value })}
-            />
-          </div>
+          <AddColumnsForm nameParts={nameParts} onChange={handleChange} />
         )}
       </div>
     </div>
