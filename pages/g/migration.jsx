@@ -9,45 +9,6 @@ import CopyButton from "../../components/CopyButton";
 import Footer from "../../layout/Footer";
 import Header from "../../layout/Header";
 
-const ArgButton = ({ arg, index, selectedArg, setSelectedArg, insertArg }) => {
-  const toggleSelectedArg = (index) => {
-    if (selectedArg == index) {
-      setSelectedArg(null);
-    } else {
-      setSelectedArg(index);
-    }
-  };
-
-  const insertAndToggleArg = (index) => {
-    setSelectedArg(index);
-    insertArg(index, { type: argTypes.ATTRIBUTE, value: "" });
-  };
-
-  switch (arg.type) {
-    case argTypes.ATTRIBUTE:
-      return (
-        <Pill
-          heading={`attribute ${index - 1}`}
-          text={arg.value}
-          onClick={() => toggleSelectedArg(index)}
-          selected={selectedArg === index}
-          baseColor="blue"
-        />
-      );
-    // this one is less like the others >_<
-    case argTypes.ADD_ATTRIBUTE:
-      return (
-        <Pill
-          text="+ Attribute"
-          baseColor="gray"
-          borderStyle="dashed"
-          onClick={() => insertAndToggleArg(index)}
-          editable={false}
-        />
-      );
-  }
-};
-
 const argTypes = {
   MIGRATION: "migration",
   ATTRIBUTE: "attribute",
@@ -59,22 +20,10 @@ export default function MigrationPage() {
   const [selectedKey, setSelectedKey] = useState(null);
   const [migrationData, { set: setMigrationData }] = useMap({
     name: initialMigrationName,
-    arguments: [],
+    arguments: ["other_model:references"],
   });
 
-  const [
-    args,
-    { updateAt: updateArg, removeAt: removeArg, insertAt: insertArg },
-  ] = useList([
-    {
-      type: argTypes.ATTRIBUTE,
-      value: "other_model:references{polymorphic}:uniq",
-    },
-    { type: argTypes.ADD_ATTRIBUTE, value: null }, // hack for + Attribute button
-  ]);
-  const [selectedArg, setSelectedArg] = useState(null);
-
-  const cliCommand = ["bin/rails g migration", ...args.map((a) => a.value)]
+  const cliCommand = ["bin/rails g migration", ...migrationData.arguments]
     .filter((text) => !!text)
     .join(" ");
 
@@ -171,17 +120,22 @@ export default function MigrationPage() {
                   selected={selectedKey == "name"}
                   baseColor="yellow"
                 />
-                {args.map((arg, index) => (
-                  <ArgButton
-                    key={index}
-                    arg={arg}
-                    selectedArg={selectedArg}
-                    // TODO: possibly refactor to onSelect / onClear
-                    index={index}
-                    setSelectedArg={setSelectedArg}
-                    insertArg={insertArg}
+                {migrationData.arguments.map((arg, index) => (
+                  <Pill
+                    heading={`attribute ${index}`}
+                    text={arg}
+                    onClick={console.log}
+                    selected={false}
+                    baseColor="blue"
                   />
                 ))}
+                <Pill
+                  text="+ Attribute"
+                  baseColor="gray"
+                  borderStyle="dashed"
+                  onClick={console.log}
+                  editable={false}
+                />
                 <CopyButton text={cliCommand} />
               </code>
             </section>
