@@ -22,8 +22,8 @@ describe("when initialValue is specified", () => {
     render(<MigrationEditor initialValue={"AddABCToXYZ"} />);
 
     // shows AddColumnsToTable editor
-    expect(screen.getByTestId("add-columns-name")).toBeTruthy();
-    expect(screen.getByTestId("add-to-table-name")).toBeTruthy();
+    expect(screen.getByTestId("add-columns-name")).toHaveValue("ABC");
+    expect(screen.getByTestId("add-to-table-name")).toHaveValue("XYZ");
   });
 });
 

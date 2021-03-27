@@ -54,10 +54,10 @@ const argTypes = {
   ADD_ATTRIBUTE: "add_attribute",
 };
 
-const initialMigrationName = "AddColumnToTable";
+const initialMigrationName = "AddExampleColumnsToExampleTable";
 export default function MigrationPage() {
   const [dataKey, setDataKey] = useState("name");
-  const [migrationData, { setMigrationData }] = useMap({
+  const [migrationData, { set: setMigrationData }] = useMap({
     name: initialMigrationName,
     arguments: [],
   });
@@ -89,8 +89,8 @@ export default function MigrationPage() {
         return (
           <section aria-labelledby="model_name_editor">
             <MigrationEditor
-              value={migrationData[key]}
-              onChange={console.log}
+              initialValue={migrationData[key]}
+              onChange={(value) => setMigrationData(key, value)}
             />
           </section>
         );
