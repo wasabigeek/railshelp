@@ -13,18 +13,17 @@ it.only("renders", async () => {
   expect(screen.getByText("AddExampleColumnsToExampleTable")).toBeTruthy();
 });
 
-it("sets the model", async () => {
+it.only("sets the Migration", async () => {
   render(<MigrationPage />);
 
-  const modelButton = screen.getByText("ExampleModel");
-  userEvent.click(modelButton);
+  const migrationButton = screen.getByText("AddExampleColumnsToExampleTable");
+  userEvent.click(migrationButton);
 
-  await waitFor(() => screen.getByLabelText("Name"));
-  const modelInput = screen.getByLabelText("Name");
-  userEvent.clear(modelInput);
-  userEvent.type(modelInput, "car");
+  const input = screen.getAllByRole("textbox")[0];
+  userEvent.clear(input);
+  userEvent.type(input, "DifferentColumns");
   // What's a better matcher for this?
-  expect(screen.getByText("car")).toBeTruthy();
+  expect(screen.getByText("AddDifferentColumnsToExampleTable")).toBeTruthy();
 });
 
 it("sets a field", async () => {
