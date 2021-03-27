@@ -18,6 +18,7 @@ const argTypes = {
 const initialMigrationName = "AddExampleColumnsToExampleTable";
 export default function MigrationPage() {
   const [selectedKey, setSelectedKey] = useState(null);
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const [migrationData, { set: setMigrationData }] = useMap({
     name: initialMigrationName,
     arguments: ["other_model:references"],
@@ -28,10 +29,20 @@ export default function MigrationPage() {
     .join(" ");
 
   const toggleKey = (key) => {
-    if (selectedKey) {
+    if (selectedKey == "name") {
       setSelectedKey(null);
     } else {
       setSelectedKey(key);
+    }
+  };
+
+  const toggleArg = (index) => {
+    if (selectedKey == "arguments") {
+      setSelectedKey(null);
+      setSelectedIndex(0);
+    } else {
+      setSelectedKey("arguments");
+      setSelectedIndex(index);
     }
   };
 
@@ -50,8 +61,8 @@ export default function MigrationPage() {
         return (
           <section aria-labelledby="model_name_editor">
             <MigrationEditor
-              initialName={migrationData[key]}
-              onChange={(value) => setMigrationData(key, value)}
+              initialName={migrationData.name}
+              onChange={(value) => setMigrationData("name", value)}
             />
           </section>
         );
@@ -59,14 +70,12 @@ export default function MigrationPage() {
         return (
           <section id="fields" aria-labelledby="attribute_editor">
             <h2 className="text-xl leading-6 font-medium text-gray-900">
-              Edit Attribute {selectedArg - 1}
+              Edit Attribute {selectedIndex}
             </h2>
             <FieldInput
-              value={args[selectedArg].value}
-              onUpdate={(value) =>
-                updateArg(selectedArg, { type: argTypes.ATTRIBUTE, value })
-              }
-              onDelete={() => deleteArg(selectedArg)}
+              value={migrationData.arguments[selectedIndex]}
+              onUpdate={console.log}
+              onDelete={console.log}
             />
           </section>
         );
@@ -129,7 +138,7 @@ export default function MigrationPage() {
                     key={index}
                     heading={`attribute ${index}`}
                     text={arg}
-                    onClick={console.log}
+                    onClick={() => toggleArg(index)}
                     selected={false}
                     baseColor="blue"
                   />
