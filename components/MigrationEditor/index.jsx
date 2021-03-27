@@ -3,6 +3,7 @@ import { MIGRATION_FORMATS } from "../../helpers/constants";
 import parseMigrationFormat from "../../helpers/parseMigrationFormat";
 import AddColumnsForm from "./AddColumnsForm";
 import CustomMigrationForm from "./CustomMigrationForm";
+import JoinTableForm from "./JoinTableForm";
 import RemoveColumnsForm from "./RemoveColumnsForm";
 
 /**
@@ -16,6 +17,9 @@ const MigrationForm = ({ format, ...props }) => {
       break;
     case MIGRATION_FORMATS.REMOVE_COLUMNS:
       Component = RemoveColumnsForm;
+      break;
+    case MIGRATION_FORMATS.JOIN_TABLE:
+      Component = JoinTableForm;
       break;
   }
 

@@ -91,3 +91,31 @@ describe("when RemoveColumnsFromTable is selected", () => {
     expect(value).toEqual("RemoveExistingColumnFromExistingTable");
   });
 });
+
+describe("when CreateJoinTable is selected", () => {
+  const selectCreateJoinTable = () => {
+    const formatDropdown = screen.getByLabelText("Format");
+    userEvent.selectOptions(formatDropdown, MIGRATION_FORMATS.JOIN_TABLE);
+  };
+
+  it("shows inputs for column and table names", async () => {
+    render(<MigrationEditor />);
+    selectCreateJoinTable();
+
+    expect(screen.getByTestId("migration-prefix")).toBeTruthy();
+  });
+
+  it("updates parent component when inputs are updated", async () => {
+    let value = "";
+    const handleChange = (newValue) => {
+      value = newValue;
+    };
+
+    render(<MigrationEditor onChange={handleChange} />);
+    selectCreateJoinTable();
+
+    const columnsInput = screen.getByTestId("migration-prefix");
+    userEvent.type(columnsInput, "CreateMedia");
+    expect(value).toEqual("CreateMediaJoinTable");
+  });
+});
