@@ -3,6 +3,28 @@ import { useMap } from "react-use";
 import { MIGRATION_FORMATS } from "../helpers/constants";
 import parseMigrationFormat from "../helpers/parseMigrationFormat";
 
+const CustomMigrationForm = ({ name, onChange }) => {
+  return (
+    <div>
+      <label
+        htmlFor="model-name-input"
+        className="block font-medium text-gray-700"
+      >
+        Name
+      </label>
+      <aside className="text-sm text-gray-500">CamelCased</aside>
+      <input
+        id="model-name-input"
+        data-testid="add-columns-name"
+        className="text-input focus:outline-none focus:ring-gray-900 focus:border-gray-900"
+        placeholder="CustomMigrationName"
+        value={name}
+        onChange={(e) => onChange(e.target.value)}
+      />
+    </div>
+  );
+};
+
 const AddColumnsForm = ({ nameParts, onChange }) => {
   return (
     <div>
@@ -12,9 +34,7 @@ const AddColumnsForm = ({ nameParts, onChange }) => {
       >
         Name
       </label>
-      <aside className="text-sm text-gray-500">
-        CamelCased or under_scored
-      </aside>
+      <aside className="text-sm text-gray-500">CamelCased</aside>
       Add
       <input
         id="model-name-input"
@@ -80,8 +100,10 @@ const MigrationEditor = ({ initialValue = "", onChange }) => {
           ))}
         </select>
 
-        {format && (
+        {format && format == MIGRATION_FORMATS.ADD_COLUMNS ? (
           <AddColumnsForm nameParts={nameParts} onChange={handleChange} />
+        ) : (
+          <CustomMigrationForm name={""} onChange={console.log} />
         )}
       </div>
     </div>

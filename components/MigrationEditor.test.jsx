@@ -13,7 +13,10 @@ it("shows the format dropdown only", async () => {
   const formatDropdown = screen.getByLabelText("Format");
   expect(formatDropdown.value).toBe(MIGRATION_FORMATS.CUSTOM);
 
-  const inputs = screen.getAllByRole("combobox");
+  const selects = screen.getAllByRole("combobox");
+  expect(selects.length).toEqual(1);
+
+  const inputs = screen.getAllByRole("textbox");
   expect(inputs.length).toEqual(1);
 });
 
