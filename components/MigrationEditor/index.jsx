@@ -3,6 +3,24 @@ import { MIGRATION_FORMATS } from "../../helpers/constants";
 import parseMigrationFormat from "../../helpers/parseMigrationFormat";
 import AddColumnsForm from "./AddColumnsForm";
 import CustomMigrationForm from "./CustomMigrationForm";
+import RemoveColumnsForm from "./RemoveColumnsForm";
+
+/**
+ * Factory that returns the right Form component based on format, and passes props to it.
+ */
+const MigrationForm = ({ format, ...props }) => {
+  let Component = CustomMigrationForm;
+  switch (format) {
+    case MIGRATION_FORMATS.ADD_COLUMNS:
+      Component = AddColumnsForm;
+      break;
+    case MIGRATION_FORMATS.REMOVE_COLUMNS:
+      Component = RemoveColumnsForm;
+      break;
+  }
+
+  return <Component {...props} />;
+};
 
 const MigrationEditor = ({ initialName = "", onChange }) => {
   const [initialFormat] = parseMigrationFormat(initialName);
@@ -35,11 +53,11 @@ const MigrationEditor = ({ initialName = "", onChange }) => {
             ))}
           </select>
         </div>
-        {format && format == MIGRATION_FORMATS.ADD_COLUMNS ? (
-          <AddColumnsForm initialName={initialName} onChange={onChange} />
-        ) : (
-          <CustomMigrationForm initialName={initialName} onChange={onChange} />
-        )}
+        <MigrationForm
+          format={format}
+          initialName={initialName}
+          onChange={onChange}
+        />
       </div>
     </div>
   );

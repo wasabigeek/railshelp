@@ -60,3 +60,34 @@ describe("when AddColumnsToTable is selected", () => {
     expect(value).toEqual("AddNewColumnToExistingTable");
   });
 });
+
+describe("when RemoveColumnsFromTable is selected", () => {
+  const selectRemoveColumnsFromTable = () => {
+    const formatDropdown = screen.getByLabelText("Format");
+    userEvent.selectOptions(formatDropdown, MIGRATION_FORMATS.REMOVE_COLUMNS);
+  };
+
+  it("shows inputs for column and table names", async () => {
+    render(<MigrationEditor />);
+    selectRemoveColumnsFromTable();
+
+    expect(screen.getByTestId("remove-columns-name")).toBeTruthy();
+    expect(screen.getByTestId("remove-from-table-name")).toBeTruthy();
+  });
+
+  it("updates parent component when inputs are updated", async () => {
+    let value = "";
+    const handleChange = (newValue) => {
+      value = newValue;
+    };
+
+    render(<MigrationEditor onChange={handleChange} />);
+    selectRemoveColumnsFromTable();
+
+    const columnsInput = screen.getByTestId("remove-columns-name");
+    userEvent.type(columnsInput, "ExistingColumn");
+    const tableInput = screen.getByTestId("remove-from-table-name");
+    userEvent.type(tableInput, "ExistingTable");
+    expect(value).toEqual("RemoveExistingColumnFromExistingTable");
+  });
+});
