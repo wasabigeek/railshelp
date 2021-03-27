@@ -22,16 +22,10 @@ const AddColumnsForm = ({ initialName, onChange }) => {
 
   return (
     <div className="pt-4">
-      <label
-        htmlFor="model-name-input"
-        className="block font-medium text-gray-700"
-      >
-        Name
-      </label>
+      <label className="block font-medium text-gray-700">Name</label>
       <aside className="text-sm text-gray-500">CamelCased</aside>
       Add
       <input
-        id="model-name-input"
         data-testid="add-columns-name"
         className="mt-1 mx-2 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
         placeholder="Columns"
@@ -40,7 +34,6 @@ const AddColumnsForm = ({ initialName, onChange }) => {
       />
       To
       <input
-        id="model-name-input"
         data-testid="add-to-table-name"
         className="mt-1 mx-2 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
         placeholder="Table"

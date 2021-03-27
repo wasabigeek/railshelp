@@ -15,14 +15,14 @@ const JoinTableForm = ({ initialName, onChange }) => {
   return (
     <div className="pt-4">
       <label
-        htmlFor="model-name-input"
+        htmlFor="migration-prefix-input"
         className="block font-medium text-gray-700"
       >
         Name
       </label>
       <aside className="text-sm text-gray-500">CamelCased</aside>
       <input
-        id="model-name-input"
+        id="migration-prefix-input"
         data-testid="migration-prefix"
         className="mt-1 mx-2 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
         placeholder="Columns"

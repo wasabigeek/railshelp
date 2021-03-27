@@ -24,16 +24,10 @@ const RemoveColumnsForm = ({ initialName, onChange }) => {
 
   return (
     <div className="pt-4">
-      <label
-        htmlFor="model-name-input"
-        className="block font-medium text-gray-700"
-      >
-        Name
-      </label>
+      <label className="block font-medium text-gray-700">Name</label>
       <aside className="text-sm text-gray-500">CamelCased</aside>
       Remove
       <input
-        id="model-name-input"
         data-testid="remove-columns-name"
         className="mt-1 mx-2 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
         placeholder="Columns"
@@ -42,7 +36,6 @@ const RemoveColumnsForm = ({ initialName, onChange }) => {
       />
       From
       <input
-        id="model-name-input"
         data-testid="remove-from-table-name"
         className="mt-1 mx-2 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
         placeholder="Table"
