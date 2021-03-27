@@ -46,7 +46,16 @@ export default function MigrationPage() {
     }
   };
 
+  const setArg = (index, value) => {
+    let newArguments = migrationData.arguments.slice();
+    newArguments[index] = value;
+
+    setMigrationData("arguments", newArguments);
+  };
+
   const addArg = () => {
+    setSelectedIndex(migrationData.arguments.length);
+    setSelectedKey("arguments");
     setMigrationData("arguments", migrationData.arguments.concat([""]));
   };
 
@@ -74,7 +83,7 @@ export default function MigrationPage() {
             </h2>
             <FieldInput
               value={migrationData.arguments[selectedIndex]}
-              onUpdate={console.log}
+              onUpdate={(value) => setArg(index, value)}
               onDelete={console.log}
             />
           </section>
@@ -158,7 +167,7 @@ export default function MigrationPage() {
           {selectedKey != null && (
             <div className="max-w-7xl mx-auto pb-10 lg:pb-12 lg:px-8">
               <div className="bg-white py-6 px-4 sm:p-6 shadow sm:rounded-md sm:overflow-hidden">
-                {renderEditor(selectedKey)}
+                {renderEditor(selectedKey, selectedIndex)}
               </div>
             </div>
           )}
