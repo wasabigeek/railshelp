@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useMap } from "react-use";
+import { MIGRATION_FORMATS } from "../helpers/constants";
 import parseMigrationFormat from "../helpers/parseMigrationFormat";
 
 const MigrationEditor = ({ initialValue = "", onChange }) => {
@@ -35,17 +36,12 @@ const MigrationEditor = ({ initialValue = "", onChange }) => {
           id="migration_format"
           value={format}
           className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-          onChange={setFormat}
+          onChange={(e) => setFormat(e.target.value)}
         >
           <option disabled value={""}>
             -- required --
           </option>
-          {[
-            "AddColumnsToTable",
-            "RemoveColumnsFromTable",
-            "CreateModelJoinTable",
-            "Custom Migration",
-          ].map((type) => (
+          {Object.values(MIGRATION_FORMATS).map((type) => (
             <option key={type}>{type}</option>
           ))}
         </select>
