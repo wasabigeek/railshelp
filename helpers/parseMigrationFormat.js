@@ -1,22 +1,24 @@
 import { MIGRATION_FORMATS } from "./constants";
 
 const parseMigrationFormat = (text) => {
-  if (/^Add(?<columnsName>\w+)To(?<tableName>\w+)/.test(text)) {
-    const matches = text.match(/^Add(?<columnsName>\w+)To(?<tableName>\w+)/);
+  const addColumnsMatches = text.match(/^Add(?<columnsName>\w+)To(?<tableName>\w+)/);
+  if (addColumnsMatches) {
     return [
       MIGRATION_FORMATS.ADD_COLUMNS,
       {
-        columnsName: matches.groups.columnsName,
-        tableName: matches.groups.tableName,
+        columnsName: addColumnsMatches.groups.columnsName,
+        tableName: addColumnsMatches.groups.tableName,
       }
     ];
-  } else if (/^Remove\w+From\w/.test(text)) {
-    const matches = text.match(/^Remove(?<columnsName>\w+)From(?<tableName>\w+)/);
+  }
+
+  const removeColumnsMatches = text.match(/^Remove(?<columnsName>\w+)From(?<tableName>\w+)/);
+  if (removeColumnsMatches) {
     return [
       MIGRATION_FORMATS.REMOVE_COLUMNS,
       {
-        columnsName: matches.groups.columnsName,
-        tableName: matches.groups.tableName,
+        columnsName: removeColumnsMatches.groups.columnsName,
+        tableName: removeColumnsMatches.groups.tableName,
       }
     ];
   } else if (/JoinTable$/.test(text)) {
