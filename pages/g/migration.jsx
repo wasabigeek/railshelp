@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useState } from "react";
-import { useList, useMap } from "react-use";
+import { useMap } from "react-use";
 
 import FieldInput from "../../components/FieldInput";
 import Pill from "../../components/Pill";
@@ -37,7 +37,7 @@ export default function MigrationPage() {
   };
 
   const toggleArg = (index) => {
-    if (selectedKey == "arguments") {
+    if (selectedKey == "arguments" && selectedIndex == index) {
       setSelectedKey(null);
       setSelectedIndex(0);
     } else {
@@ -148,7 +148,9 @@ export default function MigrationPage() {
                     heading={`attribute ${index}`}
                     text={arg}
                     onClick={() => toggleArg(index)}
-                    selected={false}
+                    selected={
+                      selectedKey == "arguments" && selectedIndex == index
+                    }
                     baseColor="blue"
                   />
                 ))}
