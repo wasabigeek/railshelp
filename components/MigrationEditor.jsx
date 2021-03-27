@@ -1,8 +1,20 @@
 import { useState } from "react";
+import { useMap } from "react-use";
 import { MIGRATION_FORMATS } from "../helpers/constants";
 import parseMigrationFormat from "../helpers/parseMigrationFormat";
 
-const CustomMigrationForm = ({ nameParts, onChange }) => {
+const CustomMigrationForm = ({ initialName, onChange }) => {
+  const [name, setName] = useState(initialName);
+
+  const handleChange = (changedName) => {
+    setName(changedName);
+
+    // TODO: show this validation to users
+    if (changedName) {
+      onChange(changedName);
+    }
+  };
+
   return (
     <div>
       <label
@@ -17,19 +29,30 @@ const CustomMigrationForm = ({ nameParts, onChange }) => {
         data-testid="add-columns-name"
         className="text-input focus:outline-none focus:ring-gray-900 focus:border-gray-900"
         placeholder="CustomMigrationName"
-        value={nameParts.name}
-        onChange={(e) => onChange(e.target.value)}
+        value={name}
+        onChange={(e) => handleChange(e.target.value)}
       />
     </div>
   );
 };
 
-const AddColumnsForm = ({ nameParts, onChange }) => {
+const AddColumnsForm = ({ initialName, onChange }) => {
+  const [_format, initialNameParts] = parseMigrationFormat(initialName);
+  const [nameParts, { set: setNamePart }] = useMap(
+    Object.assign({ columnsName: "", tableName: "" }, initialNameParts)
+  );
+
   const handleChange = (changedNameParts) => {
     const newNameParts = Object.assign(nameParts, changedNameParts);
-    onChange(
-      `Add${newNameParts.columnsName || ""}To${newNameParts.tableName || ""}`
+    // not sure why setAll doesn't trigger a re-render if the value is changed to ""
+    Object.entries(changedNameParts).forEach(([key, value]) =>
+      setNamePart(key, value)
     );
+
+    // TODO: show this validation to users
+    if (newNameParts.columnsName && newNameParts.tableName) {
+      onChange(`Add${newNameParts.columnsName}To${newNameParts.tableName}`);
+    }
   };
 
   return (
@@ -64,8 +87,15 @@ const AddColumnsForm = ({ nameParts, onChange }) => {
 };
 
 const MigrationEditor = ({ initialName = "", onChange }) => {
-  const [initialFormat, initialNameParts] = parseMigrationFormat(initialName);
+  const [initialFormat] = parseMigrationFormat(initialName);
+  const [name, setName] = useState(initialName);
   const [format, setFormat] = useState(initialFormat);
+
+  const handleNameChange = (newName) => {
+    // maintain a local copy so we can do validations before save in the future
+    setName(newName);
+    onChange(newName);
+  };
 
   return (
     <div>
@@ -94,12 +124,9 @@ const MigrationEditor = ({ initialName = "", onChange }) => {
         </select>
 
         {format && format == MIGRATION_FORMATS.ADD_COLUMNS ? (
-          <AddColumnsForm nameParts={initialNameParts} onChange={onChange} />
+          <AddColumnsForm initialName={name} onChange={handleNameChange} />
         ) : (
-          <CustomMigrationForm
-            nameParts={initialNameParts}
-            onChange={onChange}
-          />
+          <CustomMigrationForm initialName={name} onChange={handleNameChange} />
         )}
       </div>
     </div>

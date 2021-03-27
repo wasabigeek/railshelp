@@ -55,8 +55,6 @@ describe("when AddColumnsToTable is selected", () => {
 
     const columnsInput = screen.getByTestId("add-columns-name");
     userEvent.type(columnsInput, "NewColumn");
-    expect(value).toEqual("AddNewColumnTo");
-
     const tableInput = screen.getByTestId("add-to-table-name");
     userEvent.type(tableInput, "ExistingTable");
     expect(value).toEqual("AddNewColumnToExistingTable");
