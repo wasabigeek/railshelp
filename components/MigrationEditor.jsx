@@ -88,14 +88,7 @@ const AddColumnsForm = ({ initialName, onChange }) => {
 
 const MigrationEditor = ({ initialName = "", onChange }) => {
   const [initialFormat] = parseMigrationFormat(initialName);
-  const [name, setName] = useState(initialName);
   const [format, setFormat] = useState(initialFormat);
-
-  const handleNameChange = (newName) => {
-    // maintain a local copy so we can do validations before save in the future
-    setName(newName);
-    onChange(newName);
-  };
 
   return (
     <div>
@@ -124,9 +117,9 @@ const MigrationEditor = ({ initialName = "", onChange }) => {
         </select>
 
         {format && format == MIGRATION_FORMATS.ADD_COLUMNS ? (
-          <AddColumnsForm initialName={name} onChange={handleNameChange} />
+          <AddColumnsForm initialName={initialName} onChange={onChange} />
         ) : (
-          <CustomMigrationForm initialName={name} onChange={handleNameChange} />
+          <CustomMigrationForm initialName={initialName} onChange={onChange} />
         )}
       </div>
     </div>
