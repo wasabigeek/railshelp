@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useMap } from "react-use";
 import parseMigrationFormat from "../helpers/parseMigrationFormat";
 
-const MigrationEditor = ({ initialValue, onChange }) => {
+const MigrationEditor = ({ initialValue = "", onChange }) => {
   const [initialFormat, initialNameParts] = parseMigrationFormat(initialValue);
 
   const [format, setFormat] = useState(initialFormat);
