@@ -66,9 +66,10 @@ describe('parseMigrationFormat()', () => {
   });
 
   it('returns Custom Migration for other formats', () => {
-    expect(parseMigrationFormat('HelloThere')).toEqual([MIGRATION_FORMATS.CUSTOM]);
+    expect(parseMigrationFormat('HelloThere')).toEqual([MIGRATION_FORMATS.CUSTOM, { name: "HelloThere" }]);
   });
+
   it('returns Custom Migration if input is empty string', () => {
-    expect(parseMigrationFormat('')).toEqual([MIGRATION_FORMATS.CUSTOM]);
+    expect(parseMigrationFormat('')).toEqual([MIGRATION_FORMATS.CUSTOM, { name: "" }]);
   });
 });

@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { useMap } from "react-use";
 import { MIGRATION_FORMATS } from "../helpers/constants";
 import parseMigrationFormat from "../helpers/parseMigrationFormat";
 
-const CustomMigrationForm = ({ name, onChange }) => {
+const CustomMigrationForm = ({ nameParts, onChange }) => {
   return (
     <div>
       <label
@@ -18,7 +17,7 @@ const CustomMigrationForm = ({ name, onChange }) => {
         data-testid="add-columns-name"
         className="text-input focus:outline-none focus:ring-gray-900 focus:border-gray-900"
         placeholder="CustomMigrationName"
-        value={name}
+        value={nameParts.name}
         onChange={(e) => onChange(e.target.value)}
       />
     </div>
@@ -26,6 +25,13 @@ const CustomMigrationForm = ({ name, onChange }) => {
 };
 
 const AddColumnsForm = ({ nameParts, onChange }) => {
+  const handleChange = (changedNameParts) => {
+    const newNameParts = Object.assign(nameParts, changedNameParts);
+    onChange(
+      `Add${newNameParts.columnsName || ""}To${newNameParts.tableName || ""}`
+    );
+  };
+
   return (
     <div>
       <label
@@ -42,7 +48,7 @@ const AddColumnsForm = ({ nameParts, onChange }) => {
         className="mt-1 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
         placeholder="Columns"
         value={nameParts.columnsName}
-        onChange={(e) => onChange({ columnsName: e.target.value })}
+        onChange={(e) => handleChange({ columnsName: e.target.value })}
       />
       To
       <input
@@ -51,7 +57,7 @@ const AddColumnsForm = ({ nameParts, onChange }) => {
         className="mt-1 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
         placeholder="Table"
         value={nameParts.tableName}
-        onChange={(e) => onChange({ tableName: e.target.value })}
+        onChange={(e) => handleChange({ tableName: e.target.value })}
       />
     </div>
   );
@@ -59,20 +65,7 @@ const AddColumnsForm = ({ nameParts, onChange }) => {
 
 const MigrationEditor = ({ initialValue = "", onChange }) => {
   const [initialFormat, initialNameParts] = parseMigrationFormat(initialValue);
-
   const [format, setFormat] = useState(initialFormat);
-  const [nameParts, { set: setNameParts }] = useMap(
-    initialNameParts || {
-      columnsName: "",
-      tableName: "",
-    }
-  );
-
-  const handleChange = (changedNameParts) => {
-    const newNameParts = Object.assign(nameParts, changedNameParts);
-    setNameParts(newNameParts);
-    onChange(`Add${newNameParts.columnsName}To${newNameParts.tableName}`);
-  };
 
   return (
     <div>
@@ -101,9 +94,12 @@ const MigrationEditor = ({ initialValue = "", onChange }) => {
         </select>
 
         {format && format == MIGRATION_FORMATS.ADD_COLUMNS ? (
-          <AddColumnsForm nameParts={nameParts} onChange={handleChange} />
+          <AddColumnsForm nameParts={initialNameParts} onChange={onChange} />
         ) : (
-          <CustomMigrationForm name={""} onChange={console.log} />
+          <CustomMigrationForm
+            nameParts={initialNameParts}
+            onChange={onChange}
+          />
         )}
       </div>
     </div>
