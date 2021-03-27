@@ -11,7 +11,14 @@ const parseMigrationFormat = (text) => {
       }
     ];
   } else if (/^Remove\w+From\w/.test(text)) {
-    return MIGRATION_FORMATS.REMOVE_COLUMNS;
+    const matches = text.match(/^Remove(?<columnsName>\w+)From(?<tableName>\w+)/);
+    return [
+      MIGRATION_FORMATS.REMOVE_COLUMNS,
+      {
+        columnsName: matches.groups.columnsName,
+        tableName: matches.groups.tableName,
+      }
+    ];
   } else if (/JoinTable$/.test(text)) {
     return MIGRATION_FORMATS.JOIN_TABLE
   }

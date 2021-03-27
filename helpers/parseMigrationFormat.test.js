@@ -22,11 +22,23 @@ describe('parseMigrationFormat()', () => {
     expect(parseMigrationFormat('AddToABC')[0]).not.toEqual(MIGRATION_FORMATS.ADD_COLUMNS);
   });
   it('parses RemoveColumnsFromTable format correctly', () => {
-    expect(parseMigrationFormat('RemoveXYZFromABC')).toEqual(MIGRATION_FORMATS.REMOVE_COLUMNS);
-    expect(parseMigrationFormat('Remove123FromABC')).toEqual(MIGRATION_FORMATS.REMOVE_COLUMNS);
-    expect(parseMigrationFormat('RemoveFrom')).not.toEqual(MIGRATION_FORMATS.REMOVE_COLUMNS);
-    expect(parseMigrationFormat('RemoveXYZFrom')).not.toEqual(MIGRATION_FORMATS.REMOVE_COLUMNS);
-    expect(parseMigrationFormat('RemoveFromABC')).not.toEqual(MIGRATION_FORMATS.REMOVE_COLUMNS);
+    expect(parseMigrationFormat('RemoveXYZFromABC')).toEqual([
+      MIGRATION_FORMATS.REMOVE_COLUMNS,
+      {
+        columnsName: "XYZ",
+        tableName: "ABC",
+      }
+    ]);
+    expect(parseMigrationFormat('Remove123FromABC')).toEqual([
+      MIGRATION_FORMATS.REMOVE_COLUMNS,
+      {
+        columnsName: "123",
+        tableName: "ABC",
+      }
+    ]);
+    expect(parseMigrationFormat('RemoveFrom')[0]).not.toEqual(MIGRATION_FORMATS.REMOVE_COLUMNS);
+    expect(parseMigrationFormat('RemoveXYZFrom')[0]).not.toEqual(MIGRATION_FORMATS.REMOVE_COLUMNS);
+    expect(parseMigrationFormat('RemoveFromABC')[0]).not.toEqual(MIGRATION_FORMATS.REMOVE_COLUMNS);
   });
   it('parses CreateModelJoinTable format correctly', () => {
     expect(parseMigrationFormat('JoinTable')).toEqual(MIGRATION_FORMATS.JOIN_TABLE);
