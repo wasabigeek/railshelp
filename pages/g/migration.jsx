@@ -56,7 +56,7 @@ const argTypes = {
 
 const initialMigrationName = "AddExampleColumnsToExampleTable";
 export default function MigrationPage() {
-  const [dataKey, setDataKey] = useState("name");
+  const [selectedKey, setSelectedKey] = useState(null);
   const [migrationData, { set: setMigrationData }] = useMap({
     name: initialMigrationName,
     arguments: [],
@@ -159,8 +159,8 @@ export default function MigrationPage() {
                 <Pill
                   heading="migration"
                   text={migrationData.name}
-                  onClick={console.log}
-                  selected={null}
+                  onClick={() => setSelectedKey("name")}
+                  selected={selectedKey == "name"}
                   baseColor="yellow"
                 />
                 {args.map((arg, index) => (
@@ -179,10 +179,10 @@ export default function MigrationPage() {
             </section>
           </div>
 
-          {dataKey != null && (
+          {selectedKey != null && (
             <div className="max-w-7xl mx-auto pb-10 lg:pb-12 lg:px-8">
               <div className="bg-white py-6 px-4 sm:p-6 shadow sm:rounded-md sm:overflow-hidden">
-                {renderEditor(dataKey)}
+                {renderEditor(selectedKey)}
               </div>
             </div>
           )}
