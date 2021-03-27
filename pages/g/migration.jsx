@@ -9,10 +9,33 @@ import CopyButton from "../../components/CopyButton";
 import Footer from "../../layout/Footer";
 import Header from "../../layout/Header";
 
-const argTypes = {
-  MIGRATION: "migration",
-  ATTRIBUTE: "attribute",
-  ADD_ATTRIBUTE: "add_attribute",
+const AttributeArguments = ({
+  attributes,
+  onAppend,
+  onSelect,
+  selectedAttributeIndex,
+}) => {
+  return (
+    <>
+      {attributes.map((arg, index) => (
+        <Pill
+          key={index}
+          heading={`attribute ${index}`}
+          text={arg}
+          onClick={() => onSelect(index)}
+          selected={selectedAttributeIndex == index}
+          baseColor="blue"
+        />
+      ))}
+      <Pill
+        text="+ Attribute"
+        baseColor="gray"
+        borderStyle="dashed"
+        onClick={onAppend}
+        editable={false}
+      />
+    </>
+  );
 };
 
 const initialMigrationName = "AddExampleColumnsToExampleTable";
@@ -60,8 +83,14 @@ export default function MigrationPage() {
   };
 
   const deleteArg = (index) => {
-    setSelectedArg(null);
-    removeArg(index);
+    let newArguments = [
+      ...migrationData.arguments.slice(0, index),
+      ...migrationData.arguments.slice(index + 1),
+    ];
+
+    setSelectedKey(null);
+    setSelectedIndex(0);
+    setMigrationData("arguments", newArguments);
   };
 
   const renderEditor = (key, index) => {
@@ -84,7 +113,7 @@ export default function MigrationPage() {
             <FieldInput
               value={migrationData.arguments[selectedIndex]}
               onUpdate={(value) => setArg(index, value)}
-              onDelete={console.log}
+              onDelete={() => deleteArg(index)}
             />
           </section>
         );
@@ -142,24 +171,13 @@ export default function MigrationPage() {
                   selected={selectedKey == "name"}
                   baseColor="yellow"
                 />
-                {migrationData.arguments.map((arg, index) => (
-                  <Pill
-                    key={index}
-                    heading={`attribute ${index}`}
-                    text={arg}
-                    onClick={() => toggleArg(index)}
-                    selected={
-                      selectedKey == "arguments" && selectedIndex == index
-                    }
-                    baseColor="blue"
-                  />
-                ))}
-                <Pill
-                  text="+ Attribute"
-                  baseColor="gray"
-                  borderStyle="dashed"
-                  onClick={addArg}
-                  editable={false}
+                <AttributeArguments
+                  attributes={migrationData.arguments}
+                  onAppend={addArg}
+                  onSelect={toggleArg}
+                  selectedAttributeIndex={
+                    selectedKey == "arguments" ? selectedIndex : null
+                  }
                 />
                 <CopyButton text={cliCommand} />
               </code>
