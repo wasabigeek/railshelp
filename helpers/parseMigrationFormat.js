@@ -1,8 +1,15 @@
 import { MIGRATION_FORMATS } from "./constants";
 
 const parseMigrationFormat = (text) => {
-  if (/^Add\w+To\w/.test(text)) {
-    return MIGRATION_FORMATS.ADD_COLUMNS;
+  if (/^Add(?<columnsName>\w+)To(?<tableName>\w+)/.test(text)) {
+    const matches = text.match(/^Add(?<columnsName>\w+)To(?<tableName>\w+)/);
+    return [
+      MIGRATION_FORMATS.ADD_COLUMNS,
+      {
+        columnsName: matches.groups.columnsName,
+        tableName: matches.groups.tableName,
+      }
+    ];
   } else if (/^Remove\w+From\w/.test(text)) {
     return MIGRATION_FORMATS.REMOVE_COLUMNS;
   } else if (/JoinTable$/.test(text)) {

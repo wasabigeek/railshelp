@@ -3,11 +3,23 @@ import parseMigrationFormat from './parseMigrationFormat';
 
 describe('parseMigrationFormat()', () => {
   it('parses AddColumnsToTable format correctly', () => {
-    expect(parseMigrationFormat('AddXYZToABC')).toEqual(MIGRATION_FORMATS.ADD_COLUMNS);
-    expect(parseMigrationFormat('Add123ToABC')).toEqual(MIGRATION_FORMATS.ADD_COLUMNS);
-    expect(parseMigrationFormat('AddTo')).not.toEqual(MIGRATION_FORMATS.ADD_COLUMNS);
-    expect(parseMigrationFormat('AddXYZTo')).not.toEqual(MIGRATION_FORMATS.ADD_COLUMNS);
-    expect(parseMigrationFormat('AddToABC')).not.toEqual(MIGRATION_FORMATS.ADD_COLUMNS);
+    expect(parseMigrationFormat('AddXYZToABC')).toEqual([
+      MIGRATION_FORMATS.ADD_COLUMNS,
+      {
+        columnsName: "XYZ",
+        tableName: "ABC"
+      }
+    ]);
+    expect(parseMigrationFormat('Add123ToABC')).toEqual([
+      MIGRATION_FORMATS.ADD_COLUMNS,
+      {
+        columnsName: "123",
+        tableName: "ABC",
+      }
+    ]);
+    expect(parseMigrationFormat('AddTo')[0]).not.toEqual(MIGRATION_FORMATS.ADD_COLUMNS);
+    expect(parseMigrationFormat('AddXYZTo')[0]).not.toEqual(MIGRATION_FORMATS.ADD_COLUMNS);
+    expect(parseMigrationFormat('AddToABC')[0]).not.toEqual(MIGRATION_FORMATS.ADD_COLUMNS);
   });
   it('parses RemoveColumnsFromTable format correctly', () => {
     expect(parseMigrationFormat('RemoveXYZFromABC')).toEqual(MIGRATION_FORMATS.REMOVE_COLUMNS);
