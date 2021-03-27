@@ -26,7 +26,7 @@ it.only("sets the Migration", async () => {
   expect(screen.getByText("AddDifferentColumnsToExampleTable")).toBeTruthy();
 });
 
-it("sets a field", async () => {
+it.only("sets a field", async () => {
   render(<MigrationPage />);
 
   const addAttributeButton = screen.getByText("+ Attribute");
@@ -43,19 +43,6 @@ it("sets a field", async () => {
   userEvent.selectOptions(indexTypeInput, "index");
 
   expect(screen.getByText("engine:references:index")).toBeTruthy();
-});
-
-it("sets the parent", async () => {
-  render(<MigrationPage />);
-
-  const button = screen.getByText("--parent");
-  userEvent.click(button);
-
-  await waitFor(() => screen.getByText("Edit Parent Model"));
-  const nameInput = screen.getByLabelText("Name");
-  userEvent.type(nameInput, "Woohoo");
-
-  expect(screen.getByText("--parent Woohoo")).toBeTruthy();
 });
 
 it("toggles args", async () => {

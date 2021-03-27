@@ -35,6 +35,10 @@ export default function MigrationPage() {
     }
   };
 
+  const addArg = () => {
+    setMigrationData("arguments", migrationData.arguments.concat([""]));
+  };
+
   const deleteArg = (index) => {
     setSelectedArg(null);
     removeArg(index);
@@ -122,6 +126,7 @@ export default function MigrationPage() {
                 />
                 {migrationData.arguments.map((arg, index) => (
                   <Pill
+                    key={index}
                     heading={`attribute ${index}`}
                     text={arg}
                     onClick={console.log}
@@ -133,7 +138,7 @@ export default function MigrationPage() {
                   text="+ Attribute"
                   baseColor="gray"
                   borderStyle="dashed"
-                  onClick={console.log}
+                  onClick={addArg}
                   editable={false}
                 />
                 <CopyButton text={cliCommand} />
