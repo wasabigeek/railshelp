@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useMap } from "react-use";
-import { MIGRATION_FORMATS } from "../helpers/constants";
-import parseMigrationFormat from "../helpers/parseMigrationFormat";
+import { MIGRATION_FORMATS } from "../../helpers/constants";
+import parseMigrationFormat from "../../helpers/parseMigrationFormat";
 
 const CustomMigrationForm = ({ initialName, onChange }) => {
   const [name, setName] = useState(initialName);

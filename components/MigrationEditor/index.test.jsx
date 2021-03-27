@@ -4,8 +4,8 @@
 
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { MIGRATION_FORMATS } from "../helpers/constants";
-import MigrationEditor from "./MigrationEditor";
+import { MIGRATION_FORMATS } from "../../helpers/constants";
+import MigrationEditor from ".";
 
 it("shows the format dropdown only", async () => {
   render(<MigrationEditor />);
