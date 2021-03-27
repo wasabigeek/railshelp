@@ -21,8 +21,16 @@ const parseMigrationFormat = (text) => {
         tableName: removeColumnsMatches.groups.tableName,
       }
     ];
-  } else if (/JoinTable$/.test(text)) {
-    return MIGRATION_FORMATS.JOIN_TABLE
+  }
+
+  const joinTableMatches = text.match(/^(Create)?(?<sourceTable>\w+)?JoinTable$/)
+  if (joinTableMatches) {
+    return [
+      MIGRATION_FORMATS.JOIN_TABLE,
+      {
+        sourceTable: joinTableMatches.groups.sourceTable || null,
+      }
+    ]
   }
   return MIGRATION_FORMATS.CUSTOM;
 }
