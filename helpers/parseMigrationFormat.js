@@ -32,7 +32,8 @@ const parseMigrationFormat = (text) => {
       }
     ]
   }
-  return MIGRATION_FORMATS.CUSTOM;
+
+  return [MIGRATION_FORMATS.CUSTOM];
 }
 
 export default parseMigrationFormat
