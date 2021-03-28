@@ -78,7 +78,7 @@ it("swaps between editors", async () => {
   expect(screen.queryByText("Edit Parent Model")).toBeTruthy();
 });
 
-it("copies command", async () => {
+it.only("copies command", async () => {
   Object.assign(navigator, {
     clipboard: {
       writeText: () => {},
@@ -91,6 +91,6 @@ it("copies command", async () => {
   const copyButton = screen.getByText("Copy");
   userEvent.click(copyButton);
   expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
-    "bin/rails g model ExampleModel other_model:references{polymorphic}:uniq"
+    "bin/rails g migration AddExampleColumnsToExampleTable other_model:references"
   );
 });
