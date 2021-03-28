@@ -10,6 +10,7 @@ import Footer from "../../layout/Footer";
 import Header from "../../layout/Header";
 import parseMigrationFormat from "../../helpers/parseMigrationFormat";
 import { MIGRATION_FORMATS } from "../../helpers/constants";
+import JoinTableForm from "../../components/MigrationEditor/JoinTableForm";
 
 const AttributeArguments = ({
   attributes,
@@ -35,6 +36,28 @@ const AttributeArguments = ({
         borderStyle="dashed"
         onClick={onAppend}
         editable={false}
+      />
+    </>
+  );
+};
+
+const JoinTableArguments = ({ args, onSelect, selectedIndex }) => {
+  return (
+    <>
+      <Pill
+        text={args[0] || "..."}
+        heading={`table 0`}
+        onClick={() => onSelect(0)}
+        selected={selectedIndex == 0}
+        baseColor="blue"
+      />
+      <Pill
+        text={args[1] || "..."}
+        heading={`table 1`}
+        onClick={() => onSelect(0)}
+        baseColor="blue"
+        selected={selectedIndex == 1}
+        onClick={onSelect}
       />
     </>
   );
@@ -190,7 +213,7 @@ export default function MigrationPage() {
                 {[
                   MIGRATION_FORMATS.ADD_COLUMNS,
                   MIGRATION_FORMATS.REMOVE_COLUMNS,
-                ].includes(migrationData.format) && (
+                ].includes(migrationData.format) ? (
                   <AttributeArguments
                     attributes={migrationData.arguments}
                     onAppend={addArg}
@@ -199,7 +222,15 @@ export default function MigrationPage() {
                       selectedKey == "arguments" ? selectedIndex : null
                     }
                   />
-                )}
+                ) : MIGRATION_FORMATS.JOIN_TABLE == migrationData.format ? (
+                  <JoinTableArguments
+                    args={migrationData.arguments}
+                    onSelect={console.log}
+                    selectedIndex={
+                      selectedKey == "arguments" ? selectedIndex : null
+                    }
+                  />
+                ) : null}
                 <CopyButton text={cliCommand} />
               </code>
             </section>
