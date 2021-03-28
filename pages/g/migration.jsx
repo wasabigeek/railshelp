@@ -41,17 +41,22 @@ const AttributeArguments = ({
 };
 
 const initialMigrationName = "AddExampleColumnsToExampleTable";
+const [initialFormat] = parseMigrationFormat(initialMigrationName);
+
 export default function MigrationPage() {
   const [selectedKey, setSelectedKey] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [migrationData, { set: setMigrationData }] = useMap({
+    format: initialFormat,
     name: initialMigrationName,
     arguments: ["other_model:references"],
   });
 
-  const [format] = parseMigrationFormat(migrationData.name);
-
-  const cliCommand = ["bin/rails g migration", ...migrationData.arguments]
+  const cliCommand = [
+    "bin/rails g migration",
+    migrationData.name,
+    ...migrationData.arguments,
+  ]
     .filter((text) => !!text)
     .join(" ");
 
@@ -104,7 +109,9 @@ export default function MigrationPage() {
           <section aria-labelledby="model_name_editor">
             <MigrationEditor
               initialName={migrationData.name}
-              onChange={(value) => setMigrationData("name", value)}
+              format={migrationData.format}
+              onChangeFormat={(format) => setMigrationData("format", format)}
+              onChangeName={(name) => setMigrationData("name", name)}
             />
           </section>
         );
@@ -178,7 +185,7 @@ export default function MigrationPage() {
                 {[
                   MIGRATION_FORMATS.ADD_COLUMNS,
                   MIGRATION_FORMATS.REMOVE_COLUMNS,
-                ].includes(format) && (
+                ].includes(migrationData.format) && (
                   <AttributeArguments
                     attributes={migrationData.arguments}
                     onAppend={addArg}
