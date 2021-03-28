@@ -102,6 +102,11 @@ export default function MigrationPage() {
     setMigrationData("arguments", newArguments);
   };
 
+  const handleChangeFormat = (newFormat) => {
+    setMigrationData("arguments", []);
+    setMigrationData("format", newFormat);
+  };
+
   const renderEditor = (key, index) => {
     switch (key) {
       case "name":
@@ -110,7 +115,7 @@ export default function MigrationPage() {
             <MigrationEditor
               initialName={migrationData.name}
               format={migrationData.format}
-              onChangeFormat={(format) => setMigrationData("format", format)}
+              onChangeFormat={handleChangeFormat}
               onChangeName={(name) => setMigrationData("name", name)}
             />
           </section>

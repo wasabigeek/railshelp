@@ -4,6 +4,7 @@
 
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { MIGRATION_FORMATS } from "../../helpers/constants";
 import MigrationPage from "../../pages/g/migration";
 
 it.only("renders", async () => {
@@ -92,5 +93,27 @@ it.only("copies command", async () => {
   userEvent.click(copyButton);
   expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
     "bin/rails g migration AddExampleColumnsToExampleTable other_model:references"
+  );
+});
+
+it.only("copies the right arguments when format is changed", async () => {
+  Object.assign(navigator, {
+    clipboard: {
+      writeText: () => {},
+    },
+  });
+  jest.spyOn(navigator.clipboard, "writeText");
+
+  render(<MigrationPage />); // refactor to take initialArgs for a more deterministic test
+  const migrationButton = screen.getByText("AddExampleColumnsToExampleTable");
+  userEvent.click(migrationButton);
+
+  const formatDropdown = screen.getByLabelText("Format");
+  userEvent.selectOptions(formatDropdown, MIGRATION_FORMATS.CUSTOM);
+
+  const copyButton = screen.getByText("Copy");
+  userEvent.click(copyButton);
+  expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
+    "bin/rails g migration AddExampleColumnsToExampleTable"
   );
 });
