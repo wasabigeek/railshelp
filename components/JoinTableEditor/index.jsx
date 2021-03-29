@@ -1,4 +1,14 @@
-const JoinTableEditor = ({ initialValue = "", onChange, selectedIndex }) => {
+import { useState } from "react";
+
+const JoinTableEditor = ({ value = "", onUpdate, selectedIndex }) => {
+  const [tableName = "", indexType = ""] = value.split(":");
+
+  const updateField = (changes) => {
+    const newData = Object.assign({ tableName, indexType }, changes);
+    // TODO: fix handling of indexType
+    onUpdate(Object.values(newData).join(":"));
+  };
+
   return (
     <div>
       <h2 className="text-xl leading-6 font-medium text-gray-900">
@@ -14,9 +24,9 @@ const JoinTableEditor = ({ initialValue = "", onChange, selectedIndex }) => {
           </label>
           <input
             id="attribute_name_input"
-            placeholder="field_name"
-            value={"fieldName"}
-            onChange={(e) => updateField({ fieldName: e.target.value })}
+            placeholder="table_name"
+            value={tableName}
+            onChange={(e) => updateField({ tableName: e.target.value })}
             className="text-input focus:outline-none focus:ring-gray-900 focus:border-gray-900"
           />
         </div>
@@ -24,7 +34,7 @@ const JoinTableEditor = ({ initialValue = "", onChange, selectedIndex }) => {
         <div className="pt-4">
           <label className="block font-medium text-gray-700">Index Type</label>
           <select
-            value={"indexType"}
+            value={indexType}
             className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
             onChange={(e) => updateField({ indexType: e.target.value })}
           >

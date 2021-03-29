@@ -54,10 +54,9 @@ const JoinTableArguments = ({ args, onSelect, selectedIndex }) => {
       <Pill
         text={args[1] || "..."}
         heading={`table 1`}
-        onClick={() => onSelect(0)}
+        onClick={() => onSelect(1)}
         baseColor="blue"
         selected={selectedIndex == 1}
-        onClick={onSelect}
       />
     </>
   );
@@ -126,7 +125,16 @@ export default function MigrationPage() {
   };
 
   const handleChangeFormat = (newFormat) => {
-    setMigrationData("arguments", []);
+    console.log(newFormat);
+    switch (newFormat) {
+      case MIGRATION_FORMATS.ADD_COLUMNS:
+      case MIGRATION_FORMATS.REMOVE_COLUMNS:
+        setMigrationData("arguments", []);
+        break;
+      case MIGRATION_FORMATS.JOIN_TABLE:
+        setMigrationData("arguments", ["", ""]);
+        break;
+    }
     setMigrationData("format", newFormat);
   };
 
@@ -166,9 +174,9 @@ export default function MigrationPage() {
           return (
             <section id="fields" aria-labelledby="attribute_editor">
               <JoinTableEditor
-                initialValue={migrationData.arguments[selectedIndex]}
+                value={migrationData.arguments[selectedIndex]}
                 onUpdate={(value) => setArg(index, value)}
-                onDelete={() => deleteArg(index)}
+                selectedIndex={selectedIndex}
               />
             </section>
           );
