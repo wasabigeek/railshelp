@@ -1,12 +1,11 @@
-import { useState } from "react";
-
 const JoinTableEditor = ({ value = "", onUpdate, selectedIndex }) => {
   const [tableName = "", indexType = ""] = value.split(":");
 
   const updateField = (changes) => {
     const newData = Object.assign({ tableName, indexType }, changes);
-    // TODO: fix handling of indexType
-    onUpdate(Object.values(newData).join(":"));
+    onUpdate(
+      `${newData.tableName}${newData.indexType && ":" + newData.indexType}`
+    );
   };
 
   return (
