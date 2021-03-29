@@ -10,13 +10,12 @@ import Footer from "../../layout/Footer";
 import Header from "../../layout/Header";
 import parseMigrationFormat from "../../helpers/parseMigrationFormat";
 import { MIGRATION_FORMATS } from "../../helpers/constants";
-import JoinTableForm from "../../components/MigrationEditor/JoinTableForm";
 
 const AttributeArguments = ({
   attributes,
   onAppend,
   onSelect,
-  selectedAttributeIndex,
+  selectedIndex,
 }) => {
   return (
     <>
@@ -26,7 +25,7 @@ const AttributeArguments = ({
           heading={`attribute ${index}`}
           text={arg}
           onClick={() => onSelect(index)}
-          selected={selectedAttributeIndex == index}
+          selected={selectedIndex == index}
           baseColor="blue"
         />
       ))}
@@ -218,7 +217,7 @@ export default function MigrationPage() {
                     attributes={migrationData.arguments}
                     onAppend={addArg}
                     onSelect={toggleArg}
-                    selectedAttributeIndex={
+                    selectedIndex={
                       selectedKey == "arguments" ? selectedIndex : null
                     }
                   />
