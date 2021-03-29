@@ -1,11 +1,24 @@
-const JoinTableEditor = ({ value = "", onUpdate, selectedIndex }) => {
-  const [tableName = "", indexType = ""] = value.split(":");
+import { useState } from "react";
+
+const JoinTableEditor = ({ initialValue = "", onUpdate, selectedIndex }) => {
+  const [initialTableName, initialIndexType] = initialValue.split(":");
+  const [tableName, setTableName] = useState(initialTableName);
+  const [indexType, setIndexType] = useState(initialIndexType || "");
 
   const updateField = (changes) => {
+    if (changes.tableName) {
+      setTableName(changes.tableName);
+    }
+    if (changes.indexType) {
+      setIndexType(changes.indexType);
+    }
+
     const newData = Object.assign({ tableName, indexType }, changes);
-    onUpdate(
-      `${newData.tableName}${newData.indexType && ":" + newData.indexType}`
-    );
+    if (newData.tableName) {
+      onUpdate(
+        `${newData.tableName}${newData.indexType && ":" + newData.indexType}`
+      );
+    }
   };
 
   return (

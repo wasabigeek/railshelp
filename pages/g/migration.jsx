@@ -172,9 +172,15 @@ export default function MigrationPage() {
           );
         } else {
           return (
-            <section id="fields" aria-labelledby="attribute_editor">
+            <section
+              id="fields"
+              aria-labelledby="attribute_editor"
+              // workaround to reset the editor, when swapping between table args
+              // as it's essentially uncontrolled
+              key={selectedIndex}
+            >
               <JoinTableEditor
-                value={migrationData.arguments[selectedIndex]}
+                initialValue={migrationData.arguments[selectedIndex]}
                 onUpdate={(value) => setArg(index, value)}
                 selectedIndex={selectedIndex}
               />
