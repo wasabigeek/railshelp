@@ -10,6 +10,7 @@ import Footer from "../../layout/Footer";
 import Header from "../../layout/Header";
 import parseMigrationFormat from "../../helpers/parseMigrationFormat";
 import { MIGRATION_FORMATS } from "../../helpers/constants";
+import JoinTableEditor from "../../components/JoinTableEditor";
 
 const AttributeArguments = ({
   attributes,
@@ -143,18 +144,35 @@ export default function MigrationPage() {
           </section>
         );
       case "arguments":
-        return (
-          <section id="fields" aria-labelledby="attribute_editor">
-            <h2 className="text-xl leading-6 font-medium text-gray-900">
-              Edit Attribute {selectedIndex}
-            </h2>
-            <FieldInput
-              value={migrationData.arguments[selectedIndex]}
-              onUpdate={(value) => setArg(index, value)}
-              onDelete={() => deleteArg(index)}
-            />
-          </section>
-        );
+        if (
+          [
+            MIGRATION_FORMATS.ADD_COLUMNS,
+            MIGRATION_FORMATS.REMOVE_COLUMNS,
+          ].includes(migrationData.format)
+        ) {
+          return (
+            <section id="fields" aria-labelledby="attribute_editor">
+              <h2 className="text-xl leading-6 font-medium text-gray-900">
+                Edit Attribute {selectedIndex}
+              </h2>
+              <FieldInput
+                value={migrationData.arguments[selectedIndex]}
+                onUpdate={(value) => setArg(index, value)}
+                onDelete={() => deleteArg(index)}
+              />
+            </section>
+          );
+        } else {
+          return (
+            <section id="fields" aria-labelledby="attribute_editor">
+              <JoinTableEditor
+                initialValue={migrationData.arguments[selectedIndex]}
+                onUpdate={(value) => setArg(index, value)}
+                onDelete={() => deleteArg(index)}
+              />
+            </section>
+          );
+        }
     }
   };
 
@@ -224,7 +242,7 @@ export default function MigrationPage() {
                 ) : MIGRATION_FORMATS.JOIN_TABLE == migrationData.format ? (
                   <JoinTableArguments
                     args={migrationData.arguments}
-                    onSelect={console.log}
+                    onSelect={toggleArg}
                     selectedIndex={
                       selectedKey == "arguments" ? selectedIndex : null
                     }
