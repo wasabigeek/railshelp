@@ -20,6 +20,18 @@ it("shows the format dropdown only", async () => {
   expect(inputs.length).toEqual(1);
 });
 
+it("switches the format", async () => {
+  const mockHandleChangeFormat = jest.fn();
+  render(<MigrationEditor onChangeFormat={mockHandleChangeFormat} />);
+
+  const formatDropdown = screen.getByLabelText("Format");
+  userEvent.selectOptions(formatDropdown, MIGRATION_FORMATS.ADD_COLUMNS);
+
+  expect(mockHandleChangeFormat).toHaveBeenCalledWith(
+    MIGRATION_FORMATS.ADD_COLUMNS
+  );
+});
+
 describe("when initialValue and format is specified", () => {
   it("prefills the correct format and data", () => {
     render(
