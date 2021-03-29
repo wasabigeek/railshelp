@@ -28,7 +28,7 @@ const MigrationForm = ({ format, ...props }) => {
 
 const MigrationEditor = ({
   initialName = "",
-  format,
+  format = MIGRATION_FORMATS.CUSTOM,
   onChangeName,
   onChangeFormat,
 }) => {
@@ -51,9 +51,6 @@ const MigrationEditor = ({
             className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
             onChange={(e) => onChangeFormat(e.target.value)}
           >
-            <option disabled value={""}>
-              -- required --
-            </option>
             {Object.values(MIGRATION_FORMATS).map((type) => (
               <option key={type}>{type}</option>
             ))}

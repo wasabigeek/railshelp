@@ -20,9 +20,14 @@ it("shows the format dropdown only", async () => {
   expect(inputs.length).toEqual(1);
 });
 
-describe("when initialValue is specified", () => {
+describe("when initialValue and format is specified", () => {
   it("prefills the correct format and data", () => {
-    render(<MigrationEditor initialName={"AddABCToXYZ"} />);
+    render(
+      <MigrationEditor
+        format={MIGRATION_FORMATS.ADD_COLUMNS}
+        initialName={"AddABCToXYZ"}
+      />
+    );
 
     // shows AddColumnsToTable editor
     expect(screen.getByTestId("add-columns-name")).toHaveValue("ABC");
@@ -31,14 +36,8 @@ describe("when initialValue is specified", () => {
 });
 
 describe("when AddColumnsToTable is selected", () => {
-  const selectAddColumnsToTable = () => {
-    const formatDropdown = screen.getByLabelText("Format");
-    userEvent.selectOptions(formatDropdown, MIGRATION_FORMATS.ADD_COLUMNS);
-  };
-
   it("shows inputs for column and table names", async () => {
-    render(<MigrationEditor />);
-    selectAddColumnsToTable();
+    render(<MigrationEditor format={MIGRATION_FORMATS.ADD_COLUMNS} />);
 
     expect(screen.getByTestId("add-columns-name")).toBeTruthy();
     expect(screen.getByTestId("add-to-table-name")).toBeTruthy();
@@ -50,8 +49,12 @@ describe("when AddColumnsToTable is selected", () => {
       value = newValue;
     };
 
-    render(<MigrationEditor onChange={handleChange} />);
-    selectAddColumnsToTable();
+    render(
+      <MigrationEditor
+        format={MIGRATION_FORMATS.ADD_COLUMNS}
+        onChangeName={handleChange}
+      />
+    );
 
     const columnsInput = screen.getByTestId("add-columns-name");
     userEvent.type(columnsInput, "NewColumn");
@@ -62,14 +65,8 @@ describe("when AddColumnsToTable is selected", () => {
 });
 
 describe("when RemoveColumnsFromTable is selected", () => {
-  const selectRemoveColumnsFromTable = () => {
-    const formatDropdown = screen.getByLabelText("Format");
-    userEvent.selectOptions(formatDropdown, MIGRATION_FORMATS.REMOVE_COLUMNS);
-  };
-
   it("shows inputs for column and table names", async () => {
-    render(<MigrationEditor />);
-    selectRemoveColumnsFromTable();
+    render(<MigrationEditor format={MIGRATION_FORMATS.REMOVE_COLUMNS} />);
 
     expect(screen.getByTestId("remove-columns-name")).toBeTruthy();
     expect(screen.getByTestId("remove-from-table-name")).toBeTruthy();
@@ -81,8 +78,12 @@ describe("when RemoveColumnsFromTable is selected", () => {
       value = newValue;
     };
 
-    render(<MigrationEditor onChange={handleChange} />);
-    selectRemoveColumnsFromTable();
+    render(
+      <MigrationEditor
+        format={MIGRATION_FORMATS.REMOVE_COLUMNS}
+        onChangeName={handleChange}
+      />
+    );
 
     const columnsInput = screen.getByTestId("remove-columns-name");
     userEvent.type(columnsInput, "ExistingColumn");
@@ -93,14 +94,8 @@ describe("when RemoveColumnsFromTable is selected", () => {
 });
 
 describe("when CreateJoinTable is selected", () => {
-  const selectCreateJoinTable = () => {
-    const formatDropdown = screen.getByLabelText("Format");
-    userEvent.selectOptions(formatDropdown, MIGRATION_FORMATS.JOIN_TABLE);
-  };
-
   it("shows inputs for column and table names", async () => {
-    render(<MigrationEditor />);
-    selectCreateJoinTable();
+    render(<MigrationEditor format={MIGRATION_FORMATS.JOIN_TABLE} />);
 
     expect(screen.getByTestId("migration-prefix")).toBeTruthy();
   });
@@ -111,8 +106,12 @@ describe("when CreateJoinTable is selected", () => {
       value = newValue;
     };
 
-    render(<MigrationEditor onChange={handleChange} />);
-    selectCreateJoinTable();
+    render(
+      <MigrationEditor
+        format={MIGRATION_FORMATS.JOIN_TABLE}
+        onChangeName={handleChange}
+      />
+    );
 
     const columnsInput = screen.getByTestId("migration-prefix");
     userEvent.type(columnsInput, "CreateMedia");
