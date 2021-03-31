@@ -1,7 +1,7 @@
 const Footer = () => (
   <footer className="w-full flex flex-col sm:flex-row justify-center items-center md:h-24 text-gray-500 pt-4 px-2">
     <span className="hidden sm:inline sm:mr-2">
-      Have a suggestion or found a bug?Open an issue on&nbsp;
+      Have a suggestion or found a bug? Open an issue on&nbsp;
     </span>
     <a
       href="https://github.com/wasabigeek/railshelp/issues"

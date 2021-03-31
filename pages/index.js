@@ -1,10 +1,10 @@
 import Head from "next/head"
 import { useState } from "react"
 import { useList } from "react-use";
+import Link from 'next/link'
 
 import FieldInput from "../components/FieldInput"
 import Pill from "../components/Pill";
-import CopyButton from "../components/CopyButton";
 import Footer from "../layout/Footer";
 import Header from "../layout/Header";
 
@@ -183,36 +183,40 @@ export default function Home() {
 
       <main>
         <Header />
-
-        <div className="bg-gray-100">
-          <div className="max-w-7xl mx-auto lg:px-8">
-            <section className="p-4 bg-gray-100 mt-4 flex justify-center">
-              <code className="flex flex-wrap items-center space-x-2 space-y-5 pb-4 pt-0">
-                {/** mt-5 is a hack to mimic items-baseline, not sure why leftIcon messes that up */}
-                <span className="ml-2 mt-5">bin/rails g model</span>
-                {args.map((arg, index) => (
-                  <ArgButton
-                    key={index}
-                    arg={arg}
-                    selectedArg={selectedArg}
-                    // TODO: possibly refactor to onSelect / onClear
-                    index={index}
-                    setSelectedArg={setSelectedArg}
-                    insertArg={insertArg}
-                  />
-                ))}
-                <CopyButton text={cliCommand} />
-              </code>
-            </section>
-          </div>
-
-          {selectedArg != null && (
-            <div className="max-w-7xl mx-auto pb-10 lg:pb-12 lg:px-8">
-              <div className="bg-white py-6 px-4 sm:p-6 shadow sm:rounded-md sm:overflow-hidden">
-                {renderEditor(selectedArg)}
+        <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div className="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+              <div className="flex-1 min-w-0">
+                <Link href="/g/model">
+                  <a className="focus:outline-none">
+                    <span className="absolute inset-0" aria-hidden="true"></span>
+                    <p className="text-lg font-medium text-gray-900">
+                      Model Generator
+                    </p>
+                    <p className="text-sm text-gray-500 truncate">
+                      bin/rails generate model
+                    </p>
+                  </a>
+                </Link>
               </div>
             </div>
-          )}
+
+            <div className="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+              <div className="flex-1 min-w-0">
+                <Link href="/g/migration">
+                  <a className="focus:outline-none">
+                    <span className="absolute inset-0" aria-hidden="true"></span>
+                    <p className="text-lg font-medium text-gray-900">
+                      Migration Generator
+                    </p>
+                    <p className="text-sm text-gray-500 truncate">
+                      bin/rails generate migration
+                    </p>
+                  </a>
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
       </main>
 
