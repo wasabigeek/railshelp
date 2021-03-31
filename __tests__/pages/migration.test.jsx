@@ -7,14 +7,14 @@ import userEvent from "@testing-library/user-event";
 import { MIGRATION_FORMATS } from "../../helpers/constants";
 import MigrationPage from "../../pages/g/migration";
 
-it.only("renders", async () => {
+it("renders", async () => {
   render(<MigrationPage />);
 
   expect(screen.getByText(/^bin\/rails g migration/)).toBeTruthy();
   expect(screen.getByText("AddExampleColumnsToExampleTable")).toBeTruthy();
 });
 
-it.only("sets the Migration", async () => {
+it("sets the Migration", async () => {
   render(<MigrationPage />);
 
   const migrationButton = screen.getByText("AddExampleColumnsToExampleTable");
@@ -27,7 +27,7 @@ it.only("sets the Migration", async () => {
   expect(screen.getByText("AddDifferentColumnsToExampleTable")).toBeTruthy();
 });
 
-it.only("sets a field", async () => {
+it("sets a field", async () => {
   render(<MigrationPage />);
 
   const addAttributeButton = screen.getByText("+ Attribute");
@@ -48,38 +48,28 @@ it.only("sets a field", async () => {
 
 it("toggles args", async () => {
   render(<MigrationPage />);
-  let modelButton = screen.getByText("ExampleModel");
-  userEvent.click(modelButton);
-  expect(screen.queryByText("Edit Model")).toBeTruthy();
+  let migrationButton = screen.getByText("AddExampleColumnsToExampleTable");
+  userEvent.click(migrationButton);
+  expect(screen.queryByText("Edit Migration")).toBeTruthy();
 
-  modelButton = screen.getByText("ExampleModel");
-  userEvent.click(modelButton);
-  expect(screen.queryByText("Edit Model")).toBeNull();
+  migrationButton = screen.getByText("AddExampleColumnsToExampleTable");
+  userEvent.click(migrationButton);
+  expect(screen.queryByText("Edit Migration")).toBeNull();
 });
 
 it("swaps between editors", async () => {
   render(<MigrationPage />);
 
-  const modelButton = screen.getByText("ExampleModel");
+  const modelButton = screen.getByText("AddExampleColumnsToExampleTable");
   userEvent.click(modelButton);
-  expect(screen.queryByText("Edit Model")).toBeTruthy();
-  expect(screen.queryByText(/Edit Attribute/)).toBeNull();
-  expect(screen.queryByText("Edit Parent Model")).toBeNull();
+  expect(screen.queryByText("Edit Migration")).toBeTruthy();
 
   const attributeButton = screen.getByText("+ Attribute");
   userEvent.click(attributeButton);
-  expect(screen.queryByText("Edit Model")).toBeNull();
   expect(screen.queryByText("Edit Attribute 1")).toBeTruthy();
-  expect(screen.queryByText("Edit Parent Model")).toBeNull();
-
-  const parentButton = screen.getByText("--parent");
-  userEvent.click(parentButton);
-  expect(screen.queryByText("Edit Model")).toBeNull();
-  expect(screen.queryByText(/Edit Attribute/)).toBeNull();
-  expect(screen.queryByText("Edit Parent Model")).toBeTruthy();
 });
 
-it.only("copies command", async () => {
+it("copies command", async () => {
   Object.assign(navigator, {
     clipboard: {
       writeText: () => {},
@@ -96,7 +86,7 @@ it.only("copies command", async () => {
   );
 });
 
-it.only("copies the right arguments when format is changed", async () => {
+it("copies the right arguments when format is changed", async () => {
   Object.assign(navigator, {
     clipboard: {
       writeText: () => {},
