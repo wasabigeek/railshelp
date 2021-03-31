@@ -127,12 +127,12 @@ export default function MigrationPage() {
   const handleChangeFormat = (newFormat) => {
     console.log(newFormat);
     switch (newFormat) {
-      case MIGRATION_FORMATS.ADD_COLUMNS:
-      case MIGRATION_FORMATS.REMOVE_COLUMNS:
-        setMigrationData("arguments", []);
-        break;
       case MIGRATION_FORMATS.JOIN_TABLE:
         setMigrationData("arguments", ["", ""]);
+        break;
+
+      default:
+        setMigrationData("arguments", []);
         break;
     }
     setMigrationData("format", newFormat);
