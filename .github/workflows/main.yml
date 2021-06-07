@@ -11,6 +11,7 @@ on:
 jobs:
   test-build-and-deploy:
     runs-on: ubuntu-latest
+    environment: github-pages
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
