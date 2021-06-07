@@ -31,6 +31,8 @@ jobs:
 
       - name: Build
         run: yarn build
+        env:
+          NEXT_PUBLIC_GOOGLE_ANALYTICS: ${{ secrets.NEXT_PUBLIC_GOOGLE_ANALYTICS }}
 
       - name: Prevent GitHub from using Jekyll
         run: touch out/.nojekyll
