@@ -11,6 +11,7 @@ import Header from "../../layout/Header";
 import parseMigrationFormat from "../../helpers/parseMigrationFormat";
 import { MIGRATION_FORMATS } from "../../helpers/constants";
 import JoinTableEditor from "../../components/JoinTableEditor";
+import { Heading } from "../../components/Heading";
 
 const AttributeArguments = ({
   attributes,
@@ -227,10 +228,11 @@ export default function MigrationPage() {
 
       <main>
         <Header />
+        <Heading title="Migration Generator" />
 
         <div className="bg-gray-100">
           <div className="max-w-7xl mx-auto lg:px-8">
-            <section className="p-4 bg-gray-100 mt-4 flex justify-center">
+            <section className="p-6 bg-gray-100 mt-4 flex justify-center">
               <code className="flex flex-wrap items-center space-x-2 space-y-5 pb-4 pt-0">
                 {/** mt-5 is a hack to mimic items-baseline, not sure why leftIcon messes that up */}
                 <span className="ml-2 mt-5">bin/rails g migration</span>
