@@ -10,9 +10,6 @@ const Header = () => (
               <a>rails.help</a>
             </Link>
           </h1>
-          <p className="mt-2 text-3xl font-extrabold text-gray-900 tracking-tight sm:text-4xl">
-            The missing GUI for Rails Generators.
-          </p>
         </div>
       </div>
     </div>
