@@ -10,22 +10,24 @@
     "test": "jest"
   },
   "dependencies": {
+    "@headlessui/react": "^1.4.3",
+    "@heroicons/react": "^1.0.5",
     "next": "10.0.7",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-use": "^17.1.1"
   },
   "devDependencies": {
-    "@tailwindcss/forms": "^0.2.1",
+    "@tailwindcss/forms": "^0.4.0",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.7.3",
-    "autoprefixer": "^10.2.4",
+    "autoprefixer": "^10.4.2",
     "babel-jest": "^26.6.3",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^26.6.3",
-    "postcss": "^8.2.6",
+    "postcss": "^8.4.5",
     "react-test-renderer": "^17.0.1",
-    "tailwindcss": "^2.0.3"
+    "tailwindcss": "^3.0.15"
   }
 }

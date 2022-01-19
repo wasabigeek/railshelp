@@ -179,6 +179,8 @@ export default function Home() {
         <meta property="twitter:description" content="Can't remember the args for Rails generators? Us too, so we made a GUI. Go forth and generate!" />
 
         <link rel="icon" href="/favicon.ico" />
+        {/* <!-- Inter font for tailwindcss --> */}
+        <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
       </Head>
 
       <main>
