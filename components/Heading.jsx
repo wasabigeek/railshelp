@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const Heading = ({ title }) => {
   return (
-    <div class="mx-auto max-w-md px-6 text-center sm:px-6 sm:max-w-3xl lg:px-20 lg:max-w-7xl">
+    <div className="mx-auto max-w-md px-6 text-center sm:px-6 sm:max-w-3xl lg:px-20 lg:max-w-7xl">
       <div>
         <nav className="sm:hidden" aria-label="Back">
           <Link href="/">
