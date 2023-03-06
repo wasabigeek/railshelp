@@ -204,7 +204,10 @@ export default function MigrationPage() {
 
         {/* <!-- Open Graph / Facebook --> */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://rails.help/" />
+        <meta
+          property="og:url"
+          content="https://wasabigeek.github.io/railshelp/"
+        />
         <meta property="og:title" content="Rails Generators GUI | rails.help" />
         <meta
           property="og:description"
@@ -213,7 +216,10 @@ export default function MigrationPage() {
 
         {/* <!-- Twitter --> */}
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://rails.help/" />
+        <meta
+          property="twitter:url"
+          content="https://wasabigeek.github.io/railshelp/"
+        />
         <meta
           property="twitter:title"
           content="Rails Generators GUI | rails.help"
